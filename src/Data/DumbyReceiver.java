@@ -22,7 +22,7 @@ class DumbyReceiver implements IReceiver{
 		message = 0;
 	}
 	
-	public void getData () {
+	public void getData (String data) {
 		head = genHead();
 		message = genMsg();
 	}

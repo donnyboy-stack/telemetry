@@ -13,7 +13,7 @@ package sunseeker.telemetry;
 
 interface IReceiver {
 
-	public void getData();
+	public void getData(String data);
 
 	//public boolean initializeConnection(boolean use);
 

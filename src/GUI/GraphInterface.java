@@ -30,7 +30,7 @@ class GraphInterface extends JPanel {
 	protected List<Double> dataPoints;
 
 	final public int HEIGHT = 450;
-	final public int WIDTH  = 900;
+	final public int WIDTH  = 950;
 
 	final public int PADDING  = 10;
 	final public int LPADDING = 10;
@@ -49,6 +49,10 @@ class GraphInterface extends JPanel {
 	private Color lineColor = new Color(100, 100, 100, 100);
 	final private Color gridColor = new Color(200, 200, 200, 200);
 
+	//graph scale
+	private double xScale;
+	private double yScale;
+
 	GraphInterface () {
 		dataPoints = new ArrayList<>();
 		this.setWidth(WIDTH);
@@ -65,8 +69,8 @@ class GraphInterface extends JPanel {
 		Graphics2D graph = (Graphics2D) g;
 		graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		double xScale = ((width - PADDING - LPADDING) / (dataPoints.size() -1));
-		double yScale = ((getHeight() - PADDING - LPADDING) / this.getMax());
+		xScale = ((width - PADDING - LPADDING) / (dataPoints.size() -1));
+		yScale = ((getHeight() - PADDING - LPADDING) / this.getMax());
 
 		List<Point> graphPoints = new ArrayList<>();
 		for(i = 0; i < dataPoints.size(); i++){

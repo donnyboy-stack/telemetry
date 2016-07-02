@@ -9,10 +9,10 @@
 package sunseeker.telemetry;
 
 
+class BatteryReceiver implements IReceiver{
 
-class VoltageGraph extends GraphInterface{
+	public void getData (String data) {
 
-	GraphInterface volt = new GraphInterface();
-
-	//volt.addPoint();
+	}
+	
 }

@@ -9,12 +9,11 @@
 package sunseeker.telemetry;
 
 
+import javax.swing.JLayeredPane;
 
-class DefaultReceiver implements IReceiver {
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-	public void getData (String data) {
-		
-	}
+class DrawData extends JLayeredPane {
 
-	
 }

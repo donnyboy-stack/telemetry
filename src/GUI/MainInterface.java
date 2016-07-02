@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
@@ -104,15 +105,19 @@ class MainInterface extends JFrame{
 	}
 
 	public void createDataLabels () {
-		dataLabels = new DataInterface();
+		dataPanel1 = new DataInterface();
+		dataPanel2 = new DataInterface();
 
 		dataLabels.setPreferredSize(new Dimension(200,300));
 
+
+
 		contentPane.add(dataLabels);
 
-		layout.putConstraint(SpringLayout.NORTH, dataLabels, PADDING, SpringLayout.SOUTH, graphTabs);
-		layout.putConstraint(SpringLayout.WEST, dataLabels, PADDING, SpringLayout.WEST, contentPane);
-
+		layout.putConstraint(SpringLayout.NORTH, dataPanel1, PADDING, SpringLayout.SOUTH, graphTabs);
+		layout.putConstraint(SpringLayout.WEST, dataPanel1, PADDING, SpringLayout.WEST, contentPane);
+		layout.putConstraint(SpringLayout.NORTH, dataPanel2, PADDING, SpringLayout.SOUTH, graphTabs);
+		layout.putConstraint(SpringLayout.WEST, dataPanel2, PADDING, SpringLayout.EAST, dataPanel2);
 
 	}
 
