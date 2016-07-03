@@ -115,7 +115,7 @@ class GraphPanel extends AbstractGraphPanel {
 
     public static int getYPos (double value) {
         int pos = xAxisInset;
-System.out.println(value);
+
         if (value > 0)
             pos -= Y_AXIS_MAX * (value / Y_AXIS_MAX);
 
