@@ -1,9 +1,9 @@
 /**
-* Sunseeker Telemety
-*
-* @author Alec Carpenter <alecgunnar@gmail.com>
-* @date July 2, 2016
-*/
+ * Sunseeker Telemety
+ *
+ * @author Alec Carpenter <alecgunnar@gmail.com>
+ * @date July 2, 2016
+ */
 
 package sunseeker.telemetry;
 
@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.lang.Thread;
 
 class Telemetry implements Runnable {
+    NetworkInterface network;
     DataSourceInterface dataSource;
     ArrayList<DataCollectionInterface> dataCollections;
-    DataSubscriberInterface dataSubscriber;
 
 	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
 
     public Telemetry () {
+        network         = new Network();
         dataCollections = new ArrayList<DataCollectionInterface>();
-        dataSubscriber  = new DataSubscriber();
-        dataSource      = new PseudoRandomDataSource(dataSubscriber);
+        dataSource      = new PseudoRandomDataSource(network);
 
         /*
          * Add the known data types
@@ -78,11 +78,11 @@ class Telemetry implements Runnable {
         dataThread.start();
     }
 
-    protected void registerDataType (String name, String units) {
-        DataCollectionInterface collection = new DataCollection(name, units);
+    protected void registerDataType (String type, String units) {
+        DataCollectionInterface collection = new DataCollection(type, units);
 
         dataCollections.add(collection);
-        dataSubscriber.subscribe(collection);
+        network.request(type + "_update", collection);
     }
 
     protected AbstractLinePanel[] getLinePanels () {
@@ -90,13 +90,17 @@ class Telemetry implements Runnable {
         int i = 0;
 
         for (DataCollectionInterface collection : dataCollections) {
-            panels[i++] = new LinePanel(collection);
+            AbstractLinePanel panel = new LinePanel(collection);
 
             collection.setProvided(
                 dataSource.provides(collection.getType())
             );
 
             collection.setEnabled(true);
+
+            network.request(collection.getType() + "_update", panel);
+
+            panels[i++] = panel;
         }
 
         return panels;

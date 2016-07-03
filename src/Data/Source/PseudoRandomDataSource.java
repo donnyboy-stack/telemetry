@@ -1,25 +1,26 @@
 /**
-* Sunseeker Telemety
-*
-* @author Alec Carpenter <alecgunnar@gmail.com>
-* @date July 2, 2016
-*/
+ * Sunseeker Telemety
+ *
+ * @author Alec Carpenter <alecgunnar@gmail.com>
+ * @date July 2, 2016
+ */
 
 package sunseeker.telemetry;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.lang.Runnable;
+import java.lang.Thread;
 
 class PseudoRandomDataSource implements DataSourceInterface, Runnable {
     protected String[] types = {
         "speed"
     };
 
-    protected DataSubscriberInterface subscriber;
+    protected NetworkInterface network;
 
-    public PseudoRandomDataSource (DataSubscriberInterface subscriber) {
-        this.subscriber = subscriber;
+    public PseudoRandomDataSource (NetworkInterface network) {
+        this.network = network;
     }
 
     public String[] getTypes () {
@@ -38,18 +39,13 @@ class PseudoRandomDataSource implements DataSourceInterface, Runnable {
         while (true) {
             double val = 200 * ((rand.nextDouble() * 2) - 1);
 
-            subscriber.broadcast("speed", val);
+            network.transmit(SPEED_UPDATE, val);
 
-            wait(1);
-        }
-    }
+            try {
+                Thread.sleep(250);
+            } catch (Exception e) {
 
-    private void wait(int m) {
-        long x = 0;
-        int i = 0;
-        while (i++ < m) {
-            while(x < 1000000000) { x++; }
-            x = 0;
+            }
         }
     }
 }

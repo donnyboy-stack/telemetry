@@ -1,9 +1,9 @@
 /**
-* Sunseeker Telemety
-*
-* @author Alec Carpenter <alecgunnar@gmail.com>
-* @date July 2, 2016
-*/
+ * Sunseeker Telemety
+ *
+ * @author Alec Carpenter <alecgunnar@gmail.com>
+ * @date July 2, 2016
+ */
 
 package sunseeker.telemetry;
 
@@ -106,21 +106,14 @@ class DataCollection implements DataCollectionInterface {
         }
 
         data[numValues++] = value;
-
-        notifySubscribers();
     }
 
     public int count () {
         return numValues;
     }
 
-    public void notify (DataCollectionSubscriberInterface subscriber) {
-        subscribers.add(subscriber);
-    }
-
-    protected void notifySubscribers () {
-        for (DataCollectionSubscriberInterface subscriber : subscribers) {
-            subscriber.notify(type);
-        }
+    public void receive (String channel, Object data) {
+        if (channel.equals(type + "_update"))
+            putData((double) data);
     }
 }

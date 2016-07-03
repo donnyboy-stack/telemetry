@@ -1,9 +1,9 @@
 /**
-* Sunseeker Telemety
-*
-* @author Alec Carpenter <alecgunnar@gmail.com>
-* @date July 2, 2016
-*/
+ * Sunseeker Telemety
+ *
+ * @author Alec Carpenter <alecgunnar@gmail.com>
+ * @date July 2, 2016
+ */
 
 package sunseeker.telemetry;
 
@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
-class LinePanel extends AbstractLinePanel implements DataCollectionSubscriberInterface {
+class LinePanel extends AbstractLinePanel {
     protected int width = 0;
     protected int height = 0;
 
@@ -31,8 +31,6 @@ class LinePanel extends AbstractLinePanel implements DataCollectionSubscriberInt
          * Need to see the other lines and graph
          */
         setOpaque(false);
-
-        data.notify(this);
     }
 
     public void paintComponent (Graphics g) {
@@ -99,7 +97,8 @@ class LinePanel extends AbstractLinePanel implements DataCollectionSubscriberInt
         );
     }
 
-    public void notify (String name) {
-        this.repaint();
+    public void receive (String channel, Object dat) {
+        if (channel.equals(data.getType() + "_update"))
+            this.repaint();
     }
 }
