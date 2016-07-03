@@ -83,7 +83,7 @@ class GraphPanel extends AbstractGraphPanel {
                 posOffset -= Y_AXIS_SCALE;
             }
 
-            if (posOffset > 0) {
+            if (negOffset < PANEL_HEIGHT) {
                 drawYScaleHash(negOffset);
 
                 negOffset += Y_AXIS_SCALE;

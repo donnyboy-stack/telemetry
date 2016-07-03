@@ -17,7 +17,7 @@ abstract class AbstractGraphPanel extends AbstractPanel {
     final public static int PANEL_WIDTH  = AbstractMainView.VIEW_WIDTH - AbstractMainView.AXIS_PADDING;
 
     final public static int Y_AXIS_MIN   = -100; // Must be <= 0
-    final public static int Y_AXIS_MAX   = 100;
+    final public static int Y_AXIS_MAX   = 500;
     final public static int Y_AXIS_RANGE = Math.abs(Y_AXIS_MIN) + Y_AXIS_MAX;
     final public static int Y_AXIS_SCALE = 10;
     final public static int Y_AXIS_INSET = AXIS_INSET;

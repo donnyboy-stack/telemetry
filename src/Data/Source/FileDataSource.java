@@ -12,9 +12,9 @@ import java.util.Arrays;
 class FileDataSource implements DataSourceInterface {
     protected String[] types = {
         "speed",
-        // "voltage",
-        // "current",
-        // "array"
+        "voltage",
+        "current",
+        "array"
     };
 
     public String[] getTypes () {
