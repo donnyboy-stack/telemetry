@@ -7,6 +7,8 @@
 
 package sunseeker.telemetry;
 
-class Subscriber {
-    
+interface DataSourceInterface {
+    public String[] getTypes();
+
+    public boolean provides(String type);
 }

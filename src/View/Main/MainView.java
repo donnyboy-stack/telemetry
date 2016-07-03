@@ -16,9 +16,6 @@ import java.awt.Container;
 import java.awt.Component;
 
 class MainView extends AbstractMainView {
-    protected final int PADDING      = 10;
-    protected final int AXIS_PADDING = PADDING * 2;
-
     protected SpringLayout layout;
 
     protected Container contentPane;
@@ -84,24 +81,21 @@ class MainView extends AbstractMainView {
                 layeredPane.getIndexOf((Component) graphPanel)
             );
 
+        graphPanel = panel;
+
         /*
          * Set the size of the graph
          */
-        // panel.setSize(
-        //     VIEW_WIDTH - AXIS_PADDING,
-        //     GRAPH_HEIGHT - AXIS_PADDING
-        // );
-
-        panel.setBounds(
+        graphPanel.setBounds(
             0, 0,
-            VIEW_WIDTH - AXIS_PADDING,
-            GRAPH_HEIGHT - AXIS_PADDING
+            VIEW_WIDTH,
+            AbstractGraphPanel.PANEL_HEIGHT
         );
 
         /*
          * Add the panel to the view
          */
-        layeredPane.add(panel, depth++);
+        layeredPane.add(graphPanel, new Integer(depth++));
     }
 
     public void useDataSelectPanel (AbstractDataSelectPanel panel) {
@@ -109,12 +103,26 @@ class MainView extends AbstractMainView {
          * Remove the existing panel
          */
         if (dataSelectPanel != null)
-            remove(dataSelectPanel);
+            layeredPane.remove(
+                layeredPane.getIndexOf((Component) dataSelectPanel)
+            );
+
+        dataSelectPanel = panel;
+
+        /*
+         * Set the size and position of the panel
+         */
+        panel.setBounds(
+            (VIEW_WIDTH / 2) + (PADDING / 2),
+            AbstractGraphPanel.PANEL_HEIGHT + PADDING,
+            (VIEW_WIDTH / 2)  - (PADDING / 2),
+            VIEW_HEIGHT - (AbstractGraphPanel.PANEL_HEIGHT + AXIS_PADDING)
+        );
 
         /*
          * Add the panel to the view
          */
-        add(dataSelectPanel = panel);
+        layeredPane.add(dataSelectPanel, new Integer(depth++));
     }
 
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {
@@ -122,35 +130,44 @@ class MainView extends AbstractMainView {
          * Remove the existing panel
          */
         if (liveDataPanel != null)
-            remove(liveDataPanel);
+            layeredPane.remove(
+                layeredPane.getIndexOf((Component) liveDataPanel)
+            );
+
+        liveDataPanel = panel;
+
+        /*
+         * Set the size and position of the panel
+         */
+        panel.setBounds(
+            0,
+            AbstractGraphPanel.PANEL_HEIGHT + PADDING,
+            (VIEW_WIDTH / 2) - (PADDING / 2),
+            VIEW_HEIGHT - (AbstractGraphPanel.PANEL_HEIGHT + AXIS_PADDING) + 1
+        );
 
         /*
          * Add the panel to the view
          */
-        add(liveDataPanel = panel);
+        layeredPane.add(liveDataPanel, new Integer(depth++));
     }
 
     public void useLinePanels (AbstractLinePanel[] panels) {
         for (AbstractLinePanel panel : panels) {
-            // panel.setSize(
-            //     VIEW_WIDTH - AXIS_PADDING,
-            //     GRAPH_HEIGHT - AXIS_PADDING
-            // );
-
             panel.setBounds(
                 AbstractGraphPanel.FULL_INSET, 0,
-                VIEW_WIDTH - AXIS_PADDING,
-                (GRAPH_HEIGHT - AXIS_PADDING) - AbstractGraphPanel.FULL_INSET
+                VIEW_WIDTH - AbstractGraphPanel.FULL_INSET,
+                AbstractGraphPanel.PANEL_HEIGHT - AbstractGraphPanel.FULL_INSET
             );
 
-            layeredPane.add(panel, depth++);
+            layeredPane.add(panel, new Integer(depth++));
         }
     }
 
     protected void configureLayeredPane () {
         layeredPane = new JLayeredPane();
 
-        add(layeredPane);
+        contentPane.add(layeredPane);
 
         /*
          * The layeredPane will appear "PADDING" pixels from the
@@ -166,9 +183,9 @@ class MainView extends AbstractMainView {
          * The layeredPane will appear 500 pixels down the view
          */
         layout.putConstraint(
-            SpringLayout.SOUTH, layeredPane,
-            GRAPH_HEIGHT,
-            SpringLayout.NORTH, contentPane
+            SpringLayout.SOUTH, contentPane,
+            PADDING,
+            SpringLayout.SOUTH, layeredPane
         );
 
         /*

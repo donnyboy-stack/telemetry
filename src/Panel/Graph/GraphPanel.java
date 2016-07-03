@@ -15,24 +15,20 @@ import java.awt.BasicStroke;
 import java.awt.Dimension;
 
 class GraphPanel extends AbstractGraphPanel {
-    final protected int SCALE_HASH_SIZE = 5;
+    final protected int SCALE_HASH_SIZE = 1;
 
     protected Graphics2D artist;
 
-    protected int width = 0;
-    protected int height = 0;
+    protected static int xAxisInset;
 
     public GraphPanel () {
         /*
          * Make sure we can see the lines!
          */
-        setOpaque(false);
+        setBackground(Color.WHITE);
     }
 
     public void paintComponent (Graphics g) {
-        width = getWidth();
-        height = getHeight();
-
         super.paintComponent(g);
 
         artist = (Graphics2D) g;
@@ -51,19 +47,24 @@ class GraphPanel extends AbstractGraphPanel {
         ));
 
         /*
+         * Calculate the x-axis inset
+         */
+        xAxisInset = (int) ((float) PANEL_HEIGHT * (Y_AXIS_MAX / (float) Y_AXIS_RANGE));
+
+        /*
          * Draw the x-axis
          */
         artist.drawLine(
-            0, height - AXIS_INSET,
-            width, height - AXIS_INSET
+            0, xAxisInset,
+            PANEL_WIDTH, xAxisInset
         );
 
         /*
          * Draw the y-axis
          */
         artist.drawLine(
-            AXIS_INSET, 0,
-            AXIS_INSET, height
+            Y_AXIS_INSET, 0,
+            Y_AXIS_INSET, PANEL_HEIGHT
         );
 
         drawScales();
@@ -75,34 +76,52 @@ class GraphPanel extends AbstractGraphPanel {
     }
 
     protected void drawXScale () {
-        int scale    = 30;
-        int value    = scale;
-        int offset   = AXIS_INSET + AXIS_WIDTH;
+        int value    = X_AXIS_SCALE;
         int halfHash = SCALE_HASH_SIZE / 2;
 
-        for (; value < width; value += scale) {
+        for (; value < PANEL_WIDTH; value += X_AXIS_SCALE) {
             artist.drawLine(
-                offset + value, height - (offset + halfHash),
-                offset + value, height - (offset - halfHash)
+                AXIS_INSET + value, xAxisInset - SCALE_HASH_SIZE,
+                AXIS_INSET + value, xAxisInset + SCALE_HASH_SIZE
             );
         }
     }
 
     protected void drawYScale () {
-        int scale    = 30;
-        int offset   = AXIS_INSET + AXIS_WIDTH;
-        int value    = height - offset - scale;
-        int halfHash = SCALE_HASH_SIZE / 2;
+        int posOffset = xAxisInset - Y_AXIS_SCALE;
+        int negOffset = xAxisInset + Y_AXIS_SCALE;
 
-        for (; value > 0; value -= scale) {
-            artist.drawLine(
-                offset - halfHash, value,
-                offset + halfHash, value
-            );
+        while (posOffset > 0 && negOffset < PANEL_HEIGHT) {
+            if (posOffset > 0) {
+                drawYScaleHash(posOffset);
+
+                posOffset -= Y_AXIS_SCALE;
+            }
+
+            if (posOffset > 0) {
+                drawYScaleHash(negOffset);
+
+                negOffset += Y_AXIS_SCALE;
+            }
         }
     }
 
-    protected void drawLines () {
-        
+    protected void drawYScaleHash (int offset) {
+        artist.drawLine(
+            Y_AXIS_INSET - SCALE_HASH_SIZE, offset,
+            Y_AXIS_INSET + SCALE_HASH_SIZE, offset
+        );
+    }
+
+    public static int getYPos (double value) {
+        int pos = xAxisInset;
+System.out.println(value);
+        if (value > 0)
+            pos -= Y_AXIS_MAX * (value / Y_AXIS_MAX);
+
+        if (value < 0)
+            pos += Y_AXIS_MIN * (Math.abs(value) / Y_AXIS_MIN);
+
+        return pos;
     }
 }

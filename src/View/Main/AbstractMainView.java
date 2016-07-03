@@ -10,7 +10,8 @@ package sunseeker.telemetry;
 abstract class AbstractMainView extends AbstractView {
     final public static int VIEW_WIDTH   = 1000;
     final public static int VIEW_HEIGHT  = 700;
-    final public static int GRAPH_HEIGHT = 400;
+    final public static int PADDING      = 10;
+    final public static int AXIS_PADDING = PADDING * 2;
 
     abstract public void useGraphPanel(AbstractGraphPanel panel);
 

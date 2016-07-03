@@ -8,11 +8,29 @@
 package sunseeker.telemetry;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 class Telemetry implements Runnable {
+    DataSourceInterface dataSource;
+
+    ArrayList<DataType> dataTypes;
+
 	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
+
+    public Telemetry () {
+        dataSource = new FileDataSource();
+        dataTypes  = new ArrayList<DataType>();
+
+        /*
+         * Add the known data types
+         */
+        dataTypes.add(new DataType("speed", new DataCollection()));
+        dataTypes.add(new DataType("voltage", new DataCollection()));
+        dataTypes.add(new DataType("current", new DataCollection()));
+        dataTypes.add(new DataType("array", new DataCollection()));
+    }
 
     public void run () {
         /*
@@ -55,9 +73,18 @@ class Telemetry implements Runnable {
     }
 
     protected AbstractLinePanel[] getLinePanels () {
-        AbstractLinePanel[] panels = {
-            new LinePanel()
-        };
+        AbstractLinePanel[] panels = new AbstractLinePanel[dataTypes.size()];
+        int i = 0;
+
+        for (DataType type : dataTypes) {
+            panels[i++] = new LinePanel(type);
+
+            type.setProvided(
+                dataSource.provides(type.getName())
+            );
+
+            type.setEnabled(true);
+        }
 
         return panels;
     }

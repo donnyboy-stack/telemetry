@@ -7,42 +7,30 @@
 
 package sunseeker.telemetry;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
 class LinePanel extends AbstractLinePanel {
-    protected Color[] colors = {
-        Color.BLUE,
-        Color.RED,
-        Color.ORANGE,
-        Color.MAGENTA,
-        Color.YELLOW,
-        Color.CYAN
-    };
-
-    protected int[] data = {10, 11, 99, 134, 43, 79, 72, 14, 88, 64, 30, 0, 1, 37};
-
     protected int width = 0;
     protected int height = 0;
 
-    protected static int colorCount = 0;
-    protected Color color;
-
     protected Graphics2D artist;
 
-    public LinePanel () {
+    protected boolean active = true;
+
+    protected DataType data;
+
+    public LinePanel (DataType data) {
+        /*
+         * This is where we will be getting the data from
+         */
+        this.data = data;
+
         /*
          * Need to see the other lines and graph
          */
         setOpaque(false);
-
-        /*
-         * Determine which color we'll be using for this line
-         */
-        color = colors[colorCount % colors.length];
-        colorCount++;
     }
 
     public void paintComponent (Graphics g) {
@@ -53,30 +41,59 @@ class LinePanel extends AbstractLinePanel {
 
         artist = (Graphics2D) g;
 
-        drawSegments();
+        /*
+         * Only when this line is active should it be drawn
+         */
+        if (data.isEnabled())
+            drawSegments();
     }
 
     protected void drawSegments () {
-        int i;
-        int scale = 30;
-
+        /*
+         * We need a colored line with the required thickness
+         */
         artist.setStroke(new BasicStroke(
             LINE_WIDTH,
             BasicStroke.CAP_SQUARE,
             BasicStroke.JOIN_MITER
         ));
 
-        artist.setColor(color);
+        artist.setColor(data.getColor());
 
-        for (i = 1; i < data.length; i++) {
-            drawSegment((i-1) * scale, data[i-1], i * scale, data[i]);
+        /*
+         * Get the data to be displayed
+         */
+        double[] dataPoints = data.getData().getData();
+
+        /*
+         * Only render if data is present
+         */
+        if (data.getData().count() > 0) {
+            /*
+             * Start rendering segments
+             */
+            double prev = 0;
+            int i, point;
+
+            for (i = 0; i < dataPoints.length && i < AbstractGraphPanel.MAX_POINTS; i++) {
+                point = GraphPanel.getYPos(dataPoints[i]);
+
+                drawSegment(
+                    (i - 1) * AbstractGraphPanel.X_AXIS_SCALE,
+                    (int) prev,
+                    i * AbstractGraphPanel.X_AXIS_SCALE,
+                    point
+                );
+
+                prev = point;
+            }
         }
     }
 
     protected void drawSegment (int x1, int y1, int x2, int y2) {
         artist.drawLine(
-            x1, height - y1,
-            x2, height - y2
+            x1, y1,
+            x2, y2
         );
     }
 }
