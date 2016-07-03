@@ -9,27 +9,29 @@ package sunseeker.telemetry;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.lang.Thread;
 
 class Telemetry implements Runnable {
     DataSourceInterface dataSource;
-
-    ArrayList<DataType> dataTypes;
+    ArrayList<DataCollectionInterface> dataCollections;
+    DataSubscriberInterface dataSubscriber;
 
 	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
 
     public Telemetry () {
-        dataSource = new FileDataSource();
-        dataTypes  = new ArrayList<DataType>();
+        dataCollections = new ArrayList<DataCollectionInterface>();
+        dataSubscriber  = new DataSubscriber();
+        dataSource      = new PseudoRandomDataSource(dataSubscriber);
 
         /*
          * Add the known data types
          */
-        dataTypes.add(new DataType("speed", new DataCollection()));
-        dataTypes.add(new DataType("voltage", new DataCollection()));
-        dataTypes.add(new DataType("current", new DataCollection()));
-        dataTypes.add(new DataType("array", new DataCollection()));
+        registerDataType("speed", "mph");
+        registerDataType("voltage", "volts");
+        registerDataType("current", "amps");
+        registerDataType("array", "watts");
     }
 
     public void run () {
@@ -70,20 +72,31 @@ class Telemetry implements Runnable {
          * Start the application
          */
         controller.run();
+
+        Thread dataThread = new Thread(dataSource, "dataSourceThread");
+
+        dataThread.start();
+    }
+
+    protected void registerDataType (String name, String units) {
+        DataCollectionInterface collection = new DataCollection(name, units);
+
+        dataCollections.add(collection);
+        dataSubscriber.subscribe(collection);
     }
 
     protected AbstractLinePanel[] getLinePanels () {
-        AbstractLinePanel[] panels = new AbstractLinePanel[dataTypes.size()];
+        AbstractLinePanel[] panels = new AbstractLinePanel[dataCollections.size()];
         int i = 0;
 
-        for (DataType type : dataTypes) {
-            panels[i++] = new LinePanel(type);
+        for (DataCollectionInterface collection : dataCollections) {
+            panels[i++] = new LinePanel(collection);
 
-            type.setProvided(
-                dataSource.provides(type.getName())
+            collection.setProvided(
+                dataSource.provides(collection.getType())
             );
 
-            type.setEnabled(true);
+            collection.setEnabled(true);
         }
 
         return panels;

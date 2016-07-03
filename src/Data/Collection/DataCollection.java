@@ -7,33 +7,82 @@
 
 package sunseeker.telemetry;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.awt.Color;
 
 class DataCollection implements DataCollectionInterface {
-    protected String name;
-    protected String unit;
+    protected Color[] colors = {
+        Color.BLUE,
+        Color.RED,
+        Color.ORANGE,
+        Color.MAGENTA,
+        Color.YELLOW,
+        Color.CYAN
+    };
+
+    protected String type;
+    protected String units;
+
+    protected static int colorCount = 0;
+    protected Color color;
+
+    protected boolean enabled  = false;
+    protected boolean provided = false;
 
     protected double[] data = new double[MAX_DATA_POINTS];
+    protected ArrayList<DataCollectionSubscriberInterface> subscribers;
 
     protected int numValues = 0;
 
-    public DataCollection () {
-        int i;
+    public DataCollection (String type, String units) {
+        this.type  = type;
+        this.units = units;
 
-        Random rand = new Random();
+        /*
+         * Determine which color we'll be using for this line
+         */
+        color = colors[colorCount % colors.length];
+        colorCount++;
 
-        for (i = 0; i < MAX_DATA_POINTS; i++) {
-            double val = (rand.nextDouble() * 2) - 1;
-            putData(100 * val);
-        }
+        subscribers = new ArrayList<DataCollectionSubscriberInterface>();
     }
 
-    public String getName () {
-        return name;
+    public String getType () {
+        return type;
     }
 
     public String getUnits () {
-        return unit;
+        return units;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setEnabled (boolean enabled) {
+        /*
+         * We cannot enable this type it is not provided
+         */
+        if (enabled && !provided) return;
+
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled () {
+        return enabled;
+    }
+
+    public void setProvided (boolean provided) {
+        this.provided = provided;
+
+        /*
+         * If this value is not provided, we cannot show it
+         */
+        if (!provided) setEnabled(false);
+    }
+
+    public boolean isProvided () {
+        return provided;
     }
 
     public double getMostRecent () {
@@ -48,16 +97,30 @@ class DataCollection implements DataCollectionInterface {
         int i;
         double hold;
 
-        for (i = 0; i < data.length; i++) {
-            hold = data[i];
-            data[i] = value;
-            value = hold;
+        if (numValues == MAX_DATA_POINTS) {
+            numValues--;
+
+            for (i = 0; i < numValues; i++) {
+                data[i] = data[i+1];
+            }
         }
 
-        numValues++;
+        data[numValues++] = value;
+
+        notifySubscribers();
     }
 
     public int count () {
         return numValues;
+    }
+
+    public void notify (DataCollectionSubscriberInterface subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    protected void notifySubscribers () {
+        for (DataCollectionSubscriberInterface subscriber : subscribers) {
+            subscriber.notify(type);
+        }
     }
 }

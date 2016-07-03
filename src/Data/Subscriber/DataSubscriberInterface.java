@@ -8,5 +8,7 @@
 package sunseeker.telemetry;
 
 interface DataSubscriberInterface {
-    
+    public void subscribe(DataCollectionInterface collection);
+
+    public void broadcast(String type, double value);
 }

@@ -7,12 +7,24 @@
 
 package sunseeker.telemetry;
 
+import java.awt.Color;
+
 interface DataCollectionInterface {
     final public static int MAX_DATA_POINTS = 50;
     
-    public String getName();
+    public String getType();
 
     public String getUnits();
+
+    public Color getColor();
+
+    public void setEnabled(boolean enabled);
+
+    public boolean isEnabled();
+
+    public void setProvided(boolean provided);
+
+    public boolean isProvided();
 
     public double getMostRecent();
 
@@ -21,4 +33,6 @@ interface DataCollectionInterface {
     public void putData(double value);
 
     public int count();
+
+    public void notify(DataCollectionSubscriberInterface subscriber);
 }

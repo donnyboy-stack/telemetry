@@ -7,10 +7,22 @@
 
 package sunseeker.telemetry;
 
+import java.util.HashMap;
+
 class DataSubscriber implements DataSubscriberInterface {
-    protected String[] fields = {
-        "speed"
-    };
+    protected HashMap<String, DataCollectionInterface> channels;
 
+    public DataSubscriber () {
+        channels = new HashMap<String, DataCollectionInterface>();
+    }
 
+    public void subscribe (DataCollectionInterface collection) {
+        channels.put(collection.getType(), collection);
+    }
+
+    public void broadcast (String type, double value) {
+        System.out.println(type + ": " + value);
+        if (channels.containsKey(type))
+            channels.get(type).putData(value);
+    }
 }

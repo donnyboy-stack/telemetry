@@ -7,8 +7,6 @@
 
 package sunseeker.telemetry;
 
-interface DataSourceInterface extends Runnable {
-    public String[] getTypes();
-
-    public boolean provides(String type);
+interface DataCollectionSubscriberInterface {
+    public void notify(String name);
 }

@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 
-class LinePanel extends AbstractLinePanel {
+class LinePanel extends AbstractLinePanel implements DataCollectionSubscriberInterface {
     protected int width = 0;
     protected int height = 0;
 
@@ -19,9 +19,9 @@ class LinePanel extends AbstractLinePanel {
 
     protected boolean active = true;
 
-    protected DataType data;
+    protected DataCollectionInterface data;
 
-    public LinePanel (DataType data) {
+    public LinePanel (DataCollectionInterface data) {
         /*
          * This is where we will be getting the data from
          */
@@ -31,6 +31,8 @@ class LinePanel extends AbstractLinePanel {
          * Need to see the other lines and graph
          */
         setOpaque(false);
+
+        data.notify(this);
     }
 
     public void paintComponent (Graphics g) {
@@ -63,19 +65,19 @@ class LinePanel extends AbstractLinePanel {
         /*
          * Get the data to be displayed
          */
-        double[] dataPoints = data.getData().getData();
+        double[] dataPoints = data.getData();
 
         /*
          * Only render if data is present
          */
-        if (data.getData().count() > 0) {
+        if (data.count() > 0) {
             /*
              * Start rendering segments
              */
             double prev = 0;
             int i, point;
 
-            for (i = 0; i < dataPoints.length && i < AbstractGraphPanel.MAX_POINTS; i++) {
+            for (i = 0; i < data.count() && i < AbstractGraphPanel.MAX_POINTS; i++) {
                 point = GraphPanel.getYPos(dataPoints[i]);
 
                 drawSegment(
@@ -95,5 +97,9 @@ class LinePanel extends AbstractLinePanel {
             x1, y1,
             x2, y2
         );
+    }
+
+    public void notify (String name) {
+        this.repaint();
     }
 }
