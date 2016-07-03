@@ -13,6 +13,9 @@ class LinePanel extends AbstractLinePanel {
     int[] data = {10, 12, 33, 55, 7, 90, 40};
 
     public LinePanel () {
-        setBackground(Color.RED);
+        /*
+         * Need to see the other lines and graph
+         */
+        setOpaque(false);
     }
 }

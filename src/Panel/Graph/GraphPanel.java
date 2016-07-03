@@ -24,9 +24,9 @@ class GraphPanel extends AbstractGraphPanel {
 
     public GraphPanel () {
         /*
-         * Set the background color
+         * Make sure we can see the lines!
          */
-        setBackground(Color.WHITE);
+        setOpaque(false);
     }
 
     public void paintComponent (Graphics g) {

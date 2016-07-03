@@ -32,7 +32,7 @@ class MainView extends AbstractMainView {
     protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
-    protected int depth = 0;
+    protected int depth = 1;
 
     public MainView () {
         /*
@@ -91,7 +91,13 @@ class MainView extends AbstractMainView {
         /*
          * Set the size of the graph
          */
-        panel.setSize(
+        // panel.setSize(
+        //     VIEW_WIDTH - AXIS_PADDING,
+        //     GRAPH_HEIGHT - AXIS_PADDING
+        // );
+
+        panel.setBounds(
+            0, 0,
             VIEW_WIDTH - AXIS_PADDING,
             GRAPH_HEIGHT - AXIS_PADDING
         );
@@ -99,7 +105,7 @@ class MainView extends AbstractMainView {
         /*
          * Add the panel to the view
          */
-        layeredPane.add(panel, JLayeredPane.DEFAULT_LAYER, depth++);
+        layeredPane.add(panel, depth++);
     }
 
     public void useDataSelectPanel (AbstractDataSelectPanel panel) {
@@ -130,12 +136,18 @@ class MainView extends AbstractMainView {
 
     public void useLinePanels (AbstractLinePanel[] panels) {
         for (AbstractLinePanel panel : panels) {
-            panel.setSize(
+            // panel.setSize(
+            //     VIEW_WIDTH - AXIS_PADDING,
+            //     GRAPH_HEIGHT - AXIS_PADDING
+            // );
+
+            panel.setBounds(
+                AbstractGraphPanel.FULL_INSET, 0,
                 VIEW_WIDTH - AXIS_PADDING,
-                GRAPH_HEIGHT - AXIS_PADDING
+                (GRAPH_HEIGHT - AXIS_PADDING) - AbstractGraphPanel.FULL_INSET
             );
 
-            layeredPane.add(panel, JLayeredPane.DEFAULT_LAYER, depth++);
+            layeredPane.add(panel, depth++);
         }
     }
 

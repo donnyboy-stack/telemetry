@@ -10,4 +10,5 @@ package sunseeker.telemetry;
 abstract class AbstractGraphPanel extends AbstractPanel {
     final public static int AXIS_WIDTH = 2;
     final public static int AXIS_INSET = 30;
+    final public static int FULL_INSET = AXIS_WIDTH + AXIS_INSET;
 }
