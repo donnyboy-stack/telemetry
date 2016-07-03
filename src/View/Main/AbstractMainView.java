@@ -8,6 +8,10 @@
 package sunseeker.telemetry;
 
 abstract class AbstractMainView extends AbstractView {
+    final public static int VIEW_WIDTH   = 1000;
+    final public static int VIEW_HEIGHT  = 700;
+    final public static int GRAPH_HEIGHT = 400;
+
     abstract public void useGraphPanel(AbstractGraphPanel panel);
 
     abstract public void useDataSelectPanel(AbstractDataSelectPanel panel);

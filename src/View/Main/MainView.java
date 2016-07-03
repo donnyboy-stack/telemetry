@@ -16,10 +16,6 @@ import java.awt.Container;
 import java.awt.Component;
 
 class MainView extends AbstractMainView {
-    protected final int VIEW_WIDTH   = 1000;
-    protected final int VIEW_HEIGHT  = 700;
-    protected final int GRAPH_HEIGHT = 400;
-
     protected final int PADDING      = 10;
     protected final int AXIS_PADDING = PADDING * 2;
 

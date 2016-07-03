@@ -17,10 +17,10 @@ import java.awt.Dimension;
 class GraphPanel extends AbstractGraphPanel {
     final protected int SCALE_HASH_SIZE = 5;
 
-    Graphics2D artist;
+    protected Graphics2D artist;
 
-    int width = 0;
-    int height = 0;
+    protected int width = 0;
+    protected int height = 0;
 
     public GraphPanel () {
         /*
