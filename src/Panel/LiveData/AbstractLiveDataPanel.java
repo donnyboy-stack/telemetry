@@ -7,6 +7,8 @@
 
 package sunseeker.telemetry;
 
+import javax.swing.JPanel;
+
 abstract class AbstractLiveDataPanel extends AbstractPanel {
     
 }

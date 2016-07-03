@@ -7,8 +7,6 @@
 
 package sunseeker.telemetry;
 
-import javax.swing.JPanel;
-
-abstract class AbstractDataSelectPanel extends AbstractPanel {
-    
+abstract class AbstractLinePanel extends AbstractPanel {
+    final public static int LINE_WIDTH = 1;
 }

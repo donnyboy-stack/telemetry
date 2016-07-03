@@ -7,24 +7,26 @@
 
 package sunseeker.telemetry;
 
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
+import java.awt.Dimension;
 
 class GraphPanel extends AbstractGraphPanel {
-    final protected int AXIS_WIDTH = 3;
+    final protected int SCALE_HASH_SIZE = 5;
 
-    Graphics2D artist;
+    protected Graphics2D artist;
 
-    int width = 0;
-    int height = 0;
+    protected int width = 0;
+    protected int height = 0;
 
     public GraphPanel () {
         /*
-         * The graph will have a white background
+         * Make sure we can see the lines!
          */
-        setBackground(Color.WHITE);
+        setOpaque(false);
     }
 
     public void paintComponent (Graphics g) {
@@ -35,6 +37,9 @@ class GraphPanel extends AbstractGraphPanel {
 
         artist = (Graphics2D) g;
 
+        /*
+         * These give us our scale
+         */
         drawAxes();
     }
 
@@ -45,14 +50,59 @@ class GraphPanel extends AbstractGraphPanel {
             BasicStroke.JOIN_MITER
         ));
 
+        /*
+         * Draw the x-axis
+         */
         artist.drawLine(
-            0, height,
-            width, height
+            0, height - AXIS_INSET,
+            width, height - AXIS_INSET
         );
 
+        /*
+         * Draw the y-axis
+         */
         artist.drawLine(
-            0, 0,
-            0, height
+            AXIS_INSET, 0,
+            AXIS_INSET, height
         );
+
+        drawScales();
+    }
+
+    protected void drawScales () {
+        drawXScale();
+        drawYScale();
+    }
+
+    protected void drawXScale () {
+        int scale    = 30;
+        int value    = scale;
+        int offset   = AXIS_INSET + AXIS_WIDTH;
+        int halfHash = SCALE_HASH_SIZE / 2;
+
+        for (; value < width; value += scale) {
+            artist.drawLine(
+                offset + value, height - (offset + halfHash),
+                offset + value, height - (offset - halfHash)
+            );
+        }
+    }
+
+    protected void drawYScale () {
+        int scale    = 30;
+        int offset   = AXIS_INSET + AXIS_WIDTH;
+        int value    = height - offset - scale;
+        int halfHash = SCALE_HASH_SIZE / 2;
+
+        for (; value > 0; value -= scale) {
+            artist.drawLine(
+                offset - halfHash, value,
+                offset + halfHash, value
+            );
+        }
+    }
+
+    protected void drawLines () {
+        
     }
 }

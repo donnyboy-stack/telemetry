@@ -44,8 +44,21 @@ class Telemetry implements Runnable {
         controller.useLiveDataPanel(liveData);
 
         /*
+         * Add the line panels to the graph
+         */
+        controller.useLinePanels(getLinePanels());
+
+        /*
          * Start the application
          */
         controller.run();
+    }
+
+    protected AbstractLinePanel[] getLinePanels () {
+        AbstractLinePanel[] panels = {
+            new LinePanel()
+        };
+
+        return panels;
     }
 }
