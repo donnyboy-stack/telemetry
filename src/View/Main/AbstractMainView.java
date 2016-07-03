@@ -13,4 +13,6 @@ abstract class AbstractMainView extends AbstractView {
     abstract public void useDataSelectPanel(AbstractDataSelectPanel panel);
 
     abstract public void useLiveDataPanel(AbstractLiveDataPanel panel);
+
+    abstract public void useLinePanels(AbstractLinePanel[] panels);
 }

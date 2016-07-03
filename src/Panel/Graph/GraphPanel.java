@@ -15,17 +15,12 @@ import java.awt.BasicStroke;
 import java.awt.Dimension;
 
 class GraphPanel extends AbstractGraphPanel {
-    final public int AXIS_WIDTH = 1;
-    final public int AXIS_INSET = 20;
-
-    final protected int SCALE_HASH_SIZE = 4;
+    final protected int SCALE_HASH_SIZE = 5;
 
     Graphics2D artist;
 
     int width = 0;
     int height = 0;
-
-    int layers = 0;
 
     public GraphPanel () {
         /*
@@ -80,7 +75,7 @@ class GraphPanel extends AbstractGraphPanel {
     }
 
     protected void drawXScale () {
-        int scale    = 50;
+        int scale    = 30;
         int value    = scale;
         int offset   = AXIS_INSET + AXIS_WIDTH;
         int halfHash = SCALE_HASH_SIZE / 2;
@@ -94,7 +89,7 @@ class GraphPanel extends AbstractGraphPanel {
     }
 
     protected void drawYScale () {
-        int scale    = 50;
+        int scale    = 30;
         int offset   = AXIS_INSET + AXIS_WIDTH;
         int value    = height - offset - scale;
         int halfHash = SCALE_HASH_SIZE / 2;
@@ -105,11 +100,6 @@ class GraphPanel extends AbstractGraphPanel {
                 offset + halfHash, value
             );
         }
-    }
-
-    protected void resetLayers () {
-        removeAll();
-        layers = 0;
     }
 
     protected void drawLines () {

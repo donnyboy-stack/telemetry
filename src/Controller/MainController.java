@@ -29,4 +29,8 @@ class MainController {
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {
         mainView.useLiveDataPanel(panel);
     }
+
+    public void useLinePanels(AbstractLinePanel[] panels) {
+        mainView.useLinePanels(panels);
+    }
 }

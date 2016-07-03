@@ -7,6 +7,12 @@
 
 package sunseeker.telemetry;
 
+import java.awt.Color;
+
 class LinePanel extends AbstractLinePanel {
-    
+    int[] data = {10, 12, 33, 55, 7, 90, 40};
+
+    public LinePanel () {
+        setBackground(Color.RED);
+    }
 }
