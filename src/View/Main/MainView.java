@@ -155,9 +155,9 @@ class MainView extends AbstractMainView {
     public void useLinePanels (AbstractLinePanel[] panels) {
         for (AbstractLinePanel panel : panels) {
             panel.setBounds(
-                AbstractGraphPanel.FULL_INSET, 0,
+                AbstractGraphPanel.AXIS_INSET, 0,
                 VIEW_WIDTH - AbstractGraphPanel.FULL_INSET,
-                AbstractGraphPanel.PANEL_HEIGHT - AbstractGraphPanel.FULL_INSET
+                AbstractGraphPanel.PANEL_HEIGHT
             );
 
             layeredPane.add(panel, new Integer(depth++));

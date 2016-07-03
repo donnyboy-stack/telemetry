@@ -12,7 +12,9 @@ import java.util.Arrays;
 class FileDataSource implements DataSourceInterface {
     protected String[] types = {
         "speed",
-        "voltage"
+        // "voltage",
+        // "current",
+        // "array"
     };
 
     public String[] getTypes () {
@@ -20,6 +22,8 @@ class FileDataSource implements DataSourceInterface {
     }
 
     public boolean provides (String type) {
+        Arrays.sort(types);
+
         return Arrays.binarySearch(types, type) >= 0;
     }
 }

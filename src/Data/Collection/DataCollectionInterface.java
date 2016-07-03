@@ -8,7 +8,7 @@
 package sunseeker.telemetry;
 
 interface DataCollectionInterface {
-    final public static int MAX_DATA_POINTS = 100;
+    final public static int MAX_DATA_POINTS = 50;
     
     public String getName();
 

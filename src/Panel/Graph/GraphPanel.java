@@ -8,7 +8,6 @@
 package sunseeker.telemetry;
 
 import javax.swing.JPanel;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
@@ -18,15 +17,6 @@ class GraphPanel extends AbstractGraphPanel {
     final protected int SCALE_HASH_SIZE = 1;
 
     protected Graphics2D artist;
-
-    protected static int xAxisInset;
-
-    public GraphPanel () {
-        /*
-         * Make sure we can see the lines!
-         */
-        setBackground(Color.WHITE);
-    }
 
     public void paintComponent (Graphics g) {
         super.paintComponent(g);
@@ -45,11 +35,6 @@ class GraphPanel extends AbstractGraphPanel {
             BasicStroke.CAP_SQUARE,
             BasicStroke.JOIN_MITER
         ));
-
-        /*
-         * Calculate the x-axis inset
-         */
-        xAxisInset = (int) ((float) PANEL_HEIGHT * (Y_AXIS_MAX / (float) Y_AXIS_RANGE));
 
         /*
          * Draw the x-axis
@@ -91,7 +76,7 @@ class GraphPanel extends AbstractGraphPanel {
         int posOffset = xAxisInset - Y_AXIS_SCALE;
         int negOffset = xAxisInset + Y_AXIS_SCALE;
 
-        while (posOffset > 0 && negOffset < PANEL_HEIGHT) {
+        while (posOffset > 0 || negOffset < PANEL_HEIGHT) {
             if (posOffset > 0) {
                 drawYScaleHash(posOffset);
 
@@ -111,17 +96,5 @@ class GraphPanel extends AbstractGraphPanel {
             Y_AXIS_INSET - SCALE_HASH_SIZE, offset,
             Y_AXIS_INSET + SCALE_HASH_SIZE, offset
         );
-    }
-
-    public static int getYPos (double value) {
-        int pos = xAxisInset;
-
-        if (value > 0)
-            pos -= Y_AXIS_MAX * (value / Y_AXIS_MAX);
-
-        if (value < 0)
-            pos += Y_AXIS_MIN * (Math.abs(value) / Y_AXIS_MIN);
-
-        return pos;
     }
 }

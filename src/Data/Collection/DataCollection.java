@@ -23,7 +23,8 @@ class DataCollection implements DataCollectionInterface {
         Random rand = new Random();
 
         for (i = 0; i < MAX_DATA_POINTS; i++) {
-            putData(200 * (rand.nextDouble() - 0.5));
+            double val = (rand.nextDouble() * 2) - 1;
+            putData(100 * val);
         }
     }
 
