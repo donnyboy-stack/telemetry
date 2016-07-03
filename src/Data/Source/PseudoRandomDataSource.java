@@ -18,7 +18,7 @@ class PseudoRandomDataSource implements DataSourceInterface, Runnable {
 
     protected DataSubscriberInterface subscriber;
 
-    public FileDataSource (DataSubscriberInterface subscriber) {
+    public PseudoRandomDataSource (DataSubscriberInterface subscriber) {
         this.subscriber = subscriber;
     }
 

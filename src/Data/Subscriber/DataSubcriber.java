@@ -21,7 +21,6 @@ class DataSubscriber implements DataSubscriberInterface {
     }
 
     public void broadcast (String type, double value) {
-        System.out.println(type + ": " + value);
         if (channels.containsKey(type))
             channels.get(type).putData(value);
     }
