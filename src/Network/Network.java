@@ -1,5 +1,5 @@
 /**
- * Sunseeker Telemety
+ * Sunseeker Telemetry
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 3, 2016
