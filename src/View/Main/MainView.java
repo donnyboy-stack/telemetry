@@ -31,7 +31,8 @@ class MainView extends AbstractMainView {
         /*
          * Only need to build once
          */
-        if (layout != null) return;
+        if (layout != null)
+            return;
 
         /*
          * The app should not quit when this view is closed
