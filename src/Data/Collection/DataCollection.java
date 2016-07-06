@@ -1,5 +1,5 @@
 /**
- * Sunseeker Telemety
+ * Sunseeker Telemetry
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 2, 2016
@@ -63,7 +63,8 @@ class DataCollection implements DataCollectionInterface {
         /*
          * We cannot enable this type it is not provided
          */
-        if (enabled && !provided) return;
+        if (enabled && !provided)
+            return;
 
         this.enabled = enabled;
     }
@@ -78,7 +79,8 @@ class DataCollection implements DataCollectionInterface {
         /*
          * If this value is not provided, we cannot show it
          */
-        if (!provided) setEnabled(false);
+        if (!provided)
+            setEnabled(false);
     }
 
     public boolean isProvided () {
@@ -94,16 +96,13 @@ class DataCollection implements DataCollectionInterface {
     }
 
     public void putData (double value) {
-        int i;
         double hold;
 
-        if (numValues == MAX_DATA_POINTS) {
-            numValues--;
-
-            for (i = 0; i < numValues; i++) {
-                data[i] = data[i+1];
-            }
-        }
+        /*
+         * Retain upto a fixed amount of data
+         */
+        if (numValues == MAX_DATA_POINTS)
+            shiftData();
 
         data[numValues++] = value;
     }
@@ -115,5 +114,15 @@ class DataCollection implements DataCollectionInterface {
     public void receive (String channel, Object data) {
         if (channel.equals(type + "_update"))
             putData((double) data);
+    }
+
+    protected void shiftData () {
+        int i;
+
+        numValues--;
+
+        for (i = 0; i < numValues; i++) {
+            data[i] = data[i+1];
+        }
     }
 }

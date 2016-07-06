@@ -1,5 +1,5 @@
 /**
- * Sunseeker Telemety
+ * Sunseeker Telemetry
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 3, 2016
@@ -18,18 +18,15 @@ class Network implements NetworkInterface {
     }
 
     public void request (String channel, NetworkSubscriberInterface subscriber) {
-        if (!subscribers.containsKey(channel)) {
+        if (!subscribers.containsKey(channel))
             subscribers.put(channel, new ArrayList<NetworkSubscriberInterface>());
-        }
 
         subscribers.get(channel).add(subscriber);
     }
 
     public void transmit (String channel, Object data) {
-        if (subscribers.containsKey(channel)) {
-            for (NetworkSubscriberInterface subscriber : subscribers.get(channel)) {
+        if (subscribers.containsKey(channel))
+            for (NetworkSubscriberInterface subscriber : subscribers.get(channel))
                 subscriber.receive(channel, data);
-            }
-        }
     }
 }
