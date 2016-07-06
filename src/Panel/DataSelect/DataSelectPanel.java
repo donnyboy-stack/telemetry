@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 
 class DataSelectPanel extends AbstractDataSelectPanel {
     public DataSelectPanel () {
-        TitledBorder border = BorderFactory.createTitledBorder("Available Data");
+        TitledBorder border = BorderFactory.createTitledBorder(" Available Data ");
 
         setBorder(border);
     }
