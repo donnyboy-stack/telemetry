@@ -113,12 +113,7 @@ class MainView extends AbstractMainView {
         /*
          * Set the size and position of the panel
          */
-        panel.setBounds(
-            (VIEW_WIDTH / 2) + (PADDING / 2),
-            AbstractGraphPanel.PANEL_HEIGHT + PADDING,
-            (VIEW_WIDTH / 2)  - (PADDING / 2),
-            VIEW_HEIGHT - (AbstractGraphPanel.PANEL_HEIGHT + AXIS_PADDING)
-        );
+        positionDataPanel(panel, true);
 
         /*
          * Add the panel to the view
@@ -140,12 +135,7 @@ class MainView extends AbstractMainView {
         /*
          * Set the size and position of the panel
          */
-        panel.setBounds(
-            0,
-            AbstractGraphPanel.PANEL_HEIGHT + PADDING,
-            (VIEW_WIDTH / 2) - (PADDING / 2),
-            VIEW_HEIGHT - (AbstractGraphPanel.PANEL_HEIGHT + AXIS_PADDING) + 1
-        );
+        positionDataPanel(panel, false);
 
         /*
          * Add the panel to the view
@@ -207,6 +197,23 @@ class MainView extends AbstractMainView {
             SpringLayout.EAST, contentPane,
             PADDING,
             SpringLayout.EAST, layeredPane
+        );
+    }
+
+    protected void positionDataPanel (AbstractPanel panel, boolean leftMost) {
+        int width = (VIEW_WIDTH / 2) - PADDING;
+        int posX  = width + 2;
+        int posY  = AbstractGraphPanel.PANEL_HEIGHT + PADDING;
+
+        if (leftMost)
+            posX = 0;
+
+        /*
+         * The precision required here is somewhat annoying...
+         */
+        panel.setBounds(
+            posX, posY, width,
+            (VIEW_HEIGHT - AXIS_PADDING) - (posY + AXIS_PADDING)
         );
     }
 }

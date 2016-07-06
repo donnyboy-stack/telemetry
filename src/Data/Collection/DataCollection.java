@@ -30,7 +30,7 @@ class DataCollection implements DataCollectionInterface {
     protected boolean provided = false;
 
     protected double[] data = new double[MAX_DATA_POINTS];
-    protected ArrayList<DataCollectionSubscriberInterface> subscribers;
+    protected ArrayList<DataCollectionInterface> subscribers;
 
     protected int numValues = 0;
 
@@ -44,7 +44,7 @@ class DataCollection implements DataCollectionInterface {
         color = colors[colorCount % colors.length];
         colorCount++;
 
-        subscribers = new ArrayList<DataCollectionSubscriberInterface>();
+        subscribers = new ArrayList<DataCollectionInterface>();
     }
 
     public String getType () {
