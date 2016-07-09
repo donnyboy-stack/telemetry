@@ -22,7 +22,6 @@ class Telemetry implements Runnable {
 
     public Telemetry () {
         dataCollections = new ArrayList<DataCollectionInterface<Double>>();
-        dataSource      = new PseudoRandomDataSource();
 
         /*
          * Add the known data types
@@ -31,6 +30,8 @@ class Telemetry implements Runnable {
         registerDataType("voltage", "volts");
         registerDataType("current", "amps");
         registerDataType("array", "watts");
+
+        dataSource = new PseudoRandomDataSource(dataCollections);
     }
 
     public void run () {
@@ -72,7 +73,10 @@ class Telemetry implements Runnable {
          */
         controller.start();
 
-        Thread dataThread = new Thread(dataSource, "dataSourceThread");
+        /*
+         * Start loading the data
+         */
+        Thread dataThread = new Thread(dataSource, "DataSourceThread");
 
         dataThread.start();
     }

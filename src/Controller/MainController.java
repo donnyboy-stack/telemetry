@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 class MainController implements Runnable {
-    final protected int LINE_REFRESH_INTERVAL = 5000;
+    final public static int LINE_REFRESH_INTERVAL = 250;
 
     protected AbstractMainFrame mainFrame;
 
