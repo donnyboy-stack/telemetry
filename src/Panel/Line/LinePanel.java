@@ -66,12 +66,20 @@ class LinePanel extends AbstractLinePanel {
 
         while (data.peek() != null) {
             previousValue = (double) data.poll();
-            points.add(AbstractGraphPanel.getYPos(previousValue));
+            pushPoint(AbstractGraphPanel.getYPos(previousValue));
 
         }
 
         if (start == data.size())
-            points.add(AbstractGraphPanel.getYPos(previousValue));
+            pushPoint(AbstractGraphPanel.getYPos(previousValue));
+    }
+
+    protected void pushPoint (Integer point) {
+        if (points.size() == AbstractGraphPanel.MAX_POINTS) {
+            points.remove(0);
+        }
+
+        points.add(point);
     }
 
     protected void drawSegments () {
@@ -90,14 +98,9 @@ class LinePanel extends AbstractLinePanel {
          * Run through the data to be displayed
          */
         int index = 0,
-            start = 0,
-            end   = points.size(),
             prev  = 0;
 
-        if (end - start > AbstractGraphPanel.MAX_POINTS)
-            start = end - AbstractGraphPanel.MAX_POINTS;
-
-        for (Integer point : points.subList(start, end)) {
+        for (Integer point : points) {
             if (index > 0) {
                 artist.drawLine(
                     (index - 1) * AbstractGraphPanel.X_AXIS_SCALE,
