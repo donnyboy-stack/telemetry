@@ -7,6 +7,6 @@
 
 package sunseeker.telemetry;
 
-abstract class AbstractLinePanel extends AbstractPanel implements NetworkSubscriberInterface {
+abstract class AbstractLinePanel extends AbstractPanel {
     final public static int LINE_WIDTH = 1;
 }

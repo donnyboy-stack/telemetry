@@ -7,23 +7,22 @@
 
 package sunseeker.telemetry;
 
-import java.awt.*;
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.lang.Thread;
+import java.lang.Runnable;
 
 class Telemetry implements Runnable {
-    NetworkInterface network;
     DataSourceInterface dataSource;
-    ArrayList<DataCollectionInterface> dataCollections;
+    ArrayList<DataCollectionInterface<Double>> dataCollections;
 
 	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
 
     public Telemetry () {
-        network         = new Network();
-        dataCollections = new ArrayList<DataCollectionInterface>();
-        dataSource      = new PseudoRandomDataSource(network);
+        dataCollections = new ArrayList<DataCollectionInterface<Double>>();
+        dataSource      = new PseudoRandomDataSource();
 
         /*
          * Add the known data types
@@ -71,7 +70,7 @@ class Telemetry implements Runnable {
         /*
          * Start the application
          */
-        controller.run();
+        controller.start();
 
         Thread dataThread = new Thread(dataSource, "dataSourceThread");
 
@@ -79,10 +78,9 @@ class Telemetry implements Runnable {
     }
 
     protected void registerDataType (String type, String units) {
-        DataCollectionInterface collection = new DataCollection(type, units);
+        DataCollectionInterface<Double> collection = new DataCollection<Double>(type, units);
 
         dataCollections.add(collection);
-        network.request(type + "_update", collection);
     }
 
     protected AbstractLinePanel[] getLinePanels () {
@@ -97,8 +95,6 @@ class Telemetry implements Runnable {
             );
 
             collection.setEnabled(true);
-
-            network.request(collection.getType() + "_update", panel);
 
             panels[i++] = panel;
         }

@@ -10,16 +10,21 @@ package sunseeker.telemetry;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
+import java.util.ArrayList;
 
 class LinePanel extends AbstractLinePanel {
     protected int width = 0;
     protected int height = 0;
+
+    protected double previousValue;
 
     protected Graphics2D artist;
 
     protected boolean active = true;
 
     protected DataCollectionInterface data;
+
+    protected ArrayList<Integer> points;
 
     public LinePanel (DataCollectionInterface data) {
         /*
@@ -31,21 +36,42 @@ class LinePanel extends AbstractLinePanel {
          * Need to see the other lines and graph
          */
         setOpaque(false);
+
+        /*
+         * Initialize the collection of points
+         */
+        points = new ArrayList<Integer>();
     }
 
     public void paintComponent (Graphics g) {
+        super.paintComponent(g);
+
         width = getWidth();
         height = getHeight();
-
-        super.paintComponent(g);
 
         artist = (Graphics2D) g;
 
         /*
          * Only when this line is active should it be drawn
          */
-        if (data.isEnabled())
+        if (data.isEnabled()) {
+            loadPoints();
+
             drawSegments();
+        }
+    }
+
+    protected void loadPoints () {
+        int start = data.size();
+
+        while (data.peek() != null) {
+            previousValue = (double) data.poll();
+            points.add(AbstractGraphPanel.getYPos(previousValue));
+
+        }
+
+        if (start == data.size())
+            points.add(AbstractGraphPanel.getYPos(previousValue));
     }
 
     protected void drawSegments () {
@@ -61,44 +87,29 @@ class LinePanel extends AbstractLinePanel {
         artist.setColor(data.getColor());
 
         /*
-         * Get the data to be displayed
+         * Run through the data to be displayed
          */
-        double[] dataPoints = data.getData();
+        int index = 0,
+            start = 0,
+            end   = points.size(),
+            prev  = 0;
 
-        /*
-         * Only render if data is present
-         */
-        if (data.count() > 0) {
-            /*
-             * Start rendering segments
-             */
-            double prev = 0;
-            int i, point;
+        if (end - start > AbstractGraphPanel.MAX_POINTS)
+            start = end - AbstractGraphPanel.MAX_POINTS;
 
-            for (i = 0; i < data.count() && i < AbstractGraphPanel.MAX_POINTS; i++) {
-                point = GraphPanel.getYPos(dataPoints[i]);
-
-                drawSegment(
-                    (i - 1) * AbstractGraphPanel.X_AXIS_SCALE,
-                    (int) prev,
-                    i * AbstractGraphPanel.X_AXIS_SCALE,
+        for (Integer point : points.subList(start, end)) {
+            if (index > 0) {
+                artist.drawLine(
+                    (index - 1) * AbstractGraphPanel.X_AXIS_SCALE,
+                    prev,
+                    index * AbstractGraphPanel.X_AXIS_SCALE,
                     point
                 );
-
-                prev = point;
             }
+
+            prev = point;
+
+            index++;
         }
-    }
-
-    protected void drawSegment (int x1, int y1, int x2, int y2) {
-        artist.drawLine(
-            x1, y1,
-            x2, y2
-        );
-    }
-
-    public void receive (String channel, Object dat) {
-        if (channel.equals(data.getType() + "_update"))
-            this.repaint();
     }
 }

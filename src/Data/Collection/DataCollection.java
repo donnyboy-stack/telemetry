@@ -9,9 +9,11 @@ package sunseeker.telemetry;
 
 import java.util.ArrayList;
 import java.awt.Color;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-class DataCollection implements DataCollectionInterface {
+class DataCollection<E> extends ConcurrentLinkedQueue<E> implements DataCollectionInterface<E> {
     protected Color[] colors = {
+        Color.GREEN,
         Color.BLUE,
         Color.RED,
         Color.ORANGE,
@@ -29,9 +31,6 @@ class DataCollection implements DataCollectionInterface {
     protected boolean enabled  = false;
     protected boolean provided = false;
 
-    protected double[] data = new double[MAX_DATA_POINTS];
-    protected ArrayList<DataCollectionInterface> subscribers;
-
     protected int numValues = 0;
 
     public DataCollection (String type, String units) {
@@ -43,8 +42,6 @@ class DataCollection implements DataCollectionInterface {
          */
         color = colors[colorCount % colors.length];
         colorCount++;
-
-        subscribers = new ArrayList<DataCollectionInterface>();
     }
 
     public String getType () {
@@ -85,44 +82,5 @@ class DataCollection implements DataCollectionInterface {
 
     public boolean isProvided () {
         return provided;
-    }
-
-    public double getMostRecent () {
-        return data[0];
-    }
-
-    public double[] getData () {
-        return data;
-    }
-
-    public void putData (double value) {
-        double hold;
-
-        /*
-         * Retain upto a fixed amount of data
-         */
-        if (numValues == MAX_DATA_POINTS)
-            shiftData();
-
-        data[numValues++] = value;
-    }
-
-    public int count () {
-        return numValues;
-    }
-
-    public void receive (String channel, Object data) {
-        if (channel.equals(type + "_update"))
-            putData((double) data);
-    }
-
-    protected void shiftData () {
-        int i;
-
-        numValues--;
-
-        for (i = 0; i < numValues; i++) {
-            data[i] = data[i+1];
-        }
     }
 }

@@ -17,12 +17,6 @@ class PseudoRandomDataSource implements DataSourceInterface, Runnable {
         "speed"
     };
 
-    protected NetworkInterface network;
-
-    public PseudoRandomDataSource (NetworkInterface network) {
-        this.network = network;
-    }
-
     public String[] getTypes () {
         return types;
     }
@@ -38,8 +32,6 @@ class PseudoRandomDataSource implements DataSourceInterface, Runnable {
 
         while (true) {
             double val = 200 * ((rand.nextDouble() * 2) - 1);
-
-            network.transmit(SPEED_UPDATE, val);
 
             try {
                 Thread.sleep(250);
