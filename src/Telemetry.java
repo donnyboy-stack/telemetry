@@ -36,9 +36,9 @@ class Telemetry implements Runnable {
 
     public void run () {
         /*
-         * This is the main window which appears
+         * This is the main frame which appears
          */
-        AbstractMainView main = new MainView();
+        AbstractMainFrame main = new MainFrame();
 
         /*
          * Controls the rendering of the main window interface

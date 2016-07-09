@@ -9,12 +9,12 @@ package sunseeker.telemetry;
 
 import javax.swing.JFrame;
 
-abstract class AbstractView extends JFrame {
-    public void showView () {
+abstract class AbstractFrame extends JFrame {
+    public void showFrame () {
         setVisible(true);
     }
 
-    public void hideView () {
+    public void hideFrame () {
         setVisible(false);
     }
 }

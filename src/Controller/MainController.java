@@ -8,29 +8,29 @@
 package sunseeker.telemetry;
 
 class MainController {
-    protected AbstractMainView mainView;
+    protected AbstractMainFrame mainFrame;
 
-    public MainController (AbstractMainView main) {
-        mainView = main;
+    public MainController (AbstractMainFrame main) {
+        mainFrame = main;
     }
 
     public void run () {
-        mainView.showView();
+        mainFrame.showFrame();
     }
 
     public void useGraphPanel (AbstractGraphPanel panel) {
-        mainView.useGraphPanel(panel);
+        mainFrame.useGraphPanel(panel);
     }
 
     public void useDataSelectPanel (AbstractDataSelectPanel panel) {
-        mainView.useDataSelectPanel(panel);
+        mainFrame.useDataSelectPanel(panel);
     }
 
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {
-        mainView.useLiveDataPanel(panel);
+        mainFrame.useLiveDataPanel(panel);
     }
 
     public void useLinePanels(AbstractLinePanel[] panels) {
-        mainView.useLinePanels(panels);
+        mainFrame.useLinePanels(panels);
     }
 }

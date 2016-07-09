@@ -15,7 +15,7 @@ import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
 
-class MainView extends AbstractMainView {
+class MainFrame extends AbstractMainFrame {
     protected SpringLayout layout;
 
     protected Container contentPane;
@@ -27,7 +27,7 @@ class MainView extends AbstractMainView {
 
     protected int depth = 1;
 
-    public MainView () {
+    public MainFrame () {
         /*
          * Only need to build once
          */
@@ -42,7 +42,7 @@ class MainView extends AbstractMainView {
         /*
          * The minimum size of the window
          */
-        setSize(new Dimension(VIEW_WIDTH, VIEW_HEIGHT));
+        setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
         /*
          * This is a fixed size window
@@ -63,14 +63,14 @@ class MainView extends AbstractMainView {
         configureLayeredPane();
     }
 
-    public void showView () {
+    public void showFrame () {
         /*
          * When the window is opened draw the graph
          */
         if (graphPanel != null)
             graphPanel.repaint();
 
-        super.showView();
+        super.showFrame();
     }
 
     public void useGraphPanel (AbstractGraphPanel panel) {
@@ -89,7 +89,7 @@ class MainView extends AbstractMainView {
          */
         graphPanel.setBounds(
             0, 0,
-            VIEW_WIDTH,
+            FRAME_WIDTH,
             AbstractGraphPanel.PANEL_HEIGHT
         );
 
@@ -147,7 +147,7 @@ class MainView extends AbstractMainView {
         for (AbstractLinePanel panel : panels) {
             panel.setBounds(
                 AbstractGraphPanel.AXIS_INSET, 0,
-                VIEW_WIDTH - AbstractGraphPanel.FULL_INSET,
+                FRAME_WIDTH - AbstractGraphPanel.FULL_INSET,
                 AbstractGraphPanel.PANEL_HEIGHT
             );
 
@@ -201,7 +201,7 @@ class MainView extends AbstractMainView {
     }
 
     protected void positionDataPanel (AbstractPanel panel, boolean leftMost) {
-        int width = (VIEW_WIDTH / 2) - PADDING;
+        int width = (FRAME_WIDTH / 2) - PADDING;
         int posX  = width + 2;
         int posY  = AbstractGraphPanel.PANEL_HEIGHT + PADDING;
 
@@ -213,7 +213,7 @@ class MainView extends AbstractMainView {
          */
         panel.setBounds(
             posX, posY, width,
-            (VIEW_HEIGHT - AXIS_PADDING) - (posY + AXIS_PADDING)
+            (FRAME_HEIGHT - AXIS_PADDING) - (posY + AXIS_PADDING)
         );
     }
 }
