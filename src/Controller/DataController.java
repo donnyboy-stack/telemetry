@@ -73,6 +73,10 @@ class DataController {
         dataSource = dataSources.get(source);
     }
 
+    public DataSourceInterface getDataSource () {
+        return dataSource;
+    }
+
     protected void registerDataSource (DataSourceInterface source) {
         dataSources.put(source.getName(), source);
     }
