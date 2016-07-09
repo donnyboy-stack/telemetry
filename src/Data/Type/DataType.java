@@ -7,11 +7,12 @@
 
 package sunseeker.telemetry;
 
+import java.util.Collections;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-class DataType extends ConcurrentLinkedQueue<Double> implements DataTypeInterface {
+class DataType implements DataTypeInterface {
     protected Color[] colors = {
         Color.GREEN,
         Color.BLUE,
@@ -33,6 +34,8 @@ class DataType extends ConcurrentLinkedQueue<Double> implements DataTypeInterfac
 
     protected int numValues = 0;
 
+    protected List<Double> data;
+
     public DataType (String type, String units) {
         this.type  = type;
         this.units = units;
@@ -42,6 +45,11 @@ class DataType extends ConcurrentLinkedQueue<Double> implements DataTypeInterfac
          */
         color = colors[colorCount % colors.length];
         colorCount++;
+
+        /*
+         * Create a synconized data list
+         */
+        data = Collections.synchronizedList(new ArrayList<Double>());
     }
 
     public String getType () {
@@ -82,5 +90,9 @@ class DataType extends ConcurrentLinkedQueue<Double> implements DataTypeInterfac
 
     public boolean isProvided () {
         return provided;
+    }
+
+    public List<Double> getData () {
+        return data;
     }
 }

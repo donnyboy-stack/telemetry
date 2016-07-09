@@ -12,16 +12,16 @@ import java.util.Random;
 import java.lang.Runnable;
 import java.lang.Thread;
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, Runnable {
-    protected String[] types = {
+    protected String[] providedTypes = {
         "speed", "voltage", "current", "array"
     };
 
-    protected HashMap<String, DataTypeInterface> collections;
+    protected HashMap<String, DataTypeInterface> types;
 
     protected Timer scheduler;
 
@@ -29,44 +29,47 @@ class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, R
 
     protected boolean scheduled;
 
-    public PseudoRandomDataSource (ArrayList<DataTypeInterface> collections) {
-        this.collections = new HashMap<String, DataTypeInterface>();
-
-        for (DataTypeInterface collection : collections)
-            this.collections.put(collection.getType(), collection);
-
+    public PseudoRandomDataSource (AbstractDataTypeCollection dataTypes) {
+        types     = new HashMap<String, DataTypeInterface>();
         scheduler = new Timer();
-        randGen = new Random();
-    }
+        randGen   = new Random();
 
-    public String[] getTypes () {
-        return types;
-    }
-
-    public boolean provides (String type) {
-        Arrays.sort(types);
-
-        return Arrays.binarySearch(types, type) >= 0;
-    }
-
-    public void run () {
-        double val;
-
-        for (String type : types) {
-            if (!collections.containsKey(type))
-                continue;
-
-            val = 500 * ((randGen.nextDouble() * 2) - 1);
-
-            collections.get(type).offer(val);
-        }
-
-        if (!scheduled)
-            scheduleTask();
+        for (DataTypeInterface type : dataTypes)
+            types.put(type.getType(), type);
     }
 
     public String getName () {
         return "Pseudo Random Data Source";
+    }
+
+    public String[] getTypes () {
+        return providedTypes;
+    }
+
+    public boolean provides (String type) {
+        Arrays.sort(providedTypes);
+
+        return Arrays.binarySearch(providedTypes, type) >= 0;
+    }
+
+    public void run () {
+        List<Double> data;
+        double val;
+
+        for (String type : providedTypes) {
+            if (!types.containsKey(type))
+                continue;
+
+            data = types.get(type).getData();
+
+            val = 500 * ((randGen.nextDouble() * 2) - 1);
+
+            data.clear();
+            data.add(val);
+        }
+
+        if (!scheduled)
+            scheduleTask();
     }
 
     public void stop () {

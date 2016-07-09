@@ -68,7 +68,7 @@ class Telemetry implements Runnable {
         mainController.useLinePanels(getLinePanels());
 
         /*
-         * Create the data controller
+         * Create the data controller and get the source
          */
         dataController = new DataController(dataTypes);
 
@@ -102,18 +102,26 @@ class Telemetry implements Runnable {
     }
 
     protected void getDataSource () {
+        DataSourceInterface current;
+
+        if ((current = dataController.getDataSource()) != null) {
+            current.stop();
+        }
+
         dataController.promptForDataSource(mainController.getFrame());
 
         checkDataTypes(dataController.getDataSource());
     }
 
     protected void checkDataTypes (DataSourceInterface dataSource) {
-        for (DataTypeInterface type : dataTypes) {
-            type.setProvided(
-                dataSource.provides(type.getType())
-            );
+        if (dataSource != null) {
+            for (DataTypeInterface type : dataTypes) {
+                type.setProvided(
+                    dataSource.provides(type.getType())
+                );
 
-            type.setEnabled(true);
+                type.setEnabled(true);
+            }
         }
     }
 }

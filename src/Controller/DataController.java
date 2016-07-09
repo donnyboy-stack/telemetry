@@ -14,7 +14,7 @@ import java.lang.Thread;
 import javax.swing.JOptionPane;
 
 class DataController {
-    protected AbstractDataTypeCollection DataTypes;
+    protected AbstractDataTypeCollection dataTypes;
 
     protected HashMap<String, DataSourceInterface> dataSources;
 
@@ -23,14 +23,14 @@ class DataController {
     protected Thread dataThread;
 
     public DataController (AbstractDataTypeCollection collections) {
-        DataTypes = collections;
+        dataTypes = collections;
 
         dataSources = new HashMap<String, DataSourceInterface>();
 
         /*
          * Register the known data source types
          */
-        registerDataSource(new PseudoRandomDataSource(DataTypes));
+        registerDataSource(new PseudoRandomDataSource(dataTypes));
     }
 
     public void start () {

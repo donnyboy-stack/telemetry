@@ -10,6 +10,7 @@ package sunseeker.telemetry;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
+import java.util.List;
 import java.util.ArrayList;
 
 class LinePanel extends AbstractLinePanel {
@@ -62,15 +63,12 @@ class LinePanel extends AbstractLinePanel {
     }
 
     protected void loadPoints () {
-        int start = data.size();
+        List<Double> data = this.data.getData();
 
-        while (data.peek() != null) {
-            previousValue = (double) data.poll();
-            pushPoint(AbstractGraphPanel.getYPos(previousValue));
+        for (Double value : data)
+            pushPoint(AbstractGraphPanel.getYPos(previousValue = value));
 
-        }
-
-        if (start == data.size())
+        if (data.size() == 0)
             pushPoint(AbstractGraphPanel.getYPos(previousValue));
     }
 

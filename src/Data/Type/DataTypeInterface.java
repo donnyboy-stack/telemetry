@@ -8,9 +8,9 @@
 package sunseeker.telemetry;
 
 import java.awt.Color;
-import java.util.Queue;
+import java.util.List;
 
-interface DataTypeInterface extends Queue<Double> {
+interface DataTypeInterface {
     final public static int MAX_DATA_POINTS = 50;
     
     public String getType();
@@ -26,4 +26,6 @@ interface DataTypeInterface extends Queue<Double> {
     public void setProvided(boolean provided);
 
     public boolean isProvided();
+
+    public List<Double> getData();
 }
