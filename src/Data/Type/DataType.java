@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.awt.Color;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-class DataCollection<E> extends ConcurrentLinkedQueue<E> implements DataCollectionInterface<E> {
+class DataType extends ConcurrentLinkedQueue<Double> implements DataTypeInterface {
     protected Color[] colors = {
         Color.GREEN,
         Color.BLUE,
@@ -33,7 +33,7 @@ class DataCollection<E> extends ConcurrentLinkedQueue<E> implements DataCollecti
 
     protected int numValues = 0;
 
-    public DataCollection (String type, String units) {
+    public DataType (String type, String units) {
         this.type  = type;
         this.units = units;
 

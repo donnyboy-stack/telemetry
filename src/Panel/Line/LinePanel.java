@@ -22,11 +22,11 @@ class LinePanel extends AbstractLinePanel {
 
     protected boolean active = true;
 
-    protected DataCollectionInterface data;
+    protected DataTypeInterface data;
 
     protected ArrayList<Integer> points;
 
-    public LinePanel (DataCollectionInterface data) {
+    public LinePanel (DataTypeInterface data) {
         /*
          * This is where we will be getting the data from
          */

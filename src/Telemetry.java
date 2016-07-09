@@ -12,15 +12,17 @@ import java.util.ArrayList;
 import java.lang.Runnable;
 
 class Telemetry implements Runnable {
-    DataSourceInterface dataSource;
-    ArrayList<DataCollectionInterface<Double>> dataCollections;
+    protected AbstractDataTypeCollection dataTypes;
+
+    protected MainController mainController;
+    protected DataController dataController;
 
 	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
 
     public Telemetry () {
-        dataCollections = new ArrayList<DataCollectionInterface<Double>>();
+        dataTypes = new DataTypeCollection();
 
         /*
          * Add the known data types
@@ -29,8 +31,6 @@ class Telemetry implements Runnable {
         registerDataType("voltage", "volts");
         registerDataType("current", "amps");
         registerDataType("array", "watts");
-
-        dataSource = new PseudoRandomDataSource(dataCollections);
     }
 
     public void run () {
@@ -42,7 +42,7 @@ class Telemetry implements Runnable {
         /*
          * Controls the rendering of the main window interface
          */
-        MainController mainController = new MainController(mainFrame);
+        mainController = new MainController(mainFrame);
 
         /*
          * The graph to display the data
@@ -70,9 +70,13 @@ class Telemetry implements Runnable {
         /*
          * Create the data controller
          */
-        DataController dataController = new DataController(dataCollections);
+        dataController = new DataController(dataTypes);
 
-        dataController.promptForDataSource(mainFrame);
+        getDataSource();
+
+        /*
+         * Start collecting data
+         */
         dataController.start();
 
         /*
@@ -82,27 +86,34 @@ class Telemetry implements Runnable {
     }
 
     protected void registerDataType (String type, String units) {
-        DataCollectionInterface<Double> collection = new DataCollection<Double>(type, units);
+        DataTypeInterface collection = new DataType(type, units);
 
-        dataCollections.add(collection);
+        dataTypes.add(collection);
     }
 
     protected AbstractLinePanel[] getLinePanels () {
-        AbstractLinePanel[] panels = new AbstractLinePanel[dataCollections.size()];
+        AbstractLinePanel[] panels = new AbstractLinePanel[dataTypes.size()];
         int i = 0;
 
-        for (DataCollectionInterface collection : dataCollections) {
-            AbstractLinePanel panel = new LinePanel(collection);
-
-            collection.setProvided(
-                dataSource.provides(collection.getType())
-            );
-
-            collection.setEnabled(true);
-
-            panels[i++] = panel;
-        }
+        for (DataTypeInterface type : dataTypes)
+            panels[i++] = new LinePanel(type);
 
         return panels;
+    }
+
+    protected void getDataSource () {
+        dataController.promptForDataSource(mainController.getFrame());
+
+        checkDataTypes(dataController.getDataSource());
+    }
+
+    protected void checkDataTypes (DataSourceInterface dataSource) {
+        for (DataTypeInterface type : dataTypes) {
+            type.setProvided(
+                dataSource.provides(type.getType())
+            );
+
+            type.setEnabled(true);
+        }
     }
 }

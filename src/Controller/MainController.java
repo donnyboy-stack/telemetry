@@ -7,6 +7,7 @@
 
 package sunseeker.telemetry;
 
+import javax.swing.JFrame;
 import java.lang.Runnable;
 import java.lang.Thread;
 import java.awt.EventQueue;
@@ -54,6 +55,10 @@ class MainController implements Runnable {
 
     public void run () {
         lineUpdater.start();
+    }
+
+    public JFrame getFrame () {
+        return mainFrame;
     }
 
     protected void createLineUpdater () {

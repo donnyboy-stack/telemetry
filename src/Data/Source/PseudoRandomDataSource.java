@@ -21,7 +21,7 @@ class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, R
         "speed", "voltage", "current", "array"
     };
 
-    protected HashMap<String, DataCollectionInterface<Double>> collections;
+    protected HashMap<String, DataTypeInterface> collections;
 
     protected Timer scheduler;
 
@@ -29,10 +29,10 @@ class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, R
 
     protected boolean scheduled;
 
-    public PseudoRandomDataSource (ArrayList<DataCollectionInterface<Double>> collections) {
-        this.collections = new HashMap<String, DataCollectionInterface<Double>>();
+    public PseudoRandomDataSource (ArrayList<DataTypeInterface> collections) {
+        this.collections = new HashMap<String, DataTypeInterface>();
 
-        for (DataCollectionInterface<Double> collection : collections)
+        for (DataTypeInterface collection : collections)
             this.collections.put(collection.getType(), collection);
 
         scheduler = new Timer();
