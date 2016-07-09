@@ -65,7 +65,7 @@ class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, R
             val = 500 * ((randGen.nextDouble() * 2) - 1);
 
             data.clear();
-            data.add(val);
+            types.get(type).putValue(val);
         }
 
         if (!scheduled)

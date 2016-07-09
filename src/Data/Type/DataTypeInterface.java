@@ -27,5 +27,13 @@ interface DataTypeInterface {
 
     public boolean isProvided();
 
+    public void putValue(double value);
+
     public List<Double> getData();
+
+    public double getMinimumValue();
+
+    public double getCurrentValue();
+
+    public double getMaximumValue();
 }

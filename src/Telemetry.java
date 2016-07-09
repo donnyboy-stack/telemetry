@@ -59,7 +59,7 @@ class Telemetry implements Runnable {
         /*
          * Display for the most recent values of the data being displayed
          */
-        AbstractLiveDataPanel liveData = new LiveDataPanel();
+        AbstractLiveDataPanel liveData = new LiveDataPanel(dataTypes);
         mainController.useLiveDataPanel(liveData);
 
         /*

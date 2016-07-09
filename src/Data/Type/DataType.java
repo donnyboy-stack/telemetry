@@ -32,7 +32,9 @@ class DataType implements DataTypeInterface {
     protected boolean enabled  = false;
     protected boolean provided = false;
 
-    protected int numValues = 0;
+    protected double min = 0;
+    protected double cur = 0;
+    protected double max = 0;
 
     protected List<Double> data;
 
@@ -92,7 +94,36 @@ class DataType implements DataTypeInterface {
         return provided;
     }
 
+    public void putValue (double value) {
+        data.add(value);
+
+        cur = value;
+
+        if (data.size() == 0) {
+            min = value;
+            max = value;
+        } else {
+            if (value < min)
+                min = value;
+
+            if (value > max)
+                max = value;
+        }
+    }
+
     public List<Double> getData () {
         return data;
+    }
+
+    public double getMinimumValue () {
+        return min;
+    }
+
+    public double getCurrentValue () {
+        return cur;
+    }
+
+    public double getMaximumValue () {
+        return max;
     }
 }
