@@ -24,8 +24,8 @@ class MainController implements Runnable {
 
     protected Timer lineUpdater;
 
-    public MainController (AbstractMainFrame main) {
-        mainFrame = main;
+    public MainController (AbstractMainFrame frame) {
+        mainFrame = frame;
     }
 
     public void useGraphPanel (AbstractGraphPanel panel) {

@@ -15,4 +15,6 @@ interface DataSourceInterface extends Runnable {
     public boolean provides(String type);
 
     public String getName();
+
+    public void stop();
 }

@@ -13,19 +13,30 @@ import java.lang.Runnable;
 import java.lang.Thread;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
-class PseudoRandomDataSource implements DataSourceInterface, Runnable {
+class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, Runnable {
     protected String[] types = {
         "speed", "voltage", "current", "array"
     };
 
     protected HashMap<String, DataCollectionInterface<Double>> collections;
 
+    protected Timer scheduler;
+
+    protected Random randGen;
+
+    protected boolean scheduled;
+
     public PseudoRandomDataSource (ArrayList<DataCollectionInterface<Double>> collections) {
         this.collections = new HashMap<String, DataCollectionInterface<Double>>();
 
         for (DataCollectionInterface<Double> collection : collections)
             this.collections.put(collection.getType(), collection);
+
+        scheduler = new Timer();
+        randGen = new Random();
     }
 
     public String[] getTypes () {
@@ -39,29 +50,36 @@ class PseudoRandomDataSource implements DataSourceInterface, Runnable {
     }
 
     public void run () {
-        Random rand = new Random();
-
         double val;
 
-        while (true) {
-            for (String type : types) {
-                if (!collections.containsKey(type))
-                    continue;
+        for (String type : types) {
+            if (!collections.containsKey(type))
+                continue;
 
-                val = 200 * ((rand.nextDouble() * 2) - 1);
+            val = 500 * ((randGen.nextDouble() * 2) - 1);
 
-                collections.get(type).offer(val);
-            }
-
-            try {
-                Thread.sleep(MainController.LINE_REFRESH_INTERVAL * 2);
-            } catch (Exception e) {
-
-            }
+            collections.get(type).offer(val);
         }
+
+        if (!scheduled)
+            scheduleTask();
     }
 
     public String getName () {
         return "Pseudo Random Data Source";
+    }
+
+    public void stop () {
+        scheduler.cancel();
+        scheduler.purge();
+
+        scheduled = false;
+    }
+
+    protected void scheduleTask () {
+        long delay = MainController.LINE_REFRESH_INTERVAL * 2;
+        scheduler.scheduleAtFixedRate(this, delay, delay);
+
+        scheduled = true;
     }
 }

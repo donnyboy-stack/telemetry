@@ -37,7 +37,7 @@ class MainFrame extends AbstractMainFrame {
         /*
          * The app should not quit when this view is closed
          */
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         /*
          * The minimum size of the window

@@ -9,7 +9,6 @@ package sunseeker.telemetry;
 
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.lang.Thread;
 import java.lang.Runnable;
 
 class Telemetry implements Runnable {
@@ -38,47 +37,48 @@ class Telemetry implements Runnable {
         /*
          * This is the main frame which appears
          */
-        AbstractMainFrame main = new MainFrame();
+        AbstractMainFrame mainFrame = new MainFrame();
 
         /*
          * Controls the rendering of the main window interface
          */
-        MainController controller = new MainController(main);
+        MainController mainController = new MainController(mainFrame);
 
         /*
          * The graph to display the data
          */
         AbstractGraphPanel graph = new GraphPanel();
-        controller.useGraphPanel(graph);
+        mainController.useGraphPanel(graph);
 
         /*
          * Options regarding which data to display
          */
         AbstractDataSelectPanel dataSelect = new DataSelectPanel();
-        controller.useDataSelectPanel(dataSelect);
+        mainController.useDataSelectPanel(dataSelect);
 
         /*
          * Display for the most recent values of the data being displayed
          */
         AbstractLiveDataPanel liveData = new LiveDataPanel();
-        controller.useLiveDataPanel(liveData);
+        mainController.useLiveDataPanel(liveData);
 
         /*
          * Add the line panels to the graph
          */
-        controller.useLinePanels(getLinePanels());
+        mainController.useLinePanels(getLinePanels());
+
+        /*
+         * Create the data controller
+         */
+        DataController dataController = new DataController(dataCollections);
+
+        dataController.promptForDataSource(mainFrame);
+        dataController.start();
 
         /*
          * Start the application
          */
-        controller.start();
-
-        /*
-         * Start loading the data
-         */
-        Thread dataThread = new Thread(dataSource, "DataSourceThread");
-
-        dataThread.start();
+        mainController.start();
     }
 
     protected void registerDataType (String type, String units) {
