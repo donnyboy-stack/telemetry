@@ -7,22 +7,12 @@
 
 package sunseeker.telemetry;
 
-import java.util.Arrays;
 import java.util.Random;
-import java.lang.Runnable;
-import java.lang.Thread;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, Runnable {
-    protected String[] providedTypes = {
-        "speed", "voltage", "current", "array"
-    };
-
-    protected HashMap<String, DataTypeInterface> types;
-
+class PseudoRandomDataSource extends AbstractDataSource {
     protected Timer scheduler;
 
     protected Random randGen;
@@ -30,26 +20,18 @@ class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, R
     protected boolean scheduled;
 
     public PseudoRandomDataSource (AbstractDataTypeCollection dataTypes) {
-        types     = new HashMap<String, DataTypeInterface>();
+        super(dataTypes);
+
         scheduler = new Timer();
         randGen   = new Random();
 
-        for (DataTypeInterface type : dataTypes)
-            types.put(type.getType(), type);
+        providedTypes = new String[] {
+            "speed", "voltage", "current", "array"
+        };
     }
 
     public String getName () {
         return "Pseudo Random Data Source";
-    }
-
-    public String[] getTypes () {
-        return providedTypes;
-    }
-
-    public boolean provides (String type) {
-        Arrays.sort(providedTypes);
-
-        return Arrays.binarySearch(providedTypes, type) >= 0;
     }
 
     public void run () {
@@ -79,9 +61,20 @@ class PseudoRandomDataSource extends TimerTask implements DataSourceInterface, R
         scheduled = false;
     }
 
+    public void pause () {
+        stop();
+    }
+
     protected void scheduleTask () {
-        long delay = MainController.LINE_REFRESH_INTERVAL * 2;
-        scheduler.scheduleAtFixedRate(this, delay, delay);
+        long delay = MainController.LINE_REFRESH_INTERVAL;
+
+        final DataSourceInterface data = this;
+
+        scheduler.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                data.run();
+            }
+        }, delay, delay);
 
         scheduled = true;
     }

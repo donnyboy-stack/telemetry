@@ -31,6 +31,7 @@ class DataController {
          * Register the known data source types
          */
         registerDataSource(new PseudoRandomDataSource(dataTypes));
+        registerDataSource(new TenCarDataSource(dataTypes));
     }
 
     public void start () {
