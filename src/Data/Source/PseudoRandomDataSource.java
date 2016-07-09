@@ -54,7 +54,7 @@ class PseudoRandomDataSource implements DataSourceInterface, Runnable {
             }
 
             try {
-                Thread.sleep(MainController.LINE_REFRESH_INTERVAL /4 2);
+                Thread.sleep(MainController.LINE_REFRESH_INTERVAL * 2);
             } catch (Exception e) {
 
             }
