@@ -60,10 +60,6 @@ class MainController implements Runnable, ActionListener{
         lineUpdater.start();
     }
 
-    public JFrame getFrame () {
-        return mainFrame;
-    }
-
     public void actionPerformed (ActionEvent evt) {
         graphPanel.repaint();
         liveDataPanel.refresh();

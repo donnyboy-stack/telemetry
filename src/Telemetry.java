@@ -70,7 +70,7 @@ class Telemetry implements Runnable {
         /*
          * Create the data controller and get the source
          */
-        dataController = new DataController(dataTypes);
+        dataController = new DataController(dataTypes, mainFrame);
 
         getDataSource();
 
@@ -108,7 +108,7 @@ class Telemetry implements Runnable {
             current.stop();
         }
 
-        dataController.promptForDataSource(mainController.getFrame());
+        dataController.promptForDataSource();
 
         checkDataTypes(dataController.getDataSource());
     }

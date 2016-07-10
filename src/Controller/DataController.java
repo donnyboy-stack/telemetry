@@ -22,8 +22,11 @@ class DataController {
 
     protected Thread dataThread;
 
-    public DataController (AbstractDataTypeCollection collections) {
+    protected JFrame parent;
+
+    public DataController (AbstractDataTypeCollection collections, JFrame frame) {
         dataTypes = collections;
+        parent = frame;
 
         dataSources = new HashMap<String, DataSourceInterface>();
 
@@ -31,7 +34,7 @@ class DataController {
          * Register the known data source types
          */
         registerDataSource(new PseudoRandomDataSource(dataTypes));
-        registerDataSource(new TenCarDataSource(dataTypes));
+        registerDataSource(new TenCarDataSource(dataTypes, parent));
     }
 
     public void start () {
@@ -60,7 +63,7 @@ class DataController {
         start();
     }
 
-    public void promptForDataSource (JFrame parent) {
+    public void promptForDataSource () {
         String source = (String) JOptionPane.showInputDialog(
             parent,
             "Choose a source for the data:",

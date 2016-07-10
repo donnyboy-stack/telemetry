@@ -7,9 +7,11 @@
 
 package sunseeker.telemetry;
 
+import javax.swing.JFrame;
+
 class TenCarDataSource extends AbstractSerialDataSource {
-    public TenCarDataSource (AbstractDataTypeCollection types) {
-        super(types);
+    public TenCarDataSource (AbstractDataTypeCollection types, JFrame parent) {
+        super(types, parent);
 
         providedTypes = new String[] {
             "speed"
@@ -20,15 +22,11 @@ class TenCarDataSource extends AbstractSerialDataSource {
         return "2010 Car Data Source";
     }
 
-    public void stop () {
-
+    protected Client getClient () {
+        return new Client(new ModemConnection(), new TenCarListener());
     }
 
-    public void pause () {
+    protected void process (String data) {
 
-    }
-
-    public void run () {
-        
     }
 }
