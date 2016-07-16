@@ -12,26 +12,16 @@ import java.util.ArrayList;
 import java.lang.Runnable;
 
 class Telemetry implements Runnable {
-    protected AbstractDataTypeCollection dataTypes;
-
     protected MainController mainController;
     protected DataController dataController;
+    
+    protected AbstractGraphPanel graphPanel;
+    protected AbstractDataSelectPanel dataSelectPanel;
+    protected AbstractLiveDataPanel liveDataPanel;
 
 	public static void main (String[] args) {
         EventQueue.invokeLater(new Telemetry());
 	}
-
-    public Telemetry () {
-        dataTypes = new DataTypeCollection();
-
-        /*
-         * Add the known data types
-         */
-        registerDataType("speed", "mph");
-        registerDataType("voltage", "volts");
-        registerDataType("current", "amps");
-        registerDataType("array", "watts");
-    }
 
     public void run () {
         /*
@@ -47,32 +37,27 @@ class Telemetry implements Runnable {
         /*
          * The graph to display the data
          */
-        AbstractGraphPanel graph = new GraphPanel();
-        mainController.useGraphPanel(graph);
+        graphPanel = new GraphPanel();
+        mainController.useGraphPanel(graphPanel);
 
         /*
          * Options regarding which data to display
          */
-        AbstractDataSelectPanel dataSelect = new DataSelectPanel();
-        mainController.useDataSelectPanel(dataSelect);
+        dataSelectPanel = new DataSelectPanel();
+        mainController.useDataSelectPanel(dataSelectPanel);
 
         /*
          * Display for the most recent values of the data being displayed
          */
-        AbstractLiveDataPanel liveData = new LiveDataPanel(dataTypes);
-        mainController.useLiveDataPanel(liveData);
-
-        /*
-         * Add the line panels to the graph
-         */
-        mainController.useLinePanels(getLinePanels());
+        liveDataPanel = new LiveDataPanel();
+        mainController.useLiveDataPanel(liveDataPanel);
 
         /*
          * Create the data controller and get the source
          */
-        dataController = new DataController(dataTypes, mainFrame);
+        dataController = new DataController(mainFrame);
 
-        getDataSource();
+        makeAwareOfTypes();
 
         /*
          * Start collecting data
@@ -85,43 +70,9 @@ class Telemetry implements Runnable {
         mainController.start();
     }
 
-    protected void registerDataType (String type, String units) {
-        DataTypeInterface collection = new DataType(type, units);
+    protected void makeAwareOfTypes () {
+        DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
 
-        dataTypes.add(collection);
-    }
-
-    protected AbstractLinePanel[] getLinePanels () {
-        AbstractLinePanel[] panels = new AbstractLinePanel[dataTypes.size()];
-        int i = 0;
-
-        for (DataTypeInterface type : dataTypes)
-            panels[i++] = new LinePanel(type);
-
-        return panels;
-    }
-
-    protected void getDataSource () {
-        DataSourceInterface current;
-
-        if ((current = dataController.getDataSource()) != null) {
-            current.stop();
-        }
-
-        dataController.promptForDataSource();
-
-        checkDataTypes(dataController.getDataSource());
-    }
-
-    protected void checkDataTypes (DataSourceInterface dataSource) {
-        if (dataSource != null) {
-            for (DataTypeInterface type : dataTypes) {
-                type.setProvided(
-                    dataSource.provides(type.getType())
-                );
-
-                type.setEnabled(true);
-            }
-        }
+        liveDataPanel.setTypes(types);
     }
 }
