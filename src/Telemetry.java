@@ -73,6 +73,6 @@ class Telemetry implements Runnable {
     protected void makeAwareOfTypes () {
         DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
 
-        liveDataPanel.setTypes(types);
+        mainController.setTypes(types);
     }
 }
