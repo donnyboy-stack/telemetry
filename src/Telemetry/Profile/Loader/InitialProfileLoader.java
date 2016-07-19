@@ -47,10 +47,10 @@ public class InitialProfileLoader extends ProfileLoader implements ProfileLoader
     }
 
     protected void triggerNotice () {
-
+        // Tell the user which data types are not available
     }
 
     protected void triggerError () {
-
+        // Tell the user the data source is not available
     }
 }
