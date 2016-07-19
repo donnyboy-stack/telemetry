@@ -39,7 +39,7 @@ public class ProfileLoaderGUI extends JFrame {
     protected void loadDataSourceOptions (DataSourceCollectionInterface dataSources) {
         dataSourceOptions = new ArrayList<String>();
 
-        for (DataSourceInterface dataSource : dataSources)
+        for (DataSourceInterface dataSource : dataSources.values())
             dataSourceOptions.add(dataSource.getName());
     }
 

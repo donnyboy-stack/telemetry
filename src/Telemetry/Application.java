@@ -21,54 +21,55 @@ class Application implements Runnable {
 
     public void run () {
         /*
-         * This is the main frame which appears
+         * Create the data controller
          */
-        AbstractMainFrame mainFrame = new MainFrame();
+        dataController = new DataController();
 
-        /*
-         * Controls the rendering of the main window interface
-         */
-        mainController = new MainController(mainFrame);
+        // Some of what's commented out below might be reused.... keeping for now
 
-        /*
-         * The graph to display the data
-         */
-        graphPanel = new GraphPanel();
-        mainController.useGraphPanel(graphPanel);
+        // /*
+        //  * This is the main frame which appears
+        //  */
+        // AbstractMainFrame mainFrame = new MainFrame();
 
-        /*
-         * Options regarding which data to display
-         */
-        dataSelectPanel = new DataSelectPanel();
-        mainController.useDataSelectPanel(dataSelectPanel);
+        // /*
+        //  * Controls the rendering of the main window interface
+        //  */
+        // mainController = new MainController(mainFrame);
 
-        /*
-         * Display for the most recent values of the data being displayed
-         */
-        liveDataPanel = new LiveDataPanel();
-        mainController.useLiveDataPanel(liveDataPanel);
+        // /*
+        //  * The graph to display the data
+        //  */
+        // graphPanel = new GraphPanel();
+        // mainController.useGraphPanel(graphPanel);
 
-        /*
-         * Create the data controller and get the source
-         */
-        dataController = new DataController(mainFrame);
+        // /*
+        //  * Options regarding which data to display
+        //  */
+        // dataSelectPanel = new DataSelectPanel();
+        // mainController.useDataSelectPanel(dataSelectPanel);
 
-        makeAwareOfTypes();
+        // /*
+        //  * Display for the most recent values of the data being displayed
+        //  */
+        // liveDataPanel = new LiveDataPanel();
+        // mainController.useLiveDataPanel(liveDataPanel);
 
-        /*
-         * Start collecting data
-         */
-        dataController.start();
+        // /*
+        //  * Create the data controller and get the source
+        //  */
+        // dataController = new DataController(mainFrame);
 
-        /*
-         * Start the application
-         */
-        mainController.start();
-    }
+        // makeAwareOfTypes();
 
-    protected void makeAwareOfTypes () {
-        DataTypeCollectionInterface types = dataController.getDataSource().getTypes();
+        // /*
+        //  * Start collecting data
+        //  */
+        // dataController.start();
 
-        mainController.setTypes(types);
+        // /*
+        //  * Start the application
+        //  */
+        // mainController.start();
     }
 }

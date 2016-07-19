@@ -7,8 +7,8 @@
 
 package sunseeker.telemetry;
 
-import java.util.List;
+import java.util.Map;
 
-public interface DataSourceCollectionInterface extends List<DataSourceInterface> {
+public interface DataSourceCollectionInterface extends Map<String, DataSourceInterface> {
     
 }

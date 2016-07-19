@@ -57,6 +57,10 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
         client.connect(port);
     }
 
+    public void stop () {
+        client.disconnect();
+    }
+
     public void receiveValue (String field, byte[] high, byte[] low) {
         ByteBuffer highBuff = ByteBuffer.wrap(high);
         ByteBuffer lowBuff = ByteBuffer.wrap(low);

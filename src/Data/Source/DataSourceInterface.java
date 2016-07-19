@@ -11,4 +11,6 @@ interface DataSourceInterface extends Runnable {
     public String getName();
 
     public DataTypeCollectionInterface getTypes();
+
+    public void stop();
 }

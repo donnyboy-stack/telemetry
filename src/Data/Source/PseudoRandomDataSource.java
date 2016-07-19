@@ -36,6 +36,15 @@ class PseudoRandomDataSource extends AbstractDataSource {
             scheduleTask();
     }
 
+    public void stop () {
+        scheduler.cancel();
+
+        /*
+         * Necessary so that the same source may be used again
+         */
+        scheduler.purge();
+    }
+
     protected void scheduleTask () {
         long delay = MainController.LINE_REFRESH_INTERVAL;
 
