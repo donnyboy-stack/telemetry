@@ -7,17 +7,17 @@
 
 package sunseeker.telemetry;
 
-import java.lang.Runnable;
-import java.lang.Thread;
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainController implements Runnable, ActionListener {
+class MainController implements ActionListener {
     final public static int LINE_REFRESH_INTERVAL = 250;
 
     // protected AbstractMainFrame mainFrame;
@@ -32,10 +32,6 @@ class MainController implements Runnable, ActionListener {
 
     public void start (ProfileInterface profile) {
         this.profile = profile;
-    }
-
-    public void run () {
-
     }
 
     public void actionPerformed (ActionEvent e) {

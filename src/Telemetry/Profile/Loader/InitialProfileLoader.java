@@ -39,7 +39,7 @@ public class InitialProfileLoader extends ProfileLoader implements ProfileLoader
     }
 
     public void createNew (DataSourceInterface dataSource) {
-        observer.receiveProfile(new Profile(dataSource));
+        observer.receiveProfile(new Profile(dataSource, true));
     }
 
     public void canceled () {
