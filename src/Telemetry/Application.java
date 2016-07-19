@@ -7,8 +7,6 @@
 
 package sunseeker.telemetry;
 
-import java.awt.EventQueue;
-import java.util.ArrayList;
 import java.lang.Runnable;
 
 class Application implements Runnable {
