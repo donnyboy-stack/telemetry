@@ -8,16 +8,29 @@
 package sunseeker.telemetry;
 
 import javax.swing.JFrame;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import java.awt.Dimension;
+
 import java.util.List;
 import java.util.ArrayList;
 
 public class ProfileLoaderGUI extends JFrame {
+    final protected int FRAME_WIDTH  = 450;
+    final protected int FRAME_HEIGHT = 300;
+
     final protected String[] PROFILE_LOAD_OPTIONS = {
         "Create a new profile",
         "Load a saved profile"
     };
 
+    final protected String LOAD_PROFILE_BUTTON_TEXT = "Choose a file";
+
     protected List<String> dataSourceOptions;
+
+    protected JButton loadProfile;
 
     public ProfileLoaderGUI (DataSourceCollectionInterface dataSources) {
         /*
@@ -26,18 +39,38 @@ public class ProfileLoaderGUI extends JFrame {
         setTitle("Choose a Profile");
 
         /*
+         * Set the size of the frame
+         */
+        setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+
+        /*
+         * Quit the application if this window is closed
+         */
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        /*
          * Compile a list of data sources to be presented as options
          */
         loadDataSourceOptions(dataSources);
 
         /*
-         * Preset the option to create or load
+         * Add the option to create or load a profile
          */
-        presentOptionsToLoadOrCreate();
+        addOptionToChooseLoadOrCreate();
+
+        /*
+         * Add the options to load a profile
+         */
+        addOptionsToLoad();
+
+        /*
+         * Add the options to create a profile
+         */
+        addOptionsToCreate();
     }
 
     public void prompt (ProfileLoaderGUIObserverInterface observer) {
-
+        setVisible(true);
     }
 
     protected void loadDataSourceOptions (DataSourceCollectionInterface dataSources) {
@@ -47,15 +80,19 @@ public class ProfileLoaderGUI extends JFrame {
             dataSourceOptions.add(dataSource.getName());
     }
 
-    protected void presentOptionsToLoadOrCreate () {
+    protected void addOptionToChooseLoadOrCreate () {
+        JComboBox loadOrCreate = new JComboBox<String>(PROFILE_LOAD_OPTIONS);
 
+        add(loadOrCreate);
     }
 
-    protected void presentOptionsToLoad () {
+    protected void addOptionsToLoad () {
+        loadProfile = new JButton(LOAD_PROFILE_BUTTON_TEXT);
 
+        add(loadProfile);
     }
 
-    protected void presentOptionsToCreate () {
+    protected void addOptionsToCreate () {
 
     }
 
