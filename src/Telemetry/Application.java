@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.lang.Runnable;
 
 class Application implements Runnable {
+    protected DataController dataController;
     protected MainController mainController;
     
     protected AbstractGraphPanel graphPanel;
@@ -22,12 +23,12 @@ class Application implements Runnable {
         /*
          * Create the data controller
          */
-        DataController dataController = new DataController();
+        dataController = new DataController();
 
         /*
          * Create the main controller
          */
-        MainController mainController = new MainController();
+        mainController = new MainController();
 
         /*
          * Allow the user to select their profile
