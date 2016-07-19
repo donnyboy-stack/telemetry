@@ -25,6 +25,10 @@ public class Profile implements ProfileInterface {
         return dataSource;
     }
 
+    public void updateDataType (DataTypeInterface dataType) {
+        changed = true;
+    }
+
     public boolean hasChanged () {
         return changed;
     }

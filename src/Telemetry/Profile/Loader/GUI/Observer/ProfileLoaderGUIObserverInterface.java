@@ -7,8 +7,10 @@
 
 package sunseeker.telemetry;
 
+import java.io.File;
+
 public interface ProfileLoaderGUIObserverInterface {
-    public void loadSaved(String fileName);
+    public void loadSaved(File file);
 
     public void createNew(DataSourceInterface dataSource);
 

@@ -10,5 +10,7 @@ package sunseeker.telemetry;
 public interface ProfileInterface {
     public DataSourceInterface getDataSource();
 
+    public void updateDataType(DataTypeInterface dataType);
+
     public boolean hasChanged();
 }

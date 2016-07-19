@@ -7,7 +7,9 @@
 
 package sunseeker.telemetry;
 
-public class InitialProfileLoader extends ProfileLoader implements ProfileLoaderGUIObserverInterface {
+import java.io.File;
+
+public class InitialProfileLoader extends FileProfileLoader implements ProfileLoaderGUIObserverInterface {
     protected DataSourceCollectionInterface dataSources;
 
     protected ProfileLoaderObserverInterface observer;
@@ -24,9 +26,9 @@ public class InitialProfileLoader extends ProfileLoader implements ProfileLoader
         profileLoaderGui.prompt(this);
     }
 
-    public void loadSaved (String fileName) {
+    public void loadSaved (File file) {
         String data              = "";
-        ProfileInterface profile = loadProfile(data);
+        ProfileInterface profile = loadProfile(file);
 
         if (profile instanceof ProfileInterface) {
             if (unavailableDataTypes.size() > 0)
