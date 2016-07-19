@@ -38,7 +38,6 @@ class Application implements Runnable {
         ((InitialProfileLoader) profileLoader).loadProfile(new ProfileLoaderObserverInterface() {
             public void receiveProfile (ProfileInterface profile) {
                 dataController.start(profile.getDataSource());
-
                 mainController.start(profile);
             }
         });
