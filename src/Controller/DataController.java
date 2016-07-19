@@ -32,6 +32,12 @@ class DataController {
     }
 
     public void start (DataSourceInterface source) {
+        /*
+         * Cannot start if a source is already started
+         */
+        if (dataSource)
+            return;
+
         this.dataSource = source;
 
         /*
