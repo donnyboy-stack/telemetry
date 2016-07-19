@@ -11,4 +11,6 @@ public interface ProfileLoaderGUIObserverInterface {
     public void loadSaved(String fileName);
 
     public void createNew(DataSourceInterface dataSource);
+
+    public void canceled();
 }

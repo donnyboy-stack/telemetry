@@ -35,8 +35,12 @@ class Application implements Runnable {
 
         ((InitialProfileLoader) profileLoader).loadProfile(new ProfileLoaderObserverInterface() {
             public void receiveProfile (ProfileInterface profile) {
-                dataController.start(profile.getDataSource());
-                mainController.start(profile);
+                if (profile instanceof ProfileInterface) {
+                    dataController.start(profile.getDataSource());
+                    mainController.start(profile);
+                } else {
+                    System.exit(1);
+                }
             }
         });
 

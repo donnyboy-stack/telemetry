@@ -25,10 +25,32 @@ public class InitialProfileLoader extends ProfileLoader implements ProfileLoader
     }
 
     public void loadSaved (String fileName) {
+        String data              = "";
+        ProfileInterface profile = loadProfile(data);
 
+        if (profile instanceof ProfileInterface) {
+            if (unavailableDataTypes.size() > 0)
+                triggerNotice();
+
+            observer.receiveProfile(profile);
+        } else {
+            triggerError();
+        }
     }
 
     public void createNew (DataSourceInterface dataSource) {
         observer.receiveProfile(new Profile(dataSource));
+    }
+
+    public void canceled () {
+        observer.receiveProfile(null);
+    }
+
+    protected void triggerNotice () {
+
+    }
+
+    protected void triggerError () {
+
     }
 }
