@@ -9,6 +9,7 @@ package sunseeker.telemetry;
 
 public class ProfileLoader implements ProfileLoaderInterface {
     public ProfileInterface loadProfile (String data) {
-        return new Profile();
+        // Hard coding data source just for now
+        return new Profile(new PseudoRandomDataSource());
     }
 }

@@ -10,6 +10,10 @@ package sunseeker.telemetry;
 public class Profile implements ProfileInterface {
     protected DataSourceInterface dataSource;
 
+    public Profile (DataSourceInterface dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public DataSourceInterface getDataSource () {
         return dataSource;
     }

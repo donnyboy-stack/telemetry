@@ -7,8 +7,10 @@
 
 package sunseeker.telemetry;
 
-public class InitialProfileLoader extends ProfileLoader {
+public class InitialProfileLoader extends ProfileLoader implements ProfileLoaderGUIObserverInterface {
     protected DataSourceCollectionInterface dataSources;
+
+    protected ProfileLoaderObserverInterface observer;
 
     public InitialProfileLoader (DataSourceCollectionInterface dataSources) {
         this.dataSources = dataSources;
@@ -17,6 +19,16 @@ public class InitialProfileLoader extends ProfileLoader {
     public void loadProfile (ProfileLoaderObserverInterface observer) {
         ProfileLoaderGUI profileLoaderGui = new ProfileLoaderGUI(dataSources);
 
-        profileLoaderGui.prompt();
+        this.observer = observer;
+
+        profileLoaderGui.prompt(this);
+    }
+
+    public void loadSaved (String fileName) {
+
+    }
+
+    public void createNew (DataSourceInterface dataSource) {
+        observer.receiveProfile(new Profile(dataSource));
     }
 }

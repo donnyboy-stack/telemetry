@@ -36,8 +36,8 @@ public class ProfileLoaderGUI extends JFrame {
         presentOptionsToLoadOrCreate();
     }
 
-    public void prompt () {
-        
+    public void prompt (ProfileLoaderGUIObserverInterface observer) {
+
     }
 
     protected void loadDataSourceOptions (DataSourceCollectionInterface dataSources) {
