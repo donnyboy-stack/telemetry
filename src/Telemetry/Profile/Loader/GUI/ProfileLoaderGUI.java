@@ -36,6 +36,10 @@ public class ProfileLoaderGUI extends JFrame {
         presentOptionsToLoadOrCreate();
     }
 
+    public void prompt () {
+        
+    }
+
     protected void loadDataSourceOptions (DataSourceCollectionInterface dataSources) {
         dataSourceOptions = new ArrayList<String>();
 

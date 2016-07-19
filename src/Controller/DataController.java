@@ -35,7 +35,7 @@ class DataController {
         /*
          * Cannot start if a source is already started
          */
-        if (dataSource)
+        if (dataSource != null)
             return;
 
         this.dataSource = source;

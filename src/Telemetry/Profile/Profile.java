@@ -8,13 +8,9 @@
 package sunseeker.telemetry;
 
 public class Profile implements ProfileInterface {
-    protected DataTypeCollectionInterface dataTypes;
+    protected DataSourceInterface dataSource;
 
-    public Profile () {
-        dataTypes = new DataTypeCollection();
-    }
-
-    public DataTypeCollectionInterface getDataTypes () {
-        return dataTypes;
+    public DataSourceInterface getDataSource () {
+        return dataSource;
     }
 }

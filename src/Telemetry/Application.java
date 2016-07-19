@@ -13,7 +13,6 @@ import java.lang.Runnable;
 
 class Application implements Runnable {
     protected MainController mainController;
-    protected DataController dataController;
     
     protected AbstractGraphPanel graphPanel;
     protected AbstractDataSelectPanel dataSelectPanel;
@@ -23,7 +22,25 @@ class Application implements Runnable {
         /*
          * Create the data controller
          */
-        dataController = new DataController();
+        DataController dataController = new DataController();
+
+        /*
+         * Create the main controller
+         */
+        MainController mainController = new MainController();
+
+        /*
+         * Allow the user to select their profile
+         */
+        ProfileLoader profileLoader = new InitialProfileLoader(dataController.getDataSources());
+
+        ((InitialProfileLoader) profileLoader).loadProfile(new ProfileLoaderObserverInterface() {
+            public void receiveProfile (ProfileInterface profile) {
+                dataController.start(profile.getDataSource());
+
+                mainController.start(profile);
+            }
+        });
 
         // Some of what's commented out below might be reused.... keeping for now
 

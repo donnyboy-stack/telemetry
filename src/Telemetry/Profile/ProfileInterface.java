@@ -8,5 +8,5 @@
 package sunseeker.telemetry;
 
 public interface ProfileInterface {
-    public DataTypeCollectionInterface getDataTypes();
+    public DataSourceInterface getDataSource();
 }
