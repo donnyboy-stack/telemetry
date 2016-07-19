@@ -89,7 +89,7 @@ class LiveDataPanel extends AbstractLiveDataPanel {
         if (types == null)
             return;
 
-        for (DataTypeInterface type : types) {
+        for (DataTypeInterface type : types.values()) {
             if (type.isEnabled()) {
                 model.addRow(new Object[] {
                     type.getName() + " (" + type.getUnits() + ")",

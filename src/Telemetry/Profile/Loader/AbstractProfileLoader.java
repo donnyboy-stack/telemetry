@@ -43,7 +43,8 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
                 if (parts.length == 2)
                     return loadDataSource(parts[1]);
             case ProfileLoaderInterface.FIELD_DATA_TYPE:
-                break;
+                if (parts.length == 5)
+                    return loadDataType();
         }
 
         return true;
@@ -63,5 +64,9 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
         }
 
         return false;
+    }
+
+    private boolean loadDataType () {
+        return true;
     }
 }

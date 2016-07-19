@@ -29,7 +29,7 @@ class PseudoRandomDataSource extends AbstractDataSource {
     }
 
     public void run () {
-        for (String type : typeNames)
+        for (String type : types.keySet())
             putValue(type, 500 * ((randGen.nextDouble() * 2) - 1));
 
         if (!scheduled)

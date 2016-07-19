@@ -33,6 +33,9 @@ public class FileProfileLoader extends AbstractProfileLoader {
             BufferedReader buffReader = new BufferedReader(fileReader);
             String line;
 
+            /*
+             * Read in and process each line
+             */
             while ((line = buffReader.readLine()) != null)
                 if (!processLine(line))
                     return null;
@@ -44,6 +47,9 @@ public class FileProfileLoader extends AbstractProfileLoader {
             return null;
         }
 
+        /*
+         * Get the completed profile
+         */
         return buildProfile();
     }
 }
