@@ -10,12 +10,10 @@ package sunseeker.telemetry;
 import java.io.File;
 
 public class InitialProfileLoader extends FileProfileLoader implements ProfileLoaderGUIObserverInterface {
-    protected DataSourceCollectionInterface dataSources;
-
     protected ProfileLoaderObserverInterface observer;
 
     public InitialProfileLoader (DataSourceCollectionInterface dataSources) {
-        this.dataSources = dataSources;
+        super(dataSources);
     }
 
     public void loadProfile (ProfileLoaderObserverInterface observer) {

@@ -11,10 +11,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ProfileLoader extends AbstractProfileLoader {
+    public ProfileLoader (DataSourceCollectionInterface dataSources) {
+        super(dataSources);
+    }
+    
     public ProfileInterface loadProfile (String data) {
-        unavailableDataTypes.clear();
+        reset();
 
         // Hard coding data source just for now
-        return new Profile(new PseudoRandomDataSource());
+        return buildProfile();
     }
 }
