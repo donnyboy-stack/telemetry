@@ -24,6 +24,16 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     final protected DataTypeInterface UNUSED = null;
 
     /*
+     * High value suffix
+     */
+    final protected String HIGH_SUFFIX = "HI";
+
+    /*
+     * Low value suffix
+     */
+    final protected String LOW_SUFFIX = "LO";
+
+    /*
      * The port which is connected to
      */
     protected CommPortIdentifier port;
@@ -73,9 +83,16 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     }
 
     protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
+        updateId(field, HIGH_SUFFIX, high);
+        updateId(field, LOW_SUFFIX, low);
+
         mappings.put(field, new DataTypeInterface[] {
             high, low
         });
+    }
+
+    protected void updateId (String field, String suffix, DataTypeInterface type) {
+
     }
 
     protected void receiveValue(String field, double high, double low) {

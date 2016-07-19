@@ -14,10 +14,15 @@ interface DataTypeInterface {
     final public static int MAX_DATA_POINTS = 50;
     
     public String getName();
+    public void setDisplayName(String name);
+    public String getDisplayName();
 
     public String getUnits();
+    public void setDisplayUnits(String units);
+    public String getDisplayUnits();
 
     public Color getColor();
+    public void setColor(Color color);
 
     public void setEnabled(boolean enabled);
 
