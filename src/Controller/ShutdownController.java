@@ -20,5 +20,11 @@ class ShutdownController extends Thread {
         if (profile.hasChanged()) {
             // Ask the user if they want to save the profile
         }
+
+        DataSourceInterface dataSource = profile.getDataSource();
+
+        if (dataSource instanceof AbstractSerialDataSource) {
+            dataSource.stop();
+        }
     }
 }

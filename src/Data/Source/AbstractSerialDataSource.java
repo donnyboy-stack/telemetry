@@ -60,6 +60,10 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
         this.port = port;
     }
 
+    public CommPortIdentifier getPort () {
+        return port;
+    }
+
     public void run () throws RuntimeException {
         if (port == null)
             throw new RuntimeException("A port has not been provided!");

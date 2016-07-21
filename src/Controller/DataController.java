@@ -45,7 +45,8 @@ class DataController {
          * lets get it one
          */
         if (dataSource instanceof AbstractSerialDataSource)
-            promptForSerialPort();
+            while (((AbstractSerialDataSource) dataSource).getPort() == null)
+                promptForSerialPort();
 
         /*
          * Start loading the data
