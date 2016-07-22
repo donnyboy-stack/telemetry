@@ -10,6 +10,8 @@ package sunseeker.telemetry;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.awt.Color;
+
 public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
     protected DataSourceCollectionInterface dataSources;
 
@@ -67,6 +69,20 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
     }
 
     private boolean loadDataType (String id, String name, String units, String color) {
-        return true;
+        if (dataSource != null) {
+            DataTypeCollectionInterface types = dataSource.getTypes();
+
+            if (types.containsKey(id)) {
+                DataTypeInterface type = types.get(id);
+
+                type.setDisplayName(name);
+                type.setDisplayUnits(units);
+                type.setColor(new Color(Integer.parseInt(color)));
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

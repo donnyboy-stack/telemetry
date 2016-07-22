@@ -21,6 +21,7 @@ import java.awt.FlowLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FileDialog;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -45,6 +46,11 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
      * Frame title
      */
     final protected String FRAME_TITLE = "Choose a Profile";
+
+    /*
+     * Title of the file chooser dialog
+     */
+    final protected String FILE_DIALOG_TITLE = "Choose where to save to";
 
     /*
      * Default data source option
@@ -193,6 +199,19 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
         JPanel card = new JPanel();
 
         loadProfile = new JButton(BUTTON_LOAD_FILE);
+
+        loadProfile.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                FileDialog fileChooser = new FileDialog(ProfileLoaderGUI.this, FILE_DIALOG_TITLE, FileDialog.LOAD);
+
+                fileChooser.setVisible(true);
+
+                File[] files = fileChooser.getFiles();
+
+                if (files.length > 0)
+                    ProfileLoaderGUI.this.loadProfileFrom = files[0];
+            }
+        });
 
         card.add(loadProfile);
 

@@ -92,8 +92,8 @@ class LiveDataPanel extends AbstractLiveDataPanel {
         for (DataTypeInterface type : types.values()) {
             if (type.isEnabled()) {
                 model.addRow(new Object[] {
-                    type.getName(),
-                    type.getUnits(),
+                    type.getDisplayName(),
+                    type.getDisplayUnits(),
                     (float) type.getMinimumValue(),
                     (float) type.getCurrentValue(),
                     (float) type.getMaximumValue()
