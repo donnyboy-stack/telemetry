@@ -10,6 +10,9 @@ package sunseeker.telemetry;
 import javax.swing.JFrame;
 
 abstract class AbstractFrame extends JFrame {
+    final public static int PADDING      = 10;
+    final public static int AXIS_PADDING = PADDING * 2;
+
     public void showFrame () {
         setVisible(true);
     }

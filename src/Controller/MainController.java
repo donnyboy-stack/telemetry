@@ -125,7 +125,9 @@ class MainController implements ActionListener, MainMenuObserverInterface {
     }
 
     public void doEditProfile () {
-        System.out.println("Edit profile");
+        AbstractEditProfileFrame editProfile = new EditProfileFrame(profile);
+
+        editProfile.showFrame();
     }
 
     protected void loadLinePanels () {

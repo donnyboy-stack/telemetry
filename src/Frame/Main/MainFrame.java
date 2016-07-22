@@ -11,13 +11,12 @@ import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
+
 import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
 
 class MainFrame extends AbstractMainFrame {
-    final protected String FRAME_TITLE = "Telemetry";
-
     protected SpringLayout layout;
 
     protected Container contentPane;
