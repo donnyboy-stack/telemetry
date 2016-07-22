@@ -7,8 +7,12 @@
 
 package sunseeker.telemetry;
 
+import java.io.File;
+
 public class Profile implements ProfileInterface {
     protected DataSourceInterface dataSource;
+
+    protected File file;
 
     protected boolean changed = false;
 
@@ -27,6 +31,14 @@ public class Profile implements ProfileInterface {
 
     public void updateDataType (DataTypeInterface dataType) {
         changed = true;
+    }
+
+    public void setFile (File file) {
+        this.file = file;
+    }
+
+    public File getFile () {
+        return file;
     }
 
     public boolean hasChanged () {

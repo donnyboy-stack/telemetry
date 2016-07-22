@@ -8,5 +8,5 @@
 package sunseeker.telemetry;
 
 public interface ProfileWriterInterface {
-    public String writeProfile(ProfileInterface profile);
+    public boolean writeProfile(ProfileInterface profile);
 }

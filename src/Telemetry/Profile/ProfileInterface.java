@@ -7,10 +7,16 @@
 
 package sunseeker.telemetry;
 
+import java.io.File;
+
 public interface ProfileInterface {
     public DataSourceInterface getDataSource();
 
     public void updateDataType(DataTypeInterface dataType);
+
+    public void setFile(File file);
+
+    public File getFile();
 
     public boolean hasChanged();
 }

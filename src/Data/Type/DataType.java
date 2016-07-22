@@ -27,7 +27,7 @@ class DataType implements DataTypeInterface {
     /*
      * Should this type be shown
      */
-    protected boolean enabled = false;
+    protected boolean enabled;
 
     /*
      * The data associated with this type
@@ -37,9 +37,9 @@ class DataType implements DataTypeInterface {
     /*
      * Over life of object
      */
-    protected double min = 0;
-    protected double cur = 0;
-    protected double max = 0;
+    protected double min;
+    protected double cur;
+    protected double max;
 
     public DataType (String name, String units) {
         /*
@@ -62,6 +62,14 @@ class DataType implements DataTypeInterface {
          * This value will root the data at the origin of the graph
          */
         data.add(0.0);
+
+        /*
+         * Initialize other values
+         */
+        enabled = true;
+        min     = 0;
+        cur     = 0;
+        max     = 0;
     }
 
     public String getName () {
@@ -73,7 +81,7 @@ class DataType implements DataTypeInterface {
     }
 
     public String getDisplayName () {
-        return displayName != null ? displayName : null;
+        return displayName != null ? displayName : name;
     }
 
     public String getUnits () {
@@ -85,7 +93,7 @@ class DataType implements DataTypeInterface {
     }
 
     public String getDisplayUnits () {
-        return displayUnits != null ? displayUnits : null;
+        return displayUnits != null ? displayUnits : units;
     }
 
     public Color getColor() {

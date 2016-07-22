@@ -13,15 +13,39 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 class PseudoRandomDataSource extends AbstractDataSource {
+    /*
+     * How frequently should new data be generated in milliseconds
+     */
+    final protected int DELAY = 500;
+
+    /*
+     * Data types provided by this source
+     */
+    final protected String TYPE_SPEED   = "Solar Car Speed";
+    final protected String TYPE_VOLTAGE = "Battery Voltage";
+
+    /*
+     * Schedules generation of new data
+     */
     protected Timer scheduler;
 
+    /*
+     * Random number generator
+     */
     protected Random randGen;
 
+    /*
+     * Have we scheduled the generator?
+     */
     protected boolean scheduled;
 
     public PseudoRandomDataSource () {
         scheduler = new Timer();
         randGen   = new Random();
+        scheduled = false;
+
+        registerDataType(TYPE_SPEED, "mph");
+        registerDataType(TYPE_VOLTAGE, "amps");
     }
 
     public String getName () {
@@ -30,7 +54,7 @@ class PseudoRandomDataSource extends AbstractDataSource {
 
     public void run () {
         for (String type : types.keySet())
-            putValue(type, 500 * ((randGen.nextDouble() * 2) - 1));
+            putValue(type, 150 * ((randGen.nextDouble() * 2) - 1));
 
         if (!scheduled)
             scheduleTask();
@@ -46,15 +70,13 @@ class PseudoRandomDataSource extends AbstractDataSource {
     }
 
     protected void scheduleTask () {
-        long delay = MainController.LINE_REFRESH_INTERVAL;
-
         final DataSourceInterface data = this;
 
         scheduler.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 data.run();
             }
-        }, delay, delay);
+        }, DELAY, DELAY);
 
         scheduled = true;
     }
