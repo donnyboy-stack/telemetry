@@ -7,67 +7,101 @@
 
 package sunseeker.telemetry;
 
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.awt.Color;
 
 class DataType implements DataTypeInterface {
-    protected Color[] colors = {
-        Color.GREEN,
-        Color.BLUE,
-        Color.RED,
-        Color.ORANGE,
-        Color.MAGENTA,
-        Color.YELLOW,
-        Color.CYAN
-    };
-
+    /*
+     * Various attributes
+     */
     protected String name;
-    protected String units;
+    protected String displayName;
 
-    protected static int colorCount = 0;
+    protected String units;
+    protected String displayUnits;
+
     protected Color color;
 
-    protected boolean enabled = true;
+    /*
+     * Should this type be shown
+     */
+    protected boolean enabled;
+
+    /*
+     * The data associated with this type
+     */
+    protected List<Double> data;
 
     /*
      * Over life of object
      */
-    protected double min = 0;
-    protected double cur = 0;
-    protected double max = 0;
-
-    protected List<Double> data;
+    protected double min;
+    protected double cur;
+    protected double max;
 
     public DataType (String name, String units) {
+        /*
+         * Set the given attributes 
+         */
         this.name  = name;
         this.units = units;
 
         /*
-         * Determine which color we'll be using for this line
+         * Use black as the default color
          */
-        color = colors[colorCount % colors.length];
-        colorCount++;
+        color = Color.BLACK;
 
         /*
          * Create a synconized data list
          */
-        data = Collections.synchronizedList(new ArrayList<Double>());
+        data = new ArrayList<Double>();
 
+        /*
+         * This value will root the data at the origin of the graph
+         */
         data.add(0.0);
+
+        /*
+         * Initialize other values
+         */
+        enabled = true;
+        min     = 0;
+        cur     = 0;
+        max     = 0;
     }
 
     public String getName () {
         return name;
     }
 
+    public void setDisplayName (String name) {
+        displayName = name;
+    }
+
+    public String getDisplayName () {
+        return displayName != null ? displayName : name;
+    }
+
     public String getUnits () {
         return units;
     }
 
+    public void setDisplayUnits (String units) {
+        displayUnits = units;
+    }
+
+    public String getDisplayUnits () {
+        return displayUnits != null ? displayUnits : units;
+    }
+
     public Color getColor() {
         return color;
+    }
+
+    public void setColor (Color color) {
+        this.color = color;
     }
 
     public void setEnabled (boolean enabled) {

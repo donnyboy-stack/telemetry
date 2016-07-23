@@ -8,18 +8,22 @@
 package sunseeker.telemetry;
 
 abstract class AbstractMainFrame extends AbstractFrame {
-    final public static int FRAME_WIDTH   = 1000;
-    final public static int FRAME_HEIGHT  = 700;
-    final public static int PADDING      = 10;
-    final public static int AXIS_PADDING = PADDING * 2;
+    /*
+     * Frame title
+     */
+    final protected String FRAME_TITLE = "Telemetry";
+
+    /*
+     * Frame dimenstions
+     */
+    final public static int FRAME_WIDTH  = 1000;
+    final public static int FRAME_HEIGHT = 700;
+
+    abstract public void useMenu(AbstractMainMenu menu);
 
     abstract public void useGraphPanel(AbstractGraphPanel panel);
-
-    abstract public void useDataSelectPanel(AbstractDataSelectPanel panel);
 
     abstract public void useLiveDataPanel(AbstractLiveDataPanel panel);
 
     abstract public void useLinePanels(AbstractLinePanel[] panels);
-
-    abstract public void removeLinePanels();
 }

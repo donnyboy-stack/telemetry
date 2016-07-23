@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.BorderFactory;
+
 import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
@@ -22,17 +23,14 @@ class MainFrame extends AbstractMainFrame {
     protected JLayeredPane layeredPane;
 
     protected AbstractGraphPanel graphPanel;
-    protected AbstractDataSelectPanel dataSelectPanel;
     protected AbstractLiveDataPanel liveDataPanel;
 
     protected AbstractLinePanel[] linePanels;
 
     protected int depth = 1;
 
-    protected int dataPanelsWidth = 0;
-
     public MainFrame () {
-        setTitle("Telemetry");
+        setTitle(FRAME_TITLE);
 
         /*
          * Only need to build once
@@ -79,6 +77,10 @@ class MainFrame extends AbstractMainFrame {
         super.showFrame();
     }
 
+    public void useMenu (AbstractMainMenu menu) {
+        setJMenuBar(menu);
+    }
+
     public void useGraphPanel (AbstractGraphPanel panel) {
         /*
          * Remove the existing panel
@@ -105,28 +107,6 @@ class MainFrame extends AbstractMainFrame {
         layeredPane.add(graphPanel, new Integer(depth++));
     }
 
-    public void useDataSelectPanel (AbstractDataSelectPanel panel) {
-        /*
-         * Remove the existing panel
-         */
-        if (dataSelectPanel != null)
-            layeredPane.remove(
-                layeredPane.getIndexOf((Component) dataSelectPanel)
-            );
-
-        dataSelectPanel = panel;
-
-        /*
-         * Set the size and position of the panel
-         */
-        positionDataPanel(panel, (int) (FRAME_WIDTH * .3));
-
-        /*
-         * Add the panel to the view
-         */
-        layeredPane.add(dataSelectPanel, new Integer(depth++));
-    }
-
     public void useLiveDataPanel (AbstractLiveDataPanel panel) {
         /*
          * Remove the existing panel
@@ -141,7 +121,14 @@ class MainFrame extends AbstractMainFrame {
         /*
          * Set the size and position of the panel
          */
-        positionDataPanel(panel, (int) (FRAME_WIDTH * .7));
+        int posX  = FRAME_WIDTH - AXIS_PADDING;
+        int posY  = AbstractGraphPanel.PANEL_HEIGHT + PADDING;
+
+        panel.setBounds(
+            0, posY,
+            FRAME_WIDTH - AXIS_PADDING,
+            FRAME_HEIGHT - posY - (PADDING * 7)
+        );
 
         /*
          * Add the panel to the view
@@ -150,6 +137,8 @@ class MainFrame extends AbstractMainFrame {
     }
 
     public void useLinePanels (AbstractLinePanel[] panels) {
+        removeLinePanels();
+
         for (AbstractLinePanel panel : panels) {
             panel.setBounds(
                 AbstractGraphPanel.AXIS_INSET, 0,
@@ -161,7 +150,7 @@ class MainFrame extends AbstractMainFrame {
         }
     }
 
-    public void removeLinePanels () {
+    protected void removeLinePanels () {
         if (linePanels == null)
             return;
 
@@ -214,22 +203,5 @@ class MainFrame extends AbstractMainFrame {
             PADDING,
             SpringLayout.EAST, layeredPane
         );
-    }
-
-    protected void positionDataPanel (AbstractPanel panel, int width) {
-        width -= PADDING;
-
-        int posX  = dataPanelsWidth;
-        int posY  = AbstractGraphPanel.PANEL_HEIGHT + PADDING;
-
-        /*
-         * The precision required here is somewhat annoying...
-         */
-        panel.setBounds(
-            posX, posY, width,
-            (FRAME_HEIGHT - AXIS_PADDING) - (posY + AXIS_PADDING)
-        );
-
-        dataPanelsWidth += width;
     }
 }

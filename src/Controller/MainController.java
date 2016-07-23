@@ -7,76 +7,152 @@
 
 package sunseeker.telemetry;
 
-import java.lang.Runnable;
-import java.lang.Thread;
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.Timer;
-import java.awt.EventQueue;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainController implements Runnable, ActionListener{
-    final public static int LINE_REFRESH_INTERVAL = 250;
+import java.awt.FileDialog;
 
-    protected AbstractMainFrame mainFrame;
+import java.io.File;
 
-    protected AbstractGraphPanel graphPanel;
-    protected AbstractLiveDataPanel liveDataPanel;
-    protected AbstractDataSelectPanel dataSelectPanel;
+class MainController implements ActionListener, MainMenuObserverInterface {
+    /*
+     * How frequently should the panels be refreshed?
+     */
+    final public static int REFRESH_DELAY = 250;
 
-    protected Timer dataUpdater;
+    /*
+     * Title of the file chooser dialog
+     */
+    final protected String FILE_DIALOG_TITLE = "Choose where to save to";
 
-    public MainController (AbstractMainFrame frame) {
-        mainFrame = frame;
+    /*
+     * Error messages and titles
+     */
+    final protected String ERROR_TITLE = "Error!";
 
-        createLineUpdater();
+    final protected String ERROR_CANNOT_SAVE = "Cannot save to that location, please choose another.";
+
+    /*
+     * The current profile
+     */
+    protected ProfileInterface profile;
+
+    /*
+     * The main frame
+     */
+    protected AbstractMainFrame frame;
+
+    /*
+     * The graph panel
+     */
+    protected AbstractGraphPanel graph;
+
+    /*
+     * The live data panel
+     */
+    protected AbstractLiveDataPanel liveData;
+
+    /*
+     * The data types being used
+     */
+    protected DataTypeCollectionInterface dataTypes;
+
+    /*
+     * Timer used to update the various panes
+     */
+    protected Timer timer;
+
+    public MainController () {
+        AbstractMainMenu menu = new MainMenu();
+
+        frame    = new MainFrame();
+        graph    = new GraphPanel();
+        liveData = new LiveDataPanel();
+
+        menu.addObserver(this);
+
+        frame.useMenu(menu);
+        frame.useGraphPanel(graph);
+        frame.useLiveDataPanel(liveData);
+
+        timer = new Timer(REFRESH_DELAY, this);
     }
 
-    public void setTypes (DataTypeCollectionInterface types) {
-        liveDataPanel.setTypes(types);
-        dataSelectPanel.setTypes(types);
+    public void start (ProfileInterface profile) {
+        this.profile = profile;
 
-        mainFrame.removeLinePanels();
+        dataTypes = profile.getDataSource().getTypes();
 
-        AbstractLinePanel[] panels = new AbstractLinePanel[types.size()];
-        int i = 0;
+        loadLinePanels();
 
-        for (DataTypeInterface type : types)
-            panels[i++] = new LinePanel(type);
+        liveData.setTypes(dataTypes);
 
-        mainFrame.useLinePanels(panels);
+        frame.showFrame();
+
+        timer.start();
     }
 
-    public void useGraphPanel (AbstractGraphPanel panel) {
-        mainFrame.useGraphPanel(graphPanel = panel);
+    public void actionPerformed (ActionEvent e) {
+        graph.repaint();
+        liveData.refresh();
     }
 
-    public void useDataSelectPanel (AbstractDataSelectPanel panel) {
-        mainFrame.useDataSelectPanel(dataSelectPanel = panel);
+    public void doSaveProfile () {
+        if (profile != null) {
+            ProfileWriterInterface writer = new ProfileWriter();
+
+            if (promptForProfileSaveLocation()) {
+                while (!writer.writeProfile(profile)) {
+                    if (profile.getFile() != null) {
+                        JOptionPane.showMessageDialog(frame,
+                            ERROR_CANNOT_SAVE,
+                            ERROR_TITLE,
+                            JOptionPane.WARNING_MESSAGE);
+                    }
+
+                    if (!promptForProfileSaveLocation())
+                        break;
+                }
+            }
+        }
     }
 
-    public void useLiveDataPanel (AbstractLiveDataPanel panel) {
-        mainFrame.useLiveDataPanel(liveDataPanel = panel);
+    public void doEditProfile () {
+        AbstractEditProfileFrame editProfile = new EditProfileFrame(profile);
+
+        editProfile.showFrame();
     }
 
-    public void start () {
-        mainFrame.showFrame();
+    protected void loadLinePanels () {
+        AbstractLinePanel[] lines = new AbstractLinePanel[dataTypes.size()];
 
-        EventQueue.invokeLater(this);
+        int index = 0;
+
+        for (DataTypeInterface type : dataTypes.values())
+            lines[index++] = new LinePanel(type);
+
+        frame.useLinePanels(lines);
     }
 
-    public void run () {
-        dataUpdater.start();
-    }
+    protected boolean promptForProfileSaveLocation () {
+        FileDialog fileChooser = new FileDialog(frame, FILE_DIALOG_TITLE, FileDialog.SAVE);
 
-    public void actionPerformed (ActionEvent evt) {
-        graphPanel.repaint();
-        liveDataPanel.refresh();
-    }
+        fileChooser.setVisible(true);
 
-    protected void createLineUpdater () {
-        dataUpdater = new Timer(LINE_REFRESH_INTERVAL, this);
+        File[] files = fileChooser.getFiles();
+
+        if (files.length > 0) {
+            profile.setFile(files[0]);
+            return true;
+        }
+
+        return false;
     }
 }

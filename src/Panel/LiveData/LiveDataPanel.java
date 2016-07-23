@@ -60,7 +60,7 @@ class LiveDataPanel extends AbstractLiveDataPanel {
          * Create the table will headers
          */
         model = new DefaultTableModel(new String[] {
-            "Data", "Minimum", "Current", "Maximum"
+            "Data", "Units", "Minimum", "Current", "Maximum"
         }, 0);
 
         table = new JTable(model);
@@ -89,10 +89,11 @@ class LiveDataPanel extends AbstractLiveDataPanel {
         if (types == null)
             return;
 
-        for (DataTypeInterface type : types) {
+        for (DataTypeInterface type : types.values()) {
             if (type.isEnabled()) {
                 model.addRow(new Object[] {
-                    type.getName() + " (" + type.getUnits() + ")",
+                    type.getDisplayName(),
+                    type.getDisplayUnits(),
                     (float) type.getMinimumValue(),
                     (float) type.getCurrentValue(),
                     (float) type.getMaximumValue()

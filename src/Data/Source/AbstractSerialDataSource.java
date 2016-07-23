@@ -24,6 +24,16 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     final protected DataTypeInterface UNUSED = null;
 
     /*
+     * High value suffix
+     */
+    final protected String HIGH_SUFFIX = "HI";
+
+    /*
+     * Low value suffix
+     */
+    final protected String LOW_SUFFIX = "LO";
+
+    /*
      * The port which is connected to
      */
     protected CommPortIdentifier port;
@@ -50,11 +60,19 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
         this.port = port;
     }
 
+    public CommPortIdentifier getPort () {
+        return port;
+    }
+
     public void run () throws RuntimeException {
         if (port == null)
             throw new RuntimeException("A port has not been provided!");
 
         client.connect(port);
+    }
+
+    public void stop () {
+        client.disconnect();
     }
 
     public void receiveValue (String field, byte[] high, byte[] low) {
@@ -69,9 +87,16 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     }
 
     protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
+        updateId(field, HIGH_SUFFIX, high);
+        updateId(field, LOW_SUFFIX, low);
+
         mappings.put(field, new DataTypeInterface[] {
             high, low
         });
+    }
+
+    protected void updateId (String field, String suffix, DataTypeInterface type) {
+
     }
 
     protected void receiveValue(String field, double high, double low) {

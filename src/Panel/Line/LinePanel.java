@@ -23,15 +23,15 @@ class LinePanel extends AbstractLinePanel {
 
     protected boolean active = true;
 
-    protected DataTypeInterface data;
+    protected DataTypeInterface type;
 
     protected ArrayList<Integer> points;
 
-    public LinePanel (DataTypeInterface data) {
+    public LinePanel (DataTypeInterface type) {
         /*
          * This is where we will be getting the data from
          */
-        this.data = data;
+        this.type = type;
 
         /*
          * Need to see the other lines and graph
@@ -55,14 +55,14 @@ class LinePanel extends AbstractLinePanel {
         /*
          * Only when this line is active should it be drawn
          */
-        if (data.isEnabled()) {
+        if (type.isEnabled()) {
             loadPoints();
             drawSegments();
         }
     }
 
     protected void loadPoints () {
-        List<Double> data = this.data.getData();
+        List<Double> data = type.getData();
 
         points.clear();
 
@@ -71,9 +71,8 @@ class LinePanel extends AbstractLinePanel {
     }
 
     protected void pushPoint (Integer point) {
-        if (points.size() == AbstractGraphPanel.MAX_POINTS) {
+        if (points.size() == AbstractGraphPanel.MAX_POINTS)
             points.remove(0);
-        }
 
         points.add(point);
     }
@@ -88,7 +87,7 @@ class LinePanel extends AbstractLinePanel {
             BasicStroke.JOIN_MITER
         ));
 
-        artist.setColor(data.getColor());
+        artist.setColor(type.getColor());
 
         /*
          * Run through the data to be displayed

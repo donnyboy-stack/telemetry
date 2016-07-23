@@ -7,8 +7,8 @@
 
 package sunseeker.telemetry;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
-class DataTypeCollection extends ArrayList<DataTypeInterface> implements DataTypeCollectionInterface {
+class DataTypeCollection extends HashMap<String, DataTypeInterface> implements DataTypeCollectionInterface {
 
 }
