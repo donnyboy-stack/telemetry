@@ -41,7 +41,7 @@ class MainFrame extends AbstractMainFrame {
         /*
          * The app should not quit when this view is closed
          */
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         /*
          * The minimum size of the window
