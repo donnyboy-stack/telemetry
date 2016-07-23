@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.SpringLayout;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -43,6 +44,18 @@ class EditProfileFrame extends AbstractEditProfileFrame {
     final protected String LABEL_TYPE_UNITS   = "Display Units";
     final protected String LABEL_TYPE_COLOR   = "Line Color";
     final protected String LABEL_TYPE_ENABLED = "Enabled?";
+
+    /*
+     * Panel buttons
+     */
+    final protected String BUTTON_APPLY = "Apply";
+    final protected String BUTTON_DONE  = "Done";
+
+    /*
+     * Errors
+     */
+    final protected String ERROR_TITLE        = "Error!";
+    final protected String ERROR_COLOR_FORMAT = "The color field is not formatted correctly.\nOnly hex digits are allowed.";
 
     /*
      * The type being edited
@@ -95,14 +108,14 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         /*
          * Add the border and title to the panel
          */
-        // panel.setBorder(BorderFactory.createTitledBorder(TITLE_EDIT_TYPES));
+        panel.setBorder(BorderFactory.createTitledBorder(TITLE_EDIT_TYPES));
 
         /*
          * Position and size the panel
          */
-        // Dimension dim = new Dimension(FRAME_WIDTH - AXIS_PADDING, FRAME_HEIGHT - AXIS_PADDING);
-        // container.setMinimumSize(dim);
-        // panel.setSize(dim);
+        Dimension dim = new Dimension(FRAME_WIDTH - AXIS_PADDING, FRAME_HEIGHT - AXIS_PADDING);
+        container.setMinimumSize(dim);
+        panel.setSize(dim);
 
         /*
          * Add field labels
@@ -157,7 +170,7 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         c.anchor = GridBagConstraints.LINE_END;
         c.gridx  = 0;
 
-        JButton applyButton = new JButton("Apply");
+        JButton applyButton = new JButton(BUTTON_APPLY);
         panel.add(applyButton, c);
 
         applyButton.addActionListener(new ActionListener() {
@@ -168,7 +181,16 @@ class EditProfileFrame extends AbstractEditProfileFrame {
                 if (type != null) {
                     type.setDisplayName(nameField.getText());
                     type.setDisplayUnits(unitsField.getText());
-                    type.setColor(new Color(Integer.parseInt(colorField.getText(), 16)));
+
+                    try {
+                        type.setColor(new Color(Integer.parseInt(colorField.getText(), 16)));
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(EditProfileFrame.this,
+                            ERROR_COLOR_FORMAT,
+                            ERROR_TITLE,
+                            JOptionPane.WARNING_MESSAGE);
+                    }
+
                     type.setEnabled(enabledField.isSelected());
                 }
             }
@@ -180,7 +202,7 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx  = 1;
 
-        JButton doneButton = new JButton("Done");
+        JButton doneButton = new JButton(BUTTON_DONE);
         panel.add(doneButton, c);
 
         doneButton.addActionListener(new ActionListener() {
