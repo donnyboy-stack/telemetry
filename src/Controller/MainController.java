@@ -72,9 +72,9 @@ class MainController implements ActionListener, MainMenuObserverInterface {
     public MainController () {
         AbstractMainMenu menu = new MainMenu();
 
-        frame      = new MainFrame();
-        graph      = new GraphPanel();
-        liveData   = new LiveDataPanel();
+        frame    = new MainFrame();
+        graph    = new GraphPanel();
+        liveData = new LiveDataPanel();
 
         menu.addObserver(this);
 

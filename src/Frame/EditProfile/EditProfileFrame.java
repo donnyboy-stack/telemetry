@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JButton;
 import javax.swing.SpringLayout;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -23,6 +25,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.Color;
 
 import layout.SpringUtilities;
 
@@ -49,12 +52,10 @@ class EditProfileFrame extends AbstractEditProfileFrame {
     public EditProfileFrame (ProfileInterface profile) {
         super(profile);
 
-        setTitle(FRAME_TITLE);
-
         /*
-         * The app should not quit when this view is closed
+         * Set frame title
          */
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setTitle(FRAME_TITLE);
 
         /*
          * The minimum size of the window
@@ -69,7 +70,7 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         /*
          * Set the frame's layout
          */
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        // setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         /*
          * Add the panel to edit the data types
@@ -78,85 +79,115 @@ class EditProfileFrame extends AbstractEditProfileFrame {
     }
 
     protected void addEditDataTypesPanel () {
-        JPanel panel = new JPanel();
+        JPanel container = new JPanel();
+        getContentPane().add(container);
+
+        JPanel panel = new JPanel(new GridBagLayout());
+        container.add(panel);
 
         /*
          * Layout constraints
          */
         GridBagConstraints c = new GridBagConstraints();
-
-        c.anchor = GridBagConstraints.CENTER;
-
-        /*
-         * Set the panel layout
-         */
-        setLayout(new GridBagLayout());
+        c.gridx = 0;
+        c.gridy = 0;
 
         /*
          * Add the border and title to the panel
          */
-        panel.setBorder(BorderFactory.createTitledBorder(TITLE_EDIT_TYPES));
+        // panel.setBorder(BorderFactory.createTitledBorder(TITLE_EDIT_TYPES));
 
         /*
          * Position and size the panel
          */
-        panel.setPreferredSize(new Dimension(FRAME_WIDTH - AXIS_PADDING, FRAME_HEIGHT - AXIS_PADDING));
+        // Dimension dim = new Dimension(FRAME_WIDTH - AXIS_PADDING, FRAME_HEIGHT - AXIS_PADDING);
+        // container.setMinimumSize(dim);
+        // panel.setSize(dim);
 
         /*
-         * Add type select
+         * Add field labels
          */
-        JLabel typeLabel = new JLabel(LABEL_TYPE);
-        panel.add(typeLabel, c);
+        c.anchor = GridBagConstraints.LINE_START;
 
-        c.gridx++;
+        panel.add(new JLabel(LABEL_TYPE), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_TYPE_NAME), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_TYPE_UNITS), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_TYPE_COLOR), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_TYPE_ENABLED), c);
+        c.gridy++;
+
+        /*
+         * Add field inputs
+         */
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx  = 1;
+        c.gridy  = 0;
 
         JComboBox typeSelect = buildDataTypeSelect();
         panel.add(typeSelect, c);
-
-        c.gridx = 0;
         c.gridy++;
 
-        /*
-         * Add name field
-         */
-        JLabel nameLabel = new JLabel(LABEL_TYPE_NAME);
-        panel.add(nameLabel, c);
-
-        c.gridx++;
-
-        JTextField nameField = new JTextField();
+        JTextField nameField = new JTextField(15);
         panel.add(nameField, c);
-
-        c.gridx = 0;
         c.gridy++;
 
-        /*
-         * Add units field
-         */
-        JLabel unitsLabel = new JLabel(LABEL_TYPE_UNITS);
-        panel.add(unitsLabel, c);
-
-        c.gridx++;
-
-        JTextField unitsField = new JTextField();
+        JTextField unitsField = new JTextField(15);
         panel.add(unitsField, c);
+        c.gridy++;
 
-        c.gridx = 0;
+        JTextField colorField = new JTextField(7);
+        panel.add(colorField, c);
+        c.gridy++;
+
+        JCheckBox enabledField = new JCheckBox();
+        panel.add(enabledField, c);
         c.gridy++;
 
         /*
-         * Add color field
+         * Add apply button
          */
-        JLabel colorLabel = new JLabel(LABEL_TYPE_COLOR);
-        panel.add(colorLabel, c);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx  = 0;
 
-        c.gridx++;
+        JButton applyButton = new JButton("Apply");
+        panel.add(applyButton, c);
 
-        JTextField colorField = new JTextField();
-        panel.add(colorField, c);
+        applyButton.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                String choice          = (String) typeSelect.getSelectedItem();
+                DataTypeInterface type = profile.getDataSource().getTypes().get(choice);
 
-        c.gridx = 0;
-        c.gridy++;
+                if (type != null) {
+                    type.setDisplayName(nameField.getText());
+                    type.setDisplayUnits(unitsField.getText());
+                    type.setColor(new Color(Integer.parseInt(colorField.getText(), 16)));
+                    type.setEnabled(enabledField.isSelected());
+                }
+            }
+        });
+
+        /*
+         * Add done button
+         */
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx  = 1;
+
+        JButton doneButton = new JButton("Done");
+        panel.add(doneButton, c);
+
+        doneButton.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                EditProfileFrame.this.dispose();
+            }
+        });
 
         /*
          * Listen for type selector changes
@@ -166,26 +197,24 @@ class EditProfileFrame extends AbstractEditProfileFrame {
                 String choice          = (String) typeSelect.getSelectedItem();
                 DataTypeInterface type = profile.getDataSource().getTypes().get(choice);
 
-                String name  = "";
-                String units = "";
-                String color = "";
+                String name     = "";
+                String units    = "";
+                String color    = "";
+                boolean enabled = false;
 
                 if (type != null) {
-                    name  = type.getName();
-                    units = type.getUnits();
-                    color = String.format("#%05X",  0xFFFFFF & type.getColor().getRGB());
+                    name    = type.getName();
+                    units   = type.getUnits();
+                    color   = String.format("%05X",  0xFFFFFF & type.getColor().getRGB());
+                    enabled = type.isEnabled();
                 }
 
                 nameField.setText(name);
                 unitsField.setText(units);
                 colorField.setText(color);
+                enabledField.setSelected(enabled);
             }
         });
-
-        /*
-         * Add the panel to the frame
-         */
-        add(panel);
     }
 
     protected JComboBox buildDataTypeSelect() {
