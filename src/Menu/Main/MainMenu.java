@@ -35,24 +35,24 @@ class MainMenu extends AbstractMainMenu {
         /*
          * Add menu items to the menu
          */
-        JMenuItem saveProfile = new JMenuItem(LABEL_SAVE_PROFILE);
-        menu.add(saveProfile);
-
         JMenuItem editProfile = new JMenuItem(LABEL_EDIT_PROFILE);
         menu.add(editProfile);
+
+        JMenuItem saveProfile = new JMenuItem(LABEL_SAVE_PROFILE);
+        menu.add(saveProfile);
 
         /*
          * Trigger the observers when the menu items are clicked
          */
-        saveProfile.addActionListener(new ActionListener() {
-            public void actionPerformed (ActionEvent e) {
-                MainMenu.this.notifyShouldSave();
-            }
-        });
-
         editProfile.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
                 MainMenu.this.notifyShouldEdit();
+            }
+        });
+        
+        saveProfile.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                MainMenu.this.notifyShouldSave();
             }
         });
 
