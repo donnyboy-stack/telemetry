@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Dimension;
+import java.awt.Font;
 
 class GraphPanel extends AbstractGraphPanel {
     final protected int SCALE_HASH_SIZE = 1;
@@ -76,18 +77,25 @@ class GraphPanel extends AbstractGraphPanel {
         int posOffset = xAxisInset - Y_AXIS_SCALE;
         int negOffset = xAxisInset + Y_AXIS_SCALE;
 
+        artist.setFont(new Font("Monospaced", Font.PLAIN, 10));
+
         while (posOffset > 0 || negOffset < PANEL_HEIGHT) {
             if (posOffset > 0) {
                 drawYScaleHash(posOffset);
 
                 posOffset -= Y_AXIS_SCALE;
             }
+            if(posOffset % 20 == 0)
+                artist.drawString(" " + (Y_AXIS_MAX - posOffset + 40), Y_AXIS_PADDING, posOffset);
 
             if (negOffset < PANEL_HEIGHT) {
                 drawYScaleHash(negOffset);
 
                 negOffset += Y_AXIS_SCALE;
             }
+            if(negOffset % 20 == 0)
+                artist.drawString("-" + (Y_AXIS_MIN + negOffset), Y_AXIS_PADDING, negOffset + 10);
+
         }
     }
 
