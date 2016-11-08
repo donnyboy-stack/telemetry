@@ -3,6 +3,9 @@
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 2, 2016
+ *
+ * @modified by Kai Gray <kai.a.gray@wmich.edu>
+ * @date August 1, 2016
  */
 
 package sunseeker.telemetry;
