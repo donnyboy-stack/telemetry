@@ -157,8 +157,6 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
         String choice     = (String) loadOrCreate.getSelectedItem();
         CardLayout layout = (CardLayout) optionsPanel.getLayout();
 
-        System.out.println(choice);
-
         layout.show(optionsPanel, choice);
     }
 
