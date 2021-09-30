@@ -5,7 +5,10 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Panel.Line;
+
+import Data.Type.DataTypeInterface;
+import Panel.Graph.AbstractGraphPanel;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,7 +16,7 @@ import java.awt.BasicStroke;
 import java.util.List;
 import java.util.ArrayList;
 
-class LinePanel extends AbstractLinePanel {
+public class LinePanel extends AbstractLinePanel {
     protected int width = 0;
     protected int height = 0;
 

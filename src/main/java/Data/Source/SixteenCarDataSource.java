@@ -5,14 +5,20 @@
  * @date July 17, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source;
+
+import Data.Processor.*;
+import Data.Processor.Observer.DataProcessorObserverInterface;
+import Serial.Connection.ModemConnection;
+import Serial.Listener.*;
+import Serial.SerialClient;
 
 import javax.swing.JFrame;
 import java.nio.ByteBuffer;
 
 // Does not implement receiveValue method from DataProcessorObserverInterface... doesn't break because of
 // the same named method in superclass AbstractSerialDataSource
-class SixteenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
+public class SixteenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
     /*
      * Data values output by this source
      */
@@ -292,9 +298,7 @@ class SixteenCarDataSource extends AbstractSerialDataSource implements DataProce
         DataProcessorInterface processor = new GenericDataProcessor();
         processor.addObserver(this);
 
-        // Took a while to figure what this dews. Goes to a listener, which somehow listens for message from car
-        // Once a message is received, the data is converted to strings, then sent back to the 'observer' (this).
-        // Eventually the data is added to this.mappings hashMap (from extended superclass, AbstractSerialDataSource)
+        //
         ListenerInterface listener = new GenericListener();
         listener.addObserver(processor);
 

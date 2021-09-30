@@ -5,13 +5,12 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Serial.Listener;
 
 import gnu.io.SerialPortEvent;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
 
-class GenericListener extends AbstractListener {
+public class GenericListener extends AbstractListener {
     final protected int STATE_HEADER_SEARCH = 0xA;
     final protected int STATE_HEADER_FOUND  = 0xB;
 

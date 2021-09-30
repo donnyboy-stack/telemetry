@@ -8,16 +8,14 @@
  * @date August 1, 2016
  */
 
-package sunseeker.telemetry;
+package Panel.Graph;
 
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
-import java.awt.Dimension;
 import java.awt.Font;
 
-class GraphPanel extends AbstractGraphPanel {
+public class GraphPanel extends AbstractGraphPanel {
     final protected int SCALE_HASH_SIZE = 1;
 
     protected Graphics2D artist;

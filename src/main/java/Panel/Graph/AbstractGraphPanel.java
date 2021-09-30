@@ -5,11 +5,15 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Panel.Graph;
+
+import Data.Type.DataTypeInterface;
+import Frame.Main.AbstractMainFrame;
+import Panel.AbstractPanel;
 
 import java.awt.Color;
 
-abstract class AbstractGraphPanel extends AbstractPanel {
+public abstract class AbstractGraphPanel extends AbstractPanel {
     final public static int AXIS_WIDTH   = 2;
     final public static int AXIS_INSET   = 40; // How far the axes(plural) is from the left side, default 30
     final public static int FULL_INSET   = AXIS_WIDTH + AXIS_INSET;

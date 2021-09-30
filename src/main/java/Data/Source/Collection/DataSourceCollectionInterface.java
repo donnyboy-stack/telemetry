@@ -5,10 +5,12 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source.Collection;
+
+import Data.Source.DataSourceInterface;
 
 import java.util.Map;
 
-interface DataSourceCollectionInterface extends Map<String, DataSourceInterface> {
+public interface DataSourceCollectionInterface extends Map<String, DataSourceInterface> {
 
 }

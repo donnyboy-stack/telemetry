@@ -5,14 +5,17 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.HashMap;
+
+import Data.Type.DataTypeInterface;
+import Serial.SerialClient;
 import gnu.io.CommPortIdentifier;
 
-abstract class AbstractSerialDataSource extends AbstractDataSource {
+public abstract class AbstractSerialDataSource extends AbstractDataSource {
     /*
      * Some values are reserved and cannot be registered
      */

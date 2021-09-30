@@ -5,18 +5,18 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Panel.LiveData;
+
+import Data.Type.DataTypeInterface;
 
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.border.TitledBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Container;
 
-class LiveDataPanel extends AbstractLiveDataPanel {
+public class LiveDataPanel extends AbstractLiveDataPanel {
     final public static int ROW_HEIGHT = 30;
 
     protected JTable table;

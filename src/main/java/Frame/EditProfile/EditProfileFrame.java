@@ -5,32 +5,21 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Frame.EditProfile;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.SpringLayout;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Color;
+import java.awt.*;
 
-import layout.SpringUtilities;
+import App.Profile.ProfileInterface;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
+import Panel.Graph.AbstractGraphPanel;
 
-class EditProfileFrame extends AbstractEditProfileFrame {
+public class EditProfileFrame extends AbstractEditProfileFrame {
     /*
      * Panel titles
      */

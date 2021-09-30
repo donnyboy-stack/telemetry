@@ -5,9 +5,11 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source;
 
-interface DataSourceInterface extends Runnable {
+import Data.Type.Collection.DataTypeCollectionInterface;
+
+public interface DataSourceInterface extends Runnable {
     public String getName();
 
     public DataTypeCollectionInterface getTypes();

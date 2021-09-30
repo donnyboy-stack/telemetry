@@ -5,9 +5,9 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Menu.Main.Observer;
 
-interface MainMenuObserverInterface {
+public interface MainMenuObserverInterface {
     public void doSaveProfile();
 
     public void doEditProfile();

@@ -6,7 +6,9 @@
  */
 
 // Previous devs put everything in one package. There is no good solution to fix, without hours of work :(
-package sunseeker.telemetry;
+package telem;
+
+import App.Application;
 
 import java.awt.EventQueue;
 

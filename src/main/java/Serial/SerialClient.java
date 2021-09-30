@@ -5,8 +5,10 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Serial;
 
+import Serial.Connection.ConnectionInterface;
+import Serial.Listener.ListenerInterface;
 import gnu.io.CommPortIdentifier;
 import gnu.io.CommPort;
 import gnu.io.SerialPort;
@@ -17,7 +19,7 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.IOException;
 
-class SerialClient {
+public class SerialClient {
     protected ConnectionInterface connection;
     protected ListenerInterface listener;
 

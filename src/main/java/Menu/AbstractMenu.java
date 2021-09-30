@@ -5,10 +5,10 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Menu;
 
 import javax.swing.JMenuBar;
 
-abstract class AbstractMenu extends JMenuBar {
+public abstract class AbstractMenu extends JMenuBar {
     
 }

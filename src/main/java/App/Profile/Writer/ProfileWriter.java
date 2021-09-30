@@ -5,7 +5,12 @@
  * @date July 19, 2016
  */
 
-package sunseeker.telemetry;
+package App.Profile.Writer;
+
+import App.Profile.Loader.ProfileLoaderInterface;
+import App.Profile.ProfileInterface;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
 
 import java.io.File;
 import java.io.Writer;

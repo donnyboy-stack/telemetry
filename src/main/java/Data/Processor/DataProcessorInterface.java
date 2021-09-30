@@ -5,8 +5,11 @@
  * @date July 16, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Processor;
 
-interface DataProcessorInterface extends ListenerObserverInterface {
+import Data.Processor.Observer.DataProcessorObserverInterface;
+import Serial.Listener.Observer.ListenerObserverInterface;
+
+public interface DataProcessorInterface extends ListenerObserverInterface {
     public void addObserver (DataProcessorObserverInterface observer);
 }

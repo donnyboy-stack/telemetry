@@ -5,18 +5,21 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Frame.Main;
 
-import javax.swing.JFrame;
+import Menu.Main.AbstractMainMenu;
+import Panel.Graph.AbstractGraphPanel;
+import Panel.Line.AbstractLinePanel;
+import Panel.LiveData.AbstractLiveDataPanel;
+
 import javax.swing.SpringLayout;
 import javax.swing.JLayeredPane;
-import javax.swing.BorderFactory;
 
 import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
 
-class MainFrame extends AbstractMainFrame {
+public class MainFrame extends AbstractMainFrame {
     protected SpringLayout layout;
 
     protected Container contentPane;

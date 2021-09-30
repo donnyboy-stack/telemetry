@@ -5,7 +5,9 @@
  * @date July 19, 2016
  */
 
-package sunseeker.telemetry;
+package App.Profile.Writer;
+
+import App.Profile.ProfileInterface;
 
 public interface ProfileWriterInterface {
     public boolean writeProfile(ProfileInterface profile);

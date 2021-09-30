@@ -5,12 +5,20 @@
 * @date July 2, 2016
 */
 
-package sunseeker.telemetry;
+package Controller;
 
-import java.util.List;
-import java.util.ArrayList;
+import App.Profile.ProfileInterface;
+import App.Profile.Writer.*;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
+import Frame.EditProfile.*;
+import Frame.Main.*;
+import Menu.Main.*;
+import Menu.Main.Observer.MainMenuObserverInterface;
+import Panel.Graph.*;
+import Panel.Line.*;
+import Panel.LiveData.*;
 
-import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
@@ -21,7 +29,7 @@ import java.awt.FileDialog;
 
 import java.io.File;
 
-class MainController implements ActionListener, MainMenuObserverInterface {
+public class MainController implements ActionListener, MainMenuObserverInterface {
     /*
      * How frequently should the panels be refreshed?
      */
@@ -90,7 +98,7 @@ class MainController implements ActionListener, MainMenuObserverInterface {
 
         dataTypes = profile.getDataSource().getTypes();
 
-        //Draws to screen the data from source, with line graphs
+        // Draws to screen the data from source, with line graphs
         // This uses classes from Frame and Panel folders.
         loadLinePanels();
 

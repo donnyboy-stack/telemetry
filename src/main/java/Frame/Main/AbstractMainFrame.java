@@ -5,9 +5,15 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Frame.Main;
 
-abstract class AbstractMainFrame extends AbstractFrame {
+import Frame.AbstractFrame;
+import Menu.Main.AbstractMainMenu;
+import Panel.Graph.AbstractGraphPanel;
+import Panel.Line.AbstractLinePanel;
+import Panel.LiveData.AbstractLiveDataPanel;
+
+public abstract class AbstractMainFrame extends AbstractFrame {
     /*
      * Frame title
      */

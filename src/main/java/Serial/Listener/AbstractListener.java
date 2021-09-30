@@ -5,7 +5,9 @@
  * @date July 16, 2016
  */
 
-package sunseeker.telemetry;
+package Serial.Listener;
+
+import Serial.Listener.Observer.ListenerObserverInterface;
 
 import java.util.List;
 import java.util.ArrayList;
