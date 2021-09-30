@@ -9,13 +9,15 @@ package sunseeker.telemetry;
 
 import java.lang.Runnable;
 
-class Application implements Runnable {
+public class Application implements Runnable {
     DataController dataController;
 
     MainController mainController;
 
     InitialProfileLoader profileLoader;
 
+    // This is implementing the run() method of Runnable interface. It is run in Telemetry.java in main method,
+    // Pretty sure it is called by the line: EventQueue.invokeLater(new Application());
     public void run () {
         /*
          * Create the data controller
@@ -35,14 +37,17 @@ class Application implements Runnable {
     }
 
     protected void loadProfile () {
+        // Creating an instance of ProfileLoaderObserverInterface, implementing the receiveProfile method...
+        // It would be better to create a separate file which implements this. Might change later.
         profileLoader.loadProfile(new ProfileLoaderObserverInterface() {
             public void receiveProfile (ProfileInterface profile) {
-                if (profile instanceof ProfileInterface) {
+                if (profile instanceof ProfileInterface) { //Seems like redundant check, as the parameter has to be that type
                     if (!dataController.start(profile.getDataSource())) {
                         loadProfile();
                         return;
                     }
 
+                    // This runs the live graphing and data visuals you see (The main part of the program).
                     mainController.start(profile);
 
                     /*

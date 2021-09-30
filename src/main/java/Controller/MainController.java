@@ -90,6 +90,8 @@ class MainController implements ActionListener, MainMenuObserverInterface {
 
         dataTypes = profile.getDataSource().getTypes();
 
+        //Draws to screen the data from source, with line graphs
+        // This uses classes from Frame and Panel folders.
         loadLinePanels();
 
         liveData.setTypes(dataTypes);
@@ -125,7 +127,7 @@ class MainController implements ActionListener, MainMenuObserverInterface {
     }
 
     public void doEditProfile () {
-        AbstractEditProfileFrame editProfile = new EditProfileFrame(profile);
+        AbstractEditProfileFrame editProfile = new EditProfileFrame(profile, graph);
 
         editProfile.showFrame();
     }
@@ -136,7 +138,7 @@ class MainController implements ActionListener, MainMenuObserverInterface {
         int index = 0;
 
         for (DataTypeInterface type : dataTypes.values())
-            lines[index++] = new LinePanel(type);
+            lines[index++] = new LinePanel(type, graph);
 
         frame.useLinePanels(lines);
     }

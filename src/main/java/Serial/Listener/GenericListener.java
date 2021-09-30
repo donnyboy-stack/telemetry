@@ -30,6 +30,7 @@ class GenericListener extends AbstractListener {
         input = stream;
     }
 
+    // I Think this is called when we get new message from car
     public void serialEvent(SerialPortEvent event) {
         if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             String data = "";

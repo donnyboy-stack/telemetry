@@ -42,8 +42,10 @@ class EditProfileFrame extends AbstractEditProfileFrame {
     final protected String LABEL_TYPE         = "Choose a Type";
     final protected String LABEL_TYPE_NAME    = "Display Name";
     final protected String LABEL_TYPE_UNITS   = "Display Units";
-    final protected String LABEL_TYPE_COLOR   = "Line Color";
+    final protected String LABEL_TYPE_COLOR   = "Line Color (Hexadecimal)";
     final protected String LABEL_TYPE_ENABLED = "Enabled?";
+    final protected String LABEL_RANGE_MIN = "Y Axis Min";
+    final protected String LABEL_RANGE_MAX = "Y Axis Max";
 
     /*
      * Panel buttons
@@ -61,10 +63,12 @@ class EditProfileFrame extends AbstractEditProfileFrame {
      * The type being edited
      */
     protected DataTypeInterface dataType;
+    protected AbstractGraphPanel graphPanel;
 
-    public EditProfileFrame (ProfileInterface profile) {
+    public EditProfileFrame (ProfileInterface profile, AbstractGraphPanel graph) {
         super(profile);
 
+        graphPanel = graph;
         /*
          * Set frame title
          */
@@ -137,6 +141,12 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         panel.add(new JLabel(LABEL_TYPE_ENABLED), c);
         c.gridy++;
 
+        panel.add(new JLabel(LABEL_RANGE_MIN), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_RANGE_MAX), c);
+        c.gridy++;
+
         /*
          * Add field inputs
          */
@@ -162,6 +172,14 @@ class EditProfileFrame extends AbstractEditProfileFrame {
 
         JCheckBox enabledField = new JCheckBox();
         panel.add(enabledField, c);
+        c.gridy++;
+
+        JTextField minRangeField = new JTextField(5);
+        panel.add(minRangeField, c);
+        c.gridy++;
+
+        JTextField maxRangeField = new JTextField(5);
+        panel.add(maxRangeField, c);
         c.gridy++;
 
         /*
@@ -192,6 +210,10 @@ class EditProfileFrame extends AbstractEditProfileFrame {
                     }
 
                     type.setEnabled(enabledField.isSelected());
+                }
+                if (minRangeField.getText() != null && maxRangeField.getText() != null){
+                    graphPanel.setYMin(Integer.parseInt(minRangeField.getText()));
+                    graphPanel.setYMax(Integer.parseInt(maxRangeField.getText()));
                 }
             }
         });
@@ -227,7 +249,8 @@ class EditProfileFrame extends AbstractEditProfileFrame {
                 if (type != null) {
                     name    = type.getName();
                     units   = type.getUnits();
-                    color   = String.format("%05X",  0xFFFFFF & type.getColor().getRGB());
+                    // Was %05X, made it confusing cause there were only 5 digits of 6 digit hex shown.
+                    color   = String.format("%06X",  0xFFFFFF & type.getColor().getRGB());
                     enabled = type.isEnabled();
                 }
 

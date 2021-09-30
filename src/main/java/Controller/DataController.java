@@ -39,7 +39,7 @@ class DataController {
             return false;
 
         /*
-         * If the data source requires a seial connection,
+         * If the data source requires a serial connection,
          * lets get it one
          */
         if (source instanceof AbstractSerialDataSource && !promptForSerialPort(source))
