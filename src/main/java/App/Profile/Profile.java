@@ -33,6 +33,7 @@ public class Profile implements ProfileInterface {
     }
 
     public void updateDataType (DataTypeInterface dataType) {
+//        System.out.println("DATA TYPE UPDATED!");
         changed = true;
     }
 

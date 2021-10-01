@@ -50,7 +50,8 @@ public class ProfileWriter implements ProfileWriterInterface {
             + id + ","
             + type.getDisplayName() + ","
             + type.getDisplayUnits() + ","
-            + type.getColor().getRGB()
+            + type.getColor().getRGB() + ","
+            + type.isEnabled() + ","
             + ProfileLoaderInterface.LINE_DELIMITER);
     }
 }

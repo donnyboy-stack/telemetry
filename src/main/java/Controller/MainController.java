@@ -13,6 +13,7 @@ import Data.Type.Collection.DataTypeCollectionInterface;
 import Data.Type.DataTypeInterface;
 import Frame.EditProfile.*;
 import Frame.Main.*;
+import Frame.SaveProfile.SaveProfileFrame;
 import Menu.Main.*;
 import Menu.Main.Observer.MainMenuObserverInterface;
 import Panel.Graph.*;
@@ -67,6 +68,8 @@ public class MainController implements ActionListener, MainMenuObserverInterface
      */
     protected AbstractLiveDataPanel liveData;
 
+    protected SaveProfileFrame saveProfile;
+
     /*
      * The data types being used
      */
@@ -83,18 +86,22 @@ public class MainController implements ActionListener, MainMenuObserverInterface
         frame    = new MainFrame();
         graph    = new GraphPanel();
         liveData = new LiveDataPanel();
+        saveProfile = new SaveProfileFrame(profile);
+        saveProfile.addObserver(this);
 
         menu.addObserver(this);
 
         frame.useMenu(menu);
         frame.useGraphPanel(graph);
         frame.useLiveDataPanel(liveData);
+        frame.addWindowListener(saveProfile);
 
         timer = new Timer(REFRESH_DELAY, this);
     }
 
     public void start (ProfileInterface profile) {
         this.profile = profile;
+        saveProfile.setProfile(profile);
 
         dataTypes = profile.getDataSource().getTypes();
 

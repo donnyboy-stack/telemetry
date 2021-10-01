@@ -52,6 +52,8 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
      * The type being edited
      */
     protected DataTypeInterface dataType;
+
+    // The graph panel associated with the edit frame, to be able to change min and max y ranges.
     protected AbstractGraphPanel graphPanel;
 
     public EditProfileFrame (ProfileInterface profile, AbstractGraphPanel graph) {
@@ -76,7 +78,7 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
         /*
          * Set the frame's layout
          */
-        // setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         /*
          * Add the panel to edit the data types
@@ -199,8 +201,9 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
                     }
 
                     type.setEnabled(enabledField.isSelected());
+                    profile.updateDataType(type);
                 }
-                if (minRangeField.getText() != null && maxRangeField.getText() != null){
+                if (minRangeField.getText().length() > 1 && maxRangeField.getText().length() > 1){
                     graphPanel.setYMin(Integer.parseInt(minRangeField.getText()));
                     graphPanel.setYMax(Integer.parseInt(maxRangeField.getText()));
                 }

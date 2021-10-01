@@ -7,6 +7,7 @@
 
 package Frame.Main;
 
+import Frame.SaveProfile.SaveProfileFrame;
 import Menu.Main.AbstractMainMenu;
 import Panel.Graph.AbstractGraphPanel;
 import Panel.Line.AbstractLinePanel;
@@ -44,7 +45,7 @@ public class MainFrame extends AbstractMainFrame {
         /*
          * The app should not quit when this view is closed
          */
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         /*
          * The minimum size of the window

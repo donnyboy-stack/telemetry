@@ -61,6 +61,7 @@ public class DataController {
          * with an event based system.
          */
         dataThread = new Thread(dataSource, "DataSourceThread");
+        dataThread.setDaemon(true);
 
         dataThread.start();
 

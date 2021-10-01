@@ -11,6 +11,7 @@ import App.Profile.Loader.*;
 import App.Profile.Loader.Observer.ProfileLoaderObserverInterface;
 import App.Profile.ProfileInterface;
 import Controller.*;
+import Frame.SaveProfile.SaveProfileFrame;
 
 import java.lang.Runnable;
 // This class is the main class run after Telemetry, and instantiates and runs all of the controllers, which run
@@ -43,6 +44,7 @@ public class Application implements Runnable {
          */
         profileLoader = new InitialProfileLoader(dataController.getDataSources());
         loadProfile();
+
     }
 
     protected void loadProfile () {
