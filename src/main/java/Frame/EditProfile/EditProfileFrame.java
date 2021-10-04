@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import App.Profile.ProfileInterface;
 import Data.Type.Collection.DataTypeCollectionInterface;
@@ -24,6 +26,7 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
      * Panel titles
      */
     final protected String TITLE_EDIT_TYPES = "Edit Data Types";
+    final protected String TITLE_EDIT_GRAPH = "Edit Graph";
 
     /*
      * Field labels
@@ -56,6 +59,8 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
     // The graph panel associated with the edit frame, to be able to change min and max y ranges.
     protected AbstractGraphPanel graphPanel;
 
+    protected JTabbedPane tabs;
+
     public EditProfileFrame (ProfileInterface profile, AbstractGraphPanel graph) {
         super(profile);
 
@@ -80,15 +85,19 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
          */
          setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+         tabs = new JTabbedPane();
+         getContentPane().add(tabs);
+
         /*
          * Add the panel to edit the data types
          */
         addEditDataTypesPanel();
+        addEditGraphPanel();
     }
 
     protected void addEditDataTypesPanel () {
         JPanel container = new JPanel();
-        getContentPane().add(container);
+        tabs.addTab("Data Types", container);
 
         JPanel panel = new JPanel(new GridBagLayout());
         container.add(panel);
@@ -132,12 +141,6 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
         panel.add(new JLabel(LABEL_TYPE_ENABLED), c);
         c.gridy++;
 
-        panel.add(new JLabel(LABEL_RANGE_MIN), c);
-        c.gridy++;
-
-        panel.add(new JLabel(LABEL_RANGE_MAX), c);
-        c.gridy++;
-
         /*
          * Add field inputs
          */
@@ -163,14 +166,6 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
 
         JCheckBox enabledField = new JCheckBox();
         panel.add(enabledField, c);
-        c.gridy++;
-
-        JTextField minRangeField = new JTextField(5);
-        panel.add(minRangeField, c);
-        c.gridy++;
-
-        JTextField maxRangeField = new JTextField(5);
-        panel.add(maxRangeField, c);
         c.gridy++;
 
         /*
@@ -202,10 +197,6 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
 
                     type.setEnabled(enabledField.isSelected());
                     profile.updateDataType(type);
-                }
-                if (minRangeField.getText().length() > 1 && maxRangeField.getText().length() > 1){
-                    graphPanel.setYMin(Integer.parseInt(minRangeField.getText()));
-                    graphPanel.setYMax(Integer.parseInt(maxRangeField.getText()));
                 }
             }
         });
@@ -252,6 +243,98 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
                 enabledField.setSelected(enabled);
             }
         });
+
+        FieldListener listener = new FieldListener(applyButton, doneButton);
+
+        for (Component comp : panel.getComponents()) {
+            comp.addKeyListener(listener);
+        }
+    }
+
+    protected void addEditGraphPanel() {
+        JPanel container = new JPanel();
+
+        tabs.addTab("Edit Graph", container);
+
+        JPanel panel = new JPanel(new GridBagLayout());
+        container.add(panel);
+
+        /*
+         * Layout constraints
+         */
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+
+        /*
+         * Add the border and title to the panel
+         */
+        panel.setBorder(BorderFactory.createTitledBorder(TITLE_EDIT_GRAPH));
+
+        Dimension dim = new Dimension(FRAME_WIDTH - AXIS_PADDING, FRAME_HEIGHT - AXIS_PADDING);
+        container.setMinimumSize(dim);
+        panel.setSize(dim);
+
+        /*
+         * Add field labels
+         */
+        c.anchor = GridBagConstraints.LINE_START;
+
+        /*
+         *  Add labels (text describing the entry fields.
+         */
+        panel.add(new JLabel(LABEL_RANGE_MIN), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_RANGE_MAX), c);
+        c.gridy++;
+
+        // Reset constraints for the entry fields.
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx  = 1;
+        c.gridy  = 0;
+
+        // Add fields for min Y and max Y range.
+        JTextField minRangeField = new JTextField(5);
+        panel.add(minRangeField, c);
+        c.gridy++;
+
+        JTextField maxRangeField = new JTextField(5);
+        panel.add(maxRangeField, c);
+        c.gridy++;
+
+        /*
+         * Add apply button
+         */
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx  = 0;
+
+        JButton applyButton = new JButton(BUTTON_APPLY);
+        panel.add(applyButton, c);
+
+        applyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateGraphSettings(minRangeField.getText(), maxRangeField.getText());
+            }
+        });
+
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx  = 1;
+
+        JButton doneButton = new JButton(BUTTON_DONE);
+        panel.add(doneButton, c);
+
+        doneButton.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                EditProfileFrame.this.dispose();
+            }
+        });
+
+        FieldListener keyListen = new FieldListener(applyButton, doneButton);
+
+        minRangeField.addKeyListener(keyListen);
+        maxRangeField.addKeyListener(keyListen);
     }
 
     protected JComboBox buildDataTypeSelect() {
@@ -266,5 +349,36 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
             typeOptions[index++] = id;
 
         return new JComboBox<String>(typeOptions);
+    }
+
+    protected void updateGraphSettings(String min, String max){
+        if (min.length() > 1 && max.length() > 1){
+            graphPanel.setYMin(Integer.parseInt(min));
+            graphPanel.setYMax(Integer.parseInt(max));
+        }
+    }
+
+    protected static class FieldListener implements KeyListener {
+
+        JButton applyButton;
+        JButton doneButton;
+
+        public FieldListener(JButton applyButton, JButton doneButton){
+            this.applyButton = applyButton;
+            this.doneButton = doneButton;
+        }
+
+        public void keyTyped(KeyEvent e) { }
+        public void keyReleased(KeyEvent e) { }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                applyButton.doClick();
+            }
+            else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                doneButton.doClick();
+            }
+        }
     }
 }

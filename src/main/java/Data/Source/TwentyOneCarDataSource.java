@@ -8,7 +8,7 @@ import Serial.Listener.GenericListener;
 import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
 
-public class TwentyCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface{
+public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface{
     final protected String MC1BUS = "MC1BUS";
     final protected String MC1VEL = "MC1VEL";
     final protected String MC1PHA = "MC1PHA";
@@ -40,7 +40,7 @@ public class TwentyCarDataSource extends AbstractSerialDataSource implements Dat
     final protected String AC_TV2 = "AC_TV2";
 
     public String getName () {
-        return "2020 Sunseeker Solar Car";
+        return "2021 Sunseeker Solar Car";
     }
 
     protected void registerDataTypes () {
