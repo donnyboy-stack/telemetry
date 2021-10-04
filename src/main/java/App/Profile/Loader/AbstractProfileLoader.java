@@ -86,7 +86,6 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
                 type.setDisplayName(name);
                 type.setDisplayUnits(units);
                 type.setColor(new Color(Integer.parseInt(color)));
-                System.out.println("Enabled? "+ Boolean.parseBoolean(enabled));
                 type.setEnabled(Boolean.parseBoolean(enabled));
 
                 return true;
