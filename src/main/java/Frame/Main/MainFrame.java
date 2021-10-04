@@ -5,18 +5,22 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Frame.Main;
 
-import javax.swing.JFrame;
+import Frame.SaveProfile.SaveProfileFrame;
+import Menu.Main.AbstractMainMenu;
+import Panel.Graph.AbstractGraphPanel;
+import Panel.Line.AbstractLinePanel;
+import Panel.LiveData.AbstractLiveDataPanel;
+
 import javax.swing.SpringLayout;
 import javax.swing.JLayeredPane;
-import javax.swing.BorderFactory;
 
 import java.awt.Dimension;
 import java.awt.Container;
 import java.awt.Component;
 
-class MainFrame extends AbstractMainFrame {
+public class MainFrame extends AbstractMainFrame {
     protected SpringLayout layout;
 
     protected Container contentPane;
@@ -41,7 +45,7 @@ class MainFrame extends AbstractMainFrame {
         /*
          * The app should not quit when this view is closed
          */
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         /*
          * The minimum size of the window

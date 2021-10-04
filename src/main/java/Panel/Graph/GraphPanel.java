@@ -8,16 +8,14 @@
  * @date August 1, 2016
  */
 
-package sunseeker.telemetry;
+package Panel.Graph;
 
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
-import java.awt.Dimension;
 import java.awt.Font;
 
-class GraphPanel extends AbstractGraphPanel {
+public class GraphPanel extends AbstractGraphPanel {
     final protected int SCALE_HASH_SIZE = 1;
 
     protected Graphics2D artist;
@@ -77,28 +75,52 @@ class GraphPanel extends AbstractGraphPanel {
     }
 
     protected void drawYScale () {
-        int posOffset = xAxisInset - Y_AXIS_SCALE;
-        int negOffset = xAxisInset + Y_AXIS_SCALE;
+//        int posOffset = xAxisInset - Y_AXIS_SCALE;
+//        int negOffset = xAxisInset + Y_AXIS_SCALE;
+        int posOffset = xAxisInset;
+        int negOffset = xAxisInset;
+
+        // Grants code. Better way of scaling Y Axis, now works with variable range too!
+        int numLabels = 16;
+        int change = Y_AXIS_MAX/(numLabels);
+
+        posOffset -= Y_AXIS_SCALE;
+        negOffset += Y_AXIS_SCALE;
 
         artist.setFont(new Font("Monospaced", Font.PLAIN, 10));
 
-        while (posOffset > 0 || negOffset < PANEL_HEIGHT) {
+        int cnt = 0;
+//        while (posOffset > 0 || negOffset < PANEL_HEIGHT) {
+        while (cnt <= numLabels) {
+            cnt++;
+            int drawNum;
             if (posOffset > 0) {
                 drawYScaleHash(posOffset);
 
                 posOffset -= Y_AXIS_SCALE;
             }
-            if(posOffset % 20 == 0)
-                artist.drawString(" " + (Y_AXIS_MAX - posOffset + 40), Y_AXIS_PADDING, posOffset);
+            if(posOffset % 20 == 0){
+//                artist.drawString(" " + (Y_AXIS_MAX - posOffset + 40), Y_AXIS_PADDING, posOffset);
+                drawNum = Y_AXIS_MAX - (numLabels-cnt)*change;
+                int remain = drawNum % 10;
+                if (remain < 5 && remain != 0) drawNum -= remain;
+                else if (remain >= 5) drawNum += 10-remain;
+                artist.drawString(String.format("%d", drawNum), Y_AXIS_PADDING, posOffset);
+            }
 
             if (negOffset < PANEL_HEIGHT) {
                 drawYScaleHash(negOffset);
 
                 negOffset += Y_AXIS_SCALE;
             }
-            if(negOffset % 20 == 0)
-                artist.drawString("-" + (Y_AXIS_MIN + negOffset), Y_AXIS_PADDING, negOffset + 10);
-
+            if(negOffset % 20 == 0){
+//                artist.drawString("-" + (Y_AXIS_MIN + negOffset), Y_AXIS_PADDING, negOffset + 10);
+                drawNum = Y_AXIS_MIN + (numLabels-cnt)*change;
+                int remain = drawNum % 10;
+                if (remain < 5 && remain != 0) drawNum -= remain;
+                else if (remain >= 5) drawNum += 10-remain;
+                artist.drawString(String.format("%d", drawNum), Y_AXIS_PADDING, negOffset + 10);
+            }
         }
     }
 

@@ -5,7 +5,14 @@
  * @date July 19, 2016
  */
 
-package sunseeker.telemetry;
+package App.Profile.Loader;
+
+import App.Profile.Profile;
+import App.Profile.ProfileInterface;
+import Data.Source.Collection.DataSourceCollectionInterface;
+import Data.Source.DataSourceInterface;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -45,16 +52,17 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
                 if (parts.length == 2)
                     return loadDataSource(parts[1]);
             case ProfileLoaderInterface.FIELD_DATA_TYPE:
-                if (parts.length == 5)
-                    return loadDataType(parts[1], parts[2], parts[3], parts[4]);
+                if (parts.length == 6)
+                    return loadDataType(parts[1], parts[2], parts[3], parts[4], parts[5]);
         }
 
         return true;
     }
 
     protected ProfileInterface buildProfile () {
-        if (dataSource != null)
+        if (dataSource != null){
             return new Profile(dataSource);
+        }
 
         return null;
     }
@@ -68,7 +76,7 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
         return false;
     }
 
-    private boolean loadDataType (String id, String name, String units, String color) {
+    private boolean loadDataType (String id, String name, String units, String color, String enabled) {
         if (dataSource != null) {
             DataTypeCollectionInterface types = dataSource.getTypes();
 
@@ -78,6 +86,8 @@ public abstract class AbstractProfileLoader implements ProfileLoaderInterface {
                 type.setDisplayName(name);
                 type.setDisplayUnits(units);
                 type.setColor(new Color(Integer.parseInt(color)));
+                System.out.println("Enabled? "+ Boolean.parseBoolean(enabled));
+                type.setEnabled(Boolean.parseBoolean(enabled));
 
                 return true;
             }

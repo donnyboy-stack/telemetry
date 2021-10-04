@@ -5,7 +5,12 @@
  * @date July 19, 2016
  */
 
-package sunseeker.telemetry;
+package App.Profile.Writer;
+
+import App.Profile.Loader.ProfileLoaderInterface;
+import App.Profile.ProfileInterface;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
 
 import java.io.File;
 import java.io.Writer;
@@ -45,7 +50,8 @@ public class ProfileWriter implements ProfileWriterInterface {
             + id + ","
             + type.getDisplayName() + ","
             + type.getDisplayUnits() + ","
-            + type.getColor().getRGB()
+            + type.getColor().getRGB() + ","
+            + type.isEnabled() + ","
             + ProfileLoaderInterface.LINE_DELIMITER);
     }
 }

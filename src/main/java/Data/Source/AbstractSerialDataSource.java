@@ -5,14 +5,17 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source;
 
 import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.HashMap;
+
+import Data.Type.DataTypeInterface;
+import Serial.SerialClient;
 import gnu.io.CommPortIdentifier;
 
-abstract class AbstractSerialDataSource extends AbstractDataSource {
+public abstract class AbstractSerialDataSource extends AbstractDataSource {
     /*
      * Some values are reserved and cannot be registered
      */
@@ -87,6 +90,7 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     }
 
     protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
+        // Not sure what this does, updateId method is empty (~ln 99)
         updateId(field, HIGH_SUFFIX, high);
         updateId(field, LOW_SUFFIX, low);
 
@@ -100,7 +104,9 @@ abstract class AbstractSerialDataSource extends AbstractDataSource {
     }
 
     protected void receiveValue(String field, double high, double low) {
+        // If string received is in our list of mappings, then lets update things.
         if (mappings.containsKey(field)) {
+            // Gets pointer to key: value pair in mappings hashMap
             DataTypeInterface[] types = mappings.get(field);
 
             if (types[0] != null)

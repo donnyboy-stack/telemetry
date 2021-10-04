@@ -5,10 +5,12 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Type.Collection;
+
+import Data.Type.DataTypeInterface;
 
 import java.util.HashMap;
 
-class DataTypeCollection extends HashMap<String, DataTypeInterface> implements DataTypeCollectionInterface {
+public class DataTypeCollection extends HashMap<String, DataTypeInterface> implements DataTypeCollectionInterface {
 
 }

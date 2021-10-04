@@ -5,10 +5,10 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source;
 
-import java.util.List;
-import java.util.ArrayList;
+import Data.Type.Collection.*;
+import Data.Type.*;
 
 abstract class AbstractDataSource implements DataSourceInterface {
     protected DataTypeCollectionInterface types;

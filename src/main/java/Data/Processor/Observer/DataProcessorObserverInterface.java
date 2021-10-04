@@ -5,8 +5,8 @@
  * @date July 16, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Processor.Observer;
 
-interface DataProcessorObserverInterface {
+public interface DataProcessorObserverInterface {
     public void receiveValue (String field, byte[] high, byte[] low);
 }

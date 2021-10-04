@@ -5,11 +5,8 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Serial.Listener.Observer;
 
-import gnu.io.SerialPortEventListener;
-import java.io.InputStream;
-
-interface ListenerObserverInterface {
+public interface ListenerObserverInterface {
     public void receiveData(String data);
 }

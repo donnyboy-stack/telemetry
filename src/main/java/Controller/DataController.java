@@ -5,15 +5,17 @@
 * @date July 8, 2016
 */
 
-package sunseeker.telemetry;
+package Controller;
 
-import javax.swing.JFrame;
-import java.util.ArrayList;
-import java.util.HashMap;
+import Data.Source.Collection.*;
+import Data.Source.*;
+import Serial.SerialHelper;
+
 import java.lang.Thread;
 import javax.swing.JOptionPane;
 
-class DataController {
+// This class handles asking the user which serial port they want to use and connecting to that port
+public class DataController {
     protected DataSourceCollectionInterface dataSources;
 
     protected DataSourceInterface dataSource;
@@ -39,25 +41,34 @@ class DataController {
             return false;
 
         /*
-         * If the data source requires a seial connection,
+         * If the data source requires a serial connection,
          * lets get it one
+         * We do this by first checking if source needs a serial connection (source instanceof AbstactSerial...)
+         * Then based on how && is run, the promptForSerialPort only runs if the first part is true.
+         * promptForSerialPort returns true if everything went well, and thus we won't return false from this if.
          */
-        if (source instanceof AbstractSerialDataSource && !promptForSerialPort(source))
+        if (source instanceof AbstractSerialDataSource && !promptForSerialPort(source)) {
             return false;
+        }
 
         dataSource = source;
 
         /*
          * Start loading the data
+         *
+         * dataSource implements runnable, and has a run method, which connects to a Serial Port
+         * Once connected to a serial port, it assigns a listener to the port, which will process data as it comes in
+         * with an event based system.
          */
         dataThread = new Thread(dataSource, "DataSourceThread");
+        dataThread.setDaemon(true);
 
         dataThread.start();
 
         return true;
     }
 
-    public void stop () {
+    public void stop () { // Pretty sure this is never used, because restart is also never called.
         /*
          * We can only stop if a data source has been set
          */

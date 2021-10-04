@@ -5,9 +5,12 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Frame.EditProfile;
 
-abstract class AbstractEditProfileFrame extends AbstractFrame {
+import App.Profile.ProfileInterface;
+import Frame.AbstractFrame;
+
+public abstract class AbstractEditProfileFrame extends AbstractFrame {
     /*
      * Frame title
      */

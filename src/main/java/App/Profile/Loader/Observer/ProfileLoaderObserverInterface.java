@@ -5,7 +5,9 @@
  * @date July 19, 2016
  */
 
-package sunseeker.telemetry;
+package App.Profile.Loader.Observer;
+
+import App.Profile.ProfileInterface;
 
 public interface ProfileLoaderObserverInterface {
     public void receiveProfile(ProfileInterface profile);

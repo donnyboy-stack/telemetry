@@ -5,7 +5,10 @@
  * @date July 18, 2016
  */
 
-package sunseeker.telemetry;
+package App.Profile;
+
+import Data.Source.DataSourceInterface;
+import Data.Type.DataTypeInterface;
 
 import java.io.File;
 
@@ -30,6 +33,7 @@ public class Profile implements ProfileInterface {
     }
 
     public void updateDataType (DataTypeInterface dataType) {
+//        System.out.println("DATA TYPE UPDATED!");
         changed = true;
     }
 

@@ -5,11 +5,9 @@
  * @date July 16, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Processor;
 
-import java.nio.ByteBuffer;
-
-class GenericDataProcessor extends AbstractDataProcessor {
+public class GenericDataProcessor extends AbstractDataProcessor {
     public void receiveData (String data) {
         System.out.print(data);
 

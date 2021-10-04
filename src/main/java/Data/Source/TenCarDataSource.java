@@ -5,12 +5,18 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Source;
+
+import Data.Processor.*;
+import Data.Processor.Observer.DataProcessorObserverInterface;
+import Serial.Connection.ModemConnection;
+import Serial.Listener.*;
+import Serial.SerialClient;
 
 import javax.swing.JFrame;
 import java.nio.ByteBuffer;
 
-class TenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
+public class TenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
     /*
      * Data values output by this source
      */

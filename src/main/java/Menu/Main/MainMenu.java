@@ -5,7 +5,7 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Menu.Main;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-class MainMenu extends AbstractMainMenu {
+public class MainMenu extends AbstractMainMenu {
     /*
      * Menu labels
      */

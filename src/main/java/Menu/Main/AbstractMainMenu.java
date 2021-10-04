@@ -5,12 +5,15 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Menu.Main;
+
+import Menu.AbstractMenu;
+import Menu.Main.Observer.MainMenuObserverInterface;
 
 import java.util.List;
 import java.util.ArrayList;
 
-abstract class AbstractMainMenu extends AbstractMenu {
+public abstract class AbstractMainMenu extends AbstractMenu {
     protected List<MainMenuObserverInterface> observers;
 
     public AbstractMainMenu () {

@@ -5,32 +5,21 @@
  * @date July 21, 2016
  */
 
-package sunseeker.telemetry;
+package Frame.EditProfile;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import javax.swing.SpringLayout;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Color;
+import java.awt.*;
 
-import layout.SpringUtilities;
+import App.Profile.ProfileInterface;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
+import Panel.Graph.AbstractGraphPanel;
 
-class EditProfileFrame extends AbstractEditProfileFrame {
+public class EditProfileFrame extends AbstractEditProfileFrame {
     /*
      * Panel titles
      */
@@ -42,8 +31,10 @@ class EditProfileFrame extends AbstractEditProfileFrame {
     final protected String LABEL_TYPE         = "Choose a Type";
     final protected String LABEL_TYPE_NAME    = "Display Name";
     final protected String LABEL_TYPE_UNITS   = "Display Units";
-    final protected String LABEL_TYPE_COLOR   = "Line Color";
+    final protected String LABEL_TYPE_COLOR   = "Line Color (Hexadecimal)";
     final protected String LABEL_TYPE_ENABLED = "Enabled?";
+    final protected String LABEL_RANGE_MIN = "Y Axis Min";
+    final protected String LABEL_RANGE_MAX = "Y Axis Max";
 
     /*
      * Panel buttons
@@ -62,9 +53,13 @@ class EditProfileFrame extends AbstractEditProfileFrame {
      */
     protected DataTypeInterface dataType;
 
-    public EditProfileFrame (ProfileInterface profile) {
+    // The graph panel associated with the edit frame, to be able to change min and max y ranges.
+    protected AbstractGraphPanel graphPanel;
+
+    public EditProfileFrame (ProfileInterface profile, AbstractGraphPanel graph) {
         super(profile);
 
+        graphPanel = graph;
         /*
          * Set frame title
          */
@@ -83,7 +78,7 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         /*
          * Set the frame's layout
          */
-        // setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         /*
          * Add the panel to edit the data types
@@ -137,6 +132,12 @@ class EditProfileFrame extends AbstractEditProfileFrame {
         panel.add(new JLabel(LABEL_TYPE_ENABLED), c);
         c.gridy++;
 
+        panel.add(new JLabel(LABEL_RANGE_MIN), c);
+        c.gridy++;
+
+        panel.add(new JLabel(LABEL_RANGE_MAX), c);
+        c.gridy++;
+
         /*
          * Add field inputs
          */
@@ -162,6 +163,14 @@ class EditProfileFrame extends AbstractEditProfileFrame {
 
         JCheckBox enabledField = new JCheckBox();
         panel.add(enabledField, c);
+        c.gridy++;
+
+        JTextField minRangeField = new JTextField(5);
+        panel.add(minRangeField, c);
+        c.gridy++;
+
+        JTextField maxRangeField = new JTextField(5);
+        panel.add(maxRangeField, c);
         c.gridy++;
 
         /*
@@ -192,6 +201,11 @@ class EditProfileFrame extends AbstractEditProfileFrame {
                     }
 
                     type.setEnabled(enabledField.isSelected());
+                    profile.updateDataType(type);
+                }
+                if (minRangeField.getText().length() > 1 && maxRangeField.getText().length() > 1){
+                    graphPanel.setYMin(Integer.parseInt(minRangeField.getText()));
+                    graphPanel.setYMax(Integer.parseInt(maxRangeField.getText()));
                 }
             }
         });
@@ -227,7 +241,8 @@ class EditProfileFrame extends AbstractEditProfileFrame {
                 if (type != null) {
                     name    = type.getName();
                     units   = type.getUnits();
-                    color   = String.format("%05X",  0xFFFFFF & type.getColor().getRGB());
+                    // Was %05X, made it confusing cause there were only 5 digits of 6 digit hex shown.
+                    color   = String.format("%06X",  0xFFFFFF & type.getColor().getRGB());
                     enabled = type.isEnabled();
                 }
 

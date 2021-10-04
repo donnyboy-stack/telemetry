@@ -5,14 +5,14 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import java.awt.Color;
 
-class DataType implements DataTypeInterface {
+public class DataType implements DataTypeInterface {
     /*
      * Various attributes
      */

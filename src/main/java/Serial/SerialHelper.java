@@ -5,15 +5,14 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Serial;
 
 import java.util.HashMap;
 import java.util.Enumeration;
-import java.io.IOException;
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 
-class SerialHelper {
+public class SerialHelper {
     protected static HashMap<String, CommPortIdentifier> ports;
 
     public SerialHelper () {
@@ -22,12 +21,15 @@ class SerialHelper {
     }
 
     public HashMap getPorts () {
+        // This is where we get all the ports on the system
         Enumeration allPorts = CommPortIdentifier.getPortIdentifiers();
         CommPortIdentifier p;
 
         ports.clear();
 
         while (allPorts.hasMoreElements()) {
+            // Here is where we go to get names of the serial ports and display them.
+            // I think the modem should show up on the list when we plug it in.
             p = (CommPortIdentifier) allPorts.nextElement();
 
             if (p.getPortType() == CommPortIdentifier.PORT_SERIAL)

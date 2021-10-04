@@ -5,12 +5,12 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Type;
 
 import java.awt.Color;
 import java.util.List;
 
-interface DataTypeInterface {
+public interface DataTypeInterface {
     final public static int MAX_DATA_POINTS = 50;
     
     public String getName();

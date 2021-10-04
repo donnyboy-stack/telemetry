@@ -5,11 +5,12 @@
  * @date July 2, 2016
  */
 
-package sunseeker.telemetry;
+package Panel.LiveData;
 
-import javax.swing.JPanel;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Panel.AbstractPanel;
 
-abstract class AbstractLiveDataPanel extends AbstractPanel {
+public abstract class AbstractLiveDataPanel extends AbstractPanel {
     protected DataTypeCollectionInterface types;
     
     public void setTypes (DataTypeCollectionInterface types) {

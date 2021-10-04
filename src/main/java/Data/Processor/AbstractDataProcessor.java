@@ -5,7 +5,9 @@
  * @date July 16, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Processor;
+
+import Data.Processor.Observer.DataProcessorObserverInterface;
 
 import java.util.List;
 import java.util.ArrayList;

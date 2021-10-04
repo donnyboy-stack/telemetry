@@ -1,4 +1,4 @@
-# Sunseeker Solar Car Project - Telemetry
+# Sunseeker Solar Car Project - App
 
 This repository contains the source for the Sunseeker Solar Car Project's main telemetry application for racing
 
@@ -7,7 +7,7 @@ This repository contains the source for the Sunseeker Solar Car Project's main t
 - Java
 - Gradle
 
-## Running Telemetry
+## Running App
 
 ```
 $ ./gradlew run

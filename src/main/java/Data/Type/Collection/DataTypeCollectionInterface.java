@@ -5,10 +5,12 @@
  * @date July 9, 2016
  */
 
-package sunseeker.telemetry;
+package Data.Type.Collection;
+
+import Data.Type.DataTypeInterface;
 
 import java.util.Map;
 
-interface DataTypeCollectionInterface extends Map<String, DataTypeInterface> {
+public interface DataTypeCollectionInterface extends Map<String, DataTypeInterface> {
 
 }

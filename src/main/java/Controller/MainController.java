@@ -5,12 +5,21 @@
 * @date July 2, 2016
 */
 
-package sunseeker.telemetry;
+package Controller;
 
-import java.util.List;
-import java.util.ArrayList;
+import App.Profile.ProfileInterface;
+import App.Profile.Writer.*;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
+import Frame.EditProfile.*;
+import Frame.Main.*;
+import Frame.SaveProfile.SaveProfileFrame;
+import Menu.Main.*;
+import Menu.Main.Observer.MainMenuObserverInterface;
+import Panel.Graph.*;
+import Panel.Line.*;
+import Panel.LiveData.*;
 
-import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
@@ -21,7 +30,7 @@ import java.awt.FileDialog;
 
 import java.io.File;
 
-class MainController implements ActionListener, MainMenuObserverInterface {
+public class MainController implements ActionListener, MainMenuObserverInterface {
     /*
      * How frequently should the panels be refreshed?
      */
@@ -59,6 +68,8 @@ class MainController implements ActionListener, MainMenuObserverInterface {
      */
     protected AbstractLiveDataPanel liveData;
 
+    protected SaveProfileFrame saveProfile;
+
     /*
      * The data types being used
      */
@@ -75,21 +86,27 @@ class MainController implements ActionListener, MainMenuObserverInterface {
         frame    = new MainFrame();
         graph    = new GraphPanel();
         liveData = new LiveDataPanel();
+        saveProfile = new SaveProfileFrame(profile);
+        saveProfile.addObserver(this);
 
         menu.addObserver(this);
 
         frame.useMenu(menu);
         frame.useGraphPanel(graph);
         frame.useLiveDataPanel(liveData);
+        frame.addWindowListener(saveProfile);
 
         timer = new Timer(REFRESH_DELAY, this);
     }
 
     public void start (ProfileInterface profile) {
         this.profile = profile;
+        saveProfile.setProfile(profile);
 
         dataTypes = profile.getDataSource().getTypes();
 
+        // Draws to screen the data from source, with line graphs
+        // This uses classes from Frame and Panel folders.
         loadLinePanels();
 
         liveData.setTypes(dataTypes);
@@ -125,7 +142,7 @@ class MainController implements ActionListener, MainMenuObserverInterface {
     }
 
     public void doEditProfile () {
-        AbstractEditProfileFrame editProfile = new EditProfileFrame(profile);
+        AbstractEditProfileFrame editProfile = new EditProfileFrame(profile, graph);
 
         editProfile.showFrame();
     }
@@ -136,7 +153,7 @@ class MainController implements ActionListener, MainMenuObserverInterface {
         int index = 0;
 
         for (DataTypeInterface type : dataTypes.values())
-            lines[index++] = new LinePanel(type);
+            lines[index++] = new LinePanel(type, graph);
 
         frame.useLinePanels(lines);
     }
