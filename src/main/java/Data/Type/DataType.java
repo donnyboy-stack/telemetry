@@ -113,12 +113,12 @@ public class DataType implements DataTypeInterface {
     }
 
     public void putValue (double value) {
-        if (data.size() >= MAX_DATA_POINTS)
+        if (data.size() >= MAX_DATA_POINTS) // We only store a certain amount of data (however much fits on graph)
             data.remove(0);
-
+        // Store current value for getCurrentValue() method.
         cur = value;
 
-        if (data.size() == 1) {
+        if (data.size() == 1) {  // If we have few data points, set min and max to new value.
             min = value;
             max = value;
         } else {

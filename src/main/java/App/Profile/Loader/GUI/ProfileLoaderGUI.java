@@ -8,24 +8,15 @@
 package App.Profile.Loader.GUI;
 
 import App.Profile.Loader.GUI.Observer.ProfileLoaderGUIObserverInterface;
+import App.Profile.Profile;
 import Data.Source.Collection.DataSourceCollectionInterface;
 import Data.Source.DataSourceInterface;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.FlowLayout;
-import java.awt.CardLayout;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.FileDialog;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -75,7 +66,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
     /*
      * Button texts
      */
-    final protected String BUTTON_LOAD_FILE = "Choose a File";
+    protected String BUTTON_LOAD_FILE = "Choose a File";
     final protected String BUTTON_CONTINUE  = "Continue";
     final protected String BUTTON_QUIT      = "Quit";
 
@@ -198,7 +189,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
     }
 
     protected void addOptionsToLoad () {
-        JPanel card = new JPanel();
+        JPanel card = new JPanel(new BorderLayout());
 
         loadProfile = new JButton(BUTTON_LOAD_FILE);
 
@@ -210,10 +201,20 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
 
                 File[] files = fileChooser.getFiles();
 
-                if (files.length > 0)
+                if (files.length > 0) {
                     ProfileLoaderGUI.this.loadProfileFrom = files[0];
+
+//                    JLabel test = new JLabel(files[0].toString());
+//                    card.add(test, BorderLayout.NORTH);
+//                    BUTTON_LOAD_FILE = files[0].toString();
+                    loadProfile.setText(files[0].toString());
+//                    addOptionsToLoad();
+                }
             }
         });
+
+//        JLabel filePath = new JLabel(fileName);
+//        card.add(filePath);
 
         card.add(loadProfile);
 
