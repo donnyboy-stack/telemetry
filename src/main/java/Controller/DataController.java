@@ -29,7 +29,7 @@ public class DataController {
          * Register the known data source types
          */
         registerDataSource(new PseudoRandomDataSource());
-        registerDataSource(new TenCarDataSource());
+        registerDataSource(new TwentyCarDataSource());
         registerDataSource(new SixteenCarDataSource());
     }
 

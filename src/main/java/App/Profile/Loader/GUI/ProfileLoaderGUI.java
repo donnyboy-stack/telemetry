@@ -204,17 +204,10 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
                 if (files.length > 0) {
                     ProfileLoaderGUI.this.loadProfileFrom = files[0];
 
-//                    JLabel test = new JLabel(files[0].toString());
-//                    card.add(test, BorderLayout.NORTH);
-//                    BUTTON_LOAD_FILE = files[0].toString();
                     loadProfile.setText(files[0].toString());
-//                    addOptionsToLoad();
                 }
             }
         });
-
-//        JLabel filePath = new JLabel(fileName);
-//        card.add(filePath);
 
         card.add(loadProfile);
 

@@ -10,13 +10,12 @@ package Panel.LiveData;
 import Data.Type.DataTypeInterface;
 
 import java.awt.*;
-import javax.swing.BorderFactory;
+import java.util.*;
+import java.util.List;
+import javax.swing.*;
+import javax.swing.table.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
+
 
 public class LiveDataPanel extends AbstractLiveDataPanel {
     final public static int ROW_HEIGHT = 30;
@@ -111,7 +110,14 @@ public class LiveDataPanel extends AbstractLiveDataPanel {
         if (types == null)
             return;
 
-        for (DataTypeInterface type : types.values()) {
+        // Sort all the data types alphabetically, first by getting the values as a Collection<DataTypeInterface>
+        Collection<DataTypeInterface> vals = types.values();
+        // Then we convert to a List, so we can use sort() method.
+        List<DataTypeInterface> valsList = new ArrayList<DataTypeInterface>(vals);
+        // We call sort, with our comparator using the values from getDisplayName() method.
+        valsList.sort(Comparator.comparing(DataTypeInterface::getDisplayName));
+
+        for (DataTypeInterface type : valsList) {
             if (type.isEnabled()) {
                 model.addRow(new Object[] {
                     type.getDisplayName(),

@@ -90,7 +90,7 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
     }
 
     protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
-        // Not sure what this does, updateId method is empty (~ln 99)
+        // Not sure what this does, updateId method is empty (~ln 102)
         updateId(field, HIGH_SUFFIX, high);
         updateId(field, LOW_SUFFIX, low);
 
