@@ -38,6 +38,7 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
     final protected String LABEL_TYPE_ENABLED = "Enabled?";
     final protected String LABEL_RANGE_MIN = "Y Axis Min";
     final protected String LABEL_RANGE_MAX = "Y Axis Max";
+    final protected String LABEL_GRAPH_COlOR = "Background Color";
 
     /*
      * Panel buttons
@@ -253,7 +254,6 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
 
     protected void addEditGraphPanel() {
         JPanel container = new JPanel();
-
         tabs.addTab("Edit Graph", container);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -271,7 +271,7 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
          */
         panel.setBorder(BorderFactory.createTitledBorder(TITLE_EDIT_GRAPH));
 
-        Dimension dim = new Dimension(FRAME_WIDTH - AXIS_PADDING, FRAME_HEIGHT - AXIS_PADDING);
+        Dimension dim = new Dimension(FRAME_WIDTH, FRAME_HEIGHT - AXIS_PADDING);
         container.setMinimumSize(dim);
         panel.setSize(dim);
 
@@ -289,6 +289,9 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
         panel.add(new JLabel(LABEL_RANGE_MAX), c);
         c.gridy++;
 
+        panel.add(new JLabel(LABEL_GRAPH_COlOR), c);
+        c.gridy++;
+
         // Reset constraints for the entry fields.
         c.anchor = GridBagConstraints.LINE_END;
         c.gridx  = 1;
@@ -303,6 +306,10 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
         panel.add(maxRangeField, c);
         c.gridy++;
 
+        JTextField graphColorField = new JTextField(String.format("%06X",  0xFFFFFF & graphPanel.getBackgroundColor().getRGB()), 6);
+        panel.add(graphColorField, c);
+        c.gridy++;
+
         /*
          * Add apply button
          */
@@ -315,7 +322,19 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
         applyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateGraphSettings(minRangeField.getText(), maxRangeField.getText());
+                if (minRangeField.getText().length() > 1 && maxRangeField.getText().length() > 1){
+                    graphPanel.setYMin(Integer.parseInt(minRangeField.getText()));
+                    graphPanel.setYMax(Integer.parseInt(maxRangeField.getText()));
+                }
+                // If they put enough characters to make a hex value.
+                try {
+                    graphPanel.setBackgroundColor(new Color(Integer.parseInt(graphColorField.getText(), 16)));
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(EditProfileFrame.this,
+                            ERROR_COLOR_FORMAT,
+                            ERROR_TITLE,
+                            JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
 
@@ -333,8 +352,9 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
 
         FieldListener keyListen = new FieldListener(applyButton, doneButton);
 
-        minRangeField.addKeyListener(keyListen);
-        maxRangeField.addKeyListener(keyListen);
+        for (Component comp : panel.getComponents()) {
+            comp.addKeyListener(keyListen);
+        }
     }
 
     protected JComboBox buildDataTypeSelect() {
@@ -349,13 +369,6 @@ public class EditProfileFrame extends AbstractEditProfileFrame {
             typeOptions[index++] = id;
 
         return new JComboBox<String>(typeOptions);
-    }
-
-    protected void updateGraphSettings(String min, String max){
-        if (min.length() > 1 && max.length() > 1){
-            graphPanel.setYMin(Integer.parseInt(min));
-            graphPanel.setYMax(Integer.parseInt(max));
-        }
     }
 
     protected static class FieldListener implements KeyListener {

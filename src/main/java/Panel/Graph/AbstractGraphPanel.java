@@ -35,6 +35,8 @@ public abstract class AbstractGraphPanel extends AbstractPanel {
     protected int xAxisInset;
     protected double ratio;
 
+    protected Color backgroundColor = new Color(255, 255, 255);
+
     public AbstractGraphPanel () {
         setBackground(Color.WHITE);
 
@@ -70,5 +72,13 @@ public abstract class AbstractGraphPanel extends AbstractPanel {
     }
     public void setYMax(int max){
         Y_AXIS_MAX = max;
+    }
+
+    public void setBackgroundColor(Color color){
+        backgroundColor = color;
+    }
+
+    public Color getBackgroundColor(){
+        return backgroundColor;
     }
 }

@@ -10,10 +10,7 @@
 
 package Panel.Graph;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.BasicStroke;
-import java.awt.Font;
+import java.awt.*;
 
 public class GraphPanel extends AbstractGraphPanel {
     final protected int SCALE_HASH_SIZE = 1;
@@ -24,6 +21,8 @@ public class GraphPanel extends AbstractGraphPanel {
         super.paintComponent(g);
 
         artist = (Graphics2D) g;
+
+        drawBackground();
 
         /*
          * These give us our scale
@@ -37,6 +36,17 @@ public class GraphPanel extends AbstractGraphPanel {
             BasicStroke.CAP_SQUARE,
             BasicStroke.JOIN_MITER
         ));
+
+        int red = backgroundColor.getRed();
+        int green = backgroundColor.getGreen();
+        int blue = backgroundColor.getBlue();
+
+        if(red+green+blue >= 382){
+            artist.setColor(new Color(0, 0, 0));
+        }
+        else{
+            artist.setColor(new Color(255, 255, 255));
+        }
 
         /*
          * Draw the x-axis
@@ -129,5 +139,16 @@ public class GraphPanel extends AbstractGraphPanel {
             Y_AXIS_INSET - SCALE_HASH_SIZE, offset,
             Y_AXIS_INSET + SCALE_HASH_SIZE, offset
         );
+    }
+
+    protected void drawBackground(){
+        artist.setColor(backgroundColor);
+        artist.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+    }
+
+    @Override
+    public void setBackgroundColor(Color color){
+        backgroundColor = color;
+        drawBackground();
     }
 }
