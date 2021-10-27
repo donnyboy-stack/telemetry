@@ -55,6 +55,7 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
         client = getClient();
 
         mappings = new HashMap<String, DataTypeInterface[]>();
+        System.out.println("ABSTRACT SERIAL DATA SOURCE CREATED");
 
         registerDataTypes();
     }
@@ -79,28 +80,20 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
     }
 
     public void receiveValue (String field, byte[] high, byte[] low) {
+        // ByteBuffer allows us to convert array of bytes into a number. Likely 4 bytes in the array, to create a float
         ByteBuffer highBuff = ByteBuffer.wrap(high);
         ByteBuffer lowBuff = ByteBuffer.wrap(low);
+
+//        if (field.equals("MC1ERR")){
+//            // Do stuff to decode bytes into bits, and figure out which flags are set.
+//
+//        }
 
         receiveValue(
             field,
             highBuff.getFloat(),
             lowBuff.getFloat()
         );
-    }
-
-    protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
-        // Not sure what this does, updateId method is empty (~ln 102)
-        updateId(field, HIGH_SUFFIX, high);
-        updateId(field, LOW_SUFFIX, low);
-
-        mappings.put(field, new DataTypeInterface[] {
-            high, low
-        });
-    }
-
-    protected void updateId (String field, String suffix, DataTypeInterface type) {
-
     }
 
     protected void receiveValue(String field, double high, double low) {
@@ -115,6 +108,20 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
             if (types[1] != null)
                 types[1].putValue(low);
         }
+    }
+
+    protected void registerDataMapping (String field, DataTypeInterface high, DataTypeInterface low) {
+        // Not sure what this does, updateId method is empty (~ln 102)
+        updateId(field, HIGH_SUFFIX, high);
+        updateId(field, LOW_SUFFIX, low);
+
+        mappings.put(field, new DataTypeInterface[] { // Array of data type interfaces
+            high, low
+        });
+    }
+
+    protected void updateId (String field, String suffix, DataTypeInterface type) {
+
     }
 
     abstract protected void registerDataTypes();

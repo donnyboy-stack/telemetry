@@ -1,21 +1,29 @@
 /**
-* Sunseeker Telemetry
-*
-* @author Alec Carpenter <alecgunnar@gmail.com>
-* @date July 2, 2016
-*/
+ * Sunseeker Telemetry
+ *
+ * @author Alec Carpenter <alecgunnar@gmail.com>
+ * @date July 2, 2016
+ *
+ * @modified Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date October 2, 2021
+ */
 
 package Controller;
 
 import App.Profile.ProfileInterface;
 import App.Profile.Writer.*;
+import Data.Source.TwentyOneCarDataSource;
 import Data.Type.Collection.DataTypeCollectionInterface;
 import Data.Type.DataTypeInterface;
 import Frame.EditProfile.*;
+import Frame.Error.AbstractErrorFrame;
+import Frame.Error.ErrorFrame;
 import Frame.Main.*;
 import Frame.SaveProfile.SaveProfileFrame;
 import Menu.Main.*;
 import Menu.Main.Observer.MainMenuObserverInterface;
+import Panel.Error.AbstractErrorPanel;
+import Panel.Error.ErrorPanel;
 import Panel.Graph.*;
 import Panel.Line.*;
 import Panel.LiveData.*;
@@ -59,6 +67,16 @@ public class MainController implements ActionListener, MainMenuObserverInterface
     protected AbstractMainFrame frame;
 
     /*
+     * The save profile frame
+     */
+    protected SaveProfileFrame saveProfile;
+
+    /*
+     * The error data frame
+     */
+    protected AbstractErrorFrame errorFrame;
+
+    /*
      * The graph panel
      */
     protected AbstractGraphPanel graph;
@@ -68,12 +86,16 @@ public class MainController implements ActionListener, MainMenuObserverInterface
      */
     protected AbstractLiveDataPanel liveData;
 
-    protected SaveProfileFrame saveProfile;
+    /*
+     * The error data Panel
+     */
+    protected AbstractErrorPanel errorData;
 
     /*
      * The data types being used
      */
     protected DataTypeCollectionInterface dataTypes;
+    protected DataTypeCollectionInterface errorTypes;
 
     /*
      * Timer used to update the various panes
@@ -86,6 +108,10 @@ public class MainController implements ActionListener, MainMenuObserverInterface
         frame    = new MainFrame();
         graph    = new GraphPanel();
         liveData = new LiveDataPanel();
+
+        errorFrame = new ErrorFrame();
+        errorData = new ErrorPanel();
+
         saveProfile = new SaveProfileFrame(profile);
         saveProfile.addObserver(this);
 
@@ -95,6 +121,7 @@ public class MainController implements ActionListener, MainMenuObserverInterface
         frame.useGraphPanel(graph);
         frame.useLiveDataPanel(liveData);
         frame.addWindowListener(saveProfile);
+        errorFrame.useErrorPanel(errorData);
 
         timer = new Timer(REFRESH_DELAY, this);
     }
@@ -104,14 +131,20 @@ public class MainController implements ActionListener, MainMenuObserverInterface
         saveProfile.setProfile(profile);
 
         dataTypes = profile.getDataSource().getTypes();
+        if(profile.getDataSource() instanceof TwentyOneCarDataSource) {
+            errorTypes = ((TwentyOneCarDataSource) profile.getDataSource()).getErrorTypes();
+        }
 
         // Draws to screen the data from source, with line graphs
         // This uses classes from Frame and Panel folders.
         loadLinePanels();
 
         liveData.setTypes(dataTypes);
+        errorData.setTypes(errorTypes);
 
         frame.showFrame();
+
+        errorFrame.showFrame();
 
         timer.start();
     }
@@ -119,6 +152,7 @@ public class MainController implements ActionListener, MainMenuObserverInterface
     public void actionPerformed (ActionEvent e) {
         graph.repaint();
         liveData.refresh();
+        errorData.refresh();
     }
 
     public void doSaveProfile () {

@@ -51,7 +51,7 @@ public class LiveDataPanel extends AbstractLiveDataPanel {
         model.fireTableDataChanged();
     }
 
-    protected void createTable () {
+    protected void createTable () { // Called in constructor.
         /*
          * Remove any existing tables
          */
@@ -68,9 +68,9 @@ public class LiveDataPanel extends AbstractLiveDataPanel {
 
         table.setRowHeight(ROW_HEIGHT);
 
-        TableColumn color  = table.getColumnModel().getColumn(5);
+        TableColumn colors  = table.getColumnModel().getColumn(5);
 
-        color.setCellRenderer(new DefaultTableCellRenderer(){
+        colors.setCellRenderer(new DefaultTableCellRenderer(){
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
                 Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
@@ -81,7 +81,7 @@ public class LiveDataPanel extends AbstractLiveDataPanel {
         });
 
         // making sure color column isnt super big, need to set preferred width of each column though.
-        color.setPreferredWidth(10);
+        colors.setPreferredWidth(10);
         table.getColumnModel().getColumn(0).setPreferredWidth(110);
         table.getColumnModel().getColumn(1).setPreferredWidth(110);
         table.getColumnModel().getColumn(2).setPreferredWidth(105);
@@ -112,8 +112,10 @@ public class LiveDataPanel extends AbstractLiveDataPanel {
 
         // Sort all the data types alphabetically, first by getting the values as a Collection<DataTypeInterface>
         Collection<DataTypeInterface> vals = types.values();
+
         // Then we convert to a List, so we can use sort() method.
         List<DataTypeInterface> valsList = new ArrayList<DataTypeInterface>(vals);
+
         // We call sort, with our comparator using the values from getDisplayName() method.
         valsList.sort(Comparator.comparing(DataTypeInterface::getDisplayName));
 

@@ -11,6 +11,7 @@ public class GenericDataProcessor extends AbstractDataProcessor {
     public void receiveData (String data) {
         System.out.print(data);
 
+        // This is looking for the characters '\r' followed by '\n'. This means 'carriage return' then a 'new line' char.
         String[] lines = data.split("\\r\\n");
 
         for (String line : lines)

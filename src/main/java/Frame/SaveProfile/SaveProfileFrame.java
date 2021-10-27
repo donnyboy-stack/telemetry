@@ -1,3 +1,10 @@
+/**
+ * Sunseeker Telemetry
+ *
+ * @author by Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date October 1, 2021
+ */
+
 package Frame.SaveProfile;
 
 import App.Profile.ProfileInterface;
@@ -6,11 +13,9 @@ import Menu.Main.Observer.MainMenuObserverInterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
+// I would extend WindowAdapter (to not have so many useless implementations of methods), but we can only extend one class.
 public class SaveProfileFrame extends AbstractSaveProfileFrame implements WindowListener {
 
     final protected String BUTTON_YES = "Yes";

@@ -3,6 +3,9 @@
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 21, 2016
+ *
+ * @modified Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date October 4, 2021
  */
 
 package Frame.EditProfile;

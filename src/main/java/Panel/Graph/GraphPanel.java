@@ -6,6 +6,9 @@
  *
  * @modified by Kai Gray <kai.a.gray@wmich.edu>
  * @date August 1, 2016
+ *
+ * @modified by Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date September 28, 2021
  */
 
 package Panel.Graph;

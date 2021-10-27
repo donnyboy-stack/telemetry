@@ -1,3 +1,10 @@
+/**
+ * Sunseeker Telemetry
+ *
+ * @author by Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date October 1, 2021
+ */
+
 package Frame.SaveProfile;
 
 import App.Profile.ProfileInterface;

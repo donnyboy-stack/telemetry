@@ -3,6 +3,9 @@
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 2, 2016
+ *
+ * @modified Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date September 28, 2021
  */
 
 package Panel.Graph;

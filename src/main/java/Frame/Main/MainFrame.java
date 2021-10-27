@@ -3,6 +3,9 @@
  *
  * @author Alec Carpenter <alecgunnar@gmail.com>
  * @date July 2, 2016
+ *
+ * @modified Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date September 30, 2021
  */
 
 package Frame.Main;
@@ -10,6 +13,7 @@ package Frame.Main;
 import Frame.SaveProfile.SaveProfileFrame;
 import Menu.Main.AbstractMainMenu;
 import Panel.Graph.AbstractGraphPanel;
+import Panel.Graph.GraphPanel;
 import Panel.Line.AbstractLinePanel;
 import Panel.LiveData.AbstractLiveDataPanel;
 
@@ -44,6 +48,7 @@ public class MainFrame extends AbstractMainFrame {
 
         /*
          * The app should not quit when this view is closed
+         * Instead, possibly open SaveProfileFrame if changes have been made.
          */
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 

@@ -1,14 +1,27 @@
+/**
+ * Sunseeker Telemetry
+ *
+ * @author by Grant Reamy <grant.a.reamy@wmich.edu>
+ * @date October 5, 2021
+ */
+
 package Data.Source;
 
 import Data.Processor.DataProcessorInterface;
 import Data.Processor.GenericDataProcessor;
 import Data.Processor.Observer.DataProcessorObserverInterface;
+import Data.Type.Collection.DataTypeCollection;
+import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.DataTypeInterface;
+import Data.Type.ErrorType;
 import Serial.Connection.ModemConnection;
 import Serial.Listener.GenericListener;
 import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
 
-public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface{
+public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
+    protected DataTypeCollectionInterface errorTypes;
+
     final protected String MC1BUS = "MC1BUS";
     final protected String MC1VEL = "MC1VEL";
     final protected String MC1PHA = "MC1PHA";
@@ -21,6 +34,8 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
     final protected String MC1TP2 = "MC1TP2";
     final protected String MC1CUM = "MC1CUM";
     final protected String MC1SLS = "MC1SLS";
+
+    final protected String MC1ERR = "MC1ERR";
 
     final protected String DC_DRV = "DC_DRV";
     final protected String DC_POW = "DC_POW";
@@ -39,11 +54,19 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
     final protected String AC_TV1 = "AC_TV1";
     final protected String AC_TV2 = "AC_TV2";
 
+//    public TwentyOneCarDataSource(){
+//        super();
+//        System.out.println("CREATED TWENTY ONE CAR DATA SOURCE");
+//        errorTypes = new DataTypeCollection();
+//    }
+
     public String getName () {
         return "2021 Sunseeker Solar Car";
     }
 
     protected void registerDataTypes () {
+        errorTypes = new DataTypeCollection();
+
         registerDataMapping(
                 MC1BUS,
                 registerDataType("MC 1 Bus Current", "Amps"),
@@ -115,6 +138,15 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
                 registerDataType("MC 1 Slip Speed", "Hz"),
                 RESERVED
         );
+
+
+        // ******************************
+        registerDataMapping(
+                MC1ERR,
+                registerErrorType("MC1 Error Counts", "none"),
+                registerErrorType("MC1 Errors", "boolean")
+        );
+
 
         registerDataMapping(
                 DC_DRV,
@@ -196,6 +228,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
     }
 
+    // Called when we create this object (In parent constructor, AbstractSerialDataSource)
     protected SerialClient getClient () {
         DataProcessorInterface processor = new GenericDataProcessor();
         processor.addObserver(this);
@@ -205,5 +238,18 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
         listener.addObserver(processor);
 
         return new SerialClient(new ModemConnection(), listener);
+    }
+
+    private DataTypeInterface registerErrorType(String name, String unit){
+        DataTypeInterface type = new ErrorType(name, unit);
+        System.out.println("type = " + type);
+        System.out.println("name = " + name);
+        System.out.println("errorTypes = " + errorTypes);
+        errorTypes.put(name, type);
+        return type;
+    }
+
+    public DataTypeCollectionInterface getErrorTypes() {
+        return errorTypes;
     }
 }
